@@ -1,0 +1,10 @@
+0	A	Agilent Technologies, Inc.
+0	AA	Alcoa Corporation
+3	AAB	Aberdeen International Inc.
+1	AACG	ATA Creativity Global
+1	AADI	Aadi Bioscience, Inc.
+0	AAIC	Arlington Asset Investment Corp Class A (new)
+1	AAL	American Airlines Group, Inc.
+2	AAMC	Altisource Asset Management Corp Com
+0	AAN	Aarons Holdings Company, Inc.
+1	AAOI	Applied Optoelectronics, Inc.
