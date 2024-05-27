@@ -2,6 +2,7 @@
 name = "earningscall"
 version = "0.0.1"
 description = "The EarningsCall Python library."
+readme = "README.md"
 authors = [
     {name = "EarningsCall", email = "dev@earningscall.biz"},
 ]
@@ -13,7 +14,7 @@ dependencies = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/EarningsCall/earningscall-python#READMEN"
+Documentation = "https://github.com/EarningsCall/earningscall-python"
 Issues = "https://github.com/EarningsCall/earningscall-python/issues"
 Source = "https://github.com/EarningsCall/earningscall-python"
 
