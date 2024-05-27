@@ -15,7 +15,9 @@ class Company:
     name: str
     _events: [EarningsEvent]
 
-    def __init__(self, company_info):
+    def __init__(self, company_info: CompanyInfo):
+        if not company_info:
+            raise ValueError("company_info must be present.")
         self.company_info = company_info
         self.name = company_info.name
         self._events = None

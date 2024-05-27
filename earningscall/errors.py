@@ -21,5 +21,9 @@ class ClientError(BaseError):
     status: int = 400  # https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
 
 
-class MissingApiKeyError(ClientError):
+class InsufficientApiAccessError(ClientError):
+    pass
+
+
+class CompanyNotFound(ClientError):
     pass

@@ -1,10 +1,15 @@
+from typing import Optional
+
 from earningscall.symbols import get_symbols
 
 from earningscall.company import Company
 
 
-def get_company(symbol: str) -> Company:
-    return Company(company_info=get_symbols().lookup_company(symbol))
+def get_company(symbol: str) -> Optional[Company]:
+    company_info = get_symbols().lookup_company(symbol)
+    if company_info:
+        return Company(company_info=company_info)
+    return None
 
 
 def get_all_companies() -> [Company]:

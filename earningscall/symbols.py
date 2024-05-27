@@ -4,7 +4,8 @@ import re
 from collections import defaultdict
 from typing import Optional
 
-from earningscall.api import get_symbols_v2
+from earningscall.api import get_symbols_v2, is_demo_account
+from earningscall.errors import InsufficientApiAccessError
 from earningscall.sectors import sector_to_index, industry_to_index, index_to_sector, index_to_industry
 
 # WARNING: Add new indexes to the *END* of this list
@@ -127,6 +128,9 @@ class Symbols:
                     return _symbol
             except KeyError:
                 pass
+        if is_demo_account():
+            raise InsufficientApiAccessError(f"For full access, please get an API Key.  See: "
+                                             f"https://earningscall.biz/api-pricing")
         return None
 
     def remove_exchange_symbol(self, exchange_symbol: str):
@@ -224,3 +228,8 @@ def get_symbols() -> Symbols:
     if not _symbols:
         _symbols = load_symbols()
     return _symbols
+
+
+def clear_symbols():
+    global _symbols
+    _symbols = None

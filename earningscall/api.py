@@ -19,6 +19,10 @@ def get_api_key():
     return api_key
 
 
+def is_demo_account():
+    return get_api_key() == "demo"
+
+
 def get_events(exchange: str,
                symbol: str):
 
@@ -41,7 +45,7 @@ def get_transcript(exchange: str,
 
     log.debug(f"get_transcript year: {year} quarter: {quarter}")
     params = {
-        "apikey": "demo",
+        "apikey": get_api_key(),
         "exchange": exchange,
         "symbol": symbol,
         "year": str(year),
@@ -61,7 +65,10 @@ def get_symbols_v1():
 
 
 def get_symbols_v2():
-    response = requests.get(f"{API_BASE}/symbols-v2.txt")
+    params = {
+        "apikey": get_api_key(),
+    }
+    response = requests.get(f"{API_BASE}/symbols-v2.txt", params=params)
     if response.status_code != 200:
         return None
     return response.text

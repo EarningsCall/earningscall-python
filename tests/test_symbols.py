@@ -9,8 +9,6 @@ from earningscall.utils import data_path
 def test_load_symbols_txt_v2():
     ##
     responses.patch(API_BASE)
-    print("symbols path")
-    print(data_path("symbols-v2.yaml"))
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     ##
     symbols = Symbols.load_txt_v2()
@@ -22,7 +20,7 @@ def test_load_symbols_txt_v2():
     assert _symbol.sector == "Technology"
     assert _symbol.industry == "Consumer Electronics"
     assert len(responses.calls) == 1
-    assert responses.calls[0].request.url == "https://v2.api.earningscall.biz/symbols-v2.txt"
+    assert responses.calls[0].request.url == "https://v2.api.earningscall.biz/symbols-v2.txt?apikey=demo"
 
 
 def test_symbols_serialization_to_text_v2():

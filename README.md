@@ -91,7 +91,7 @@ By default, this library grants you access to only two companies, Apple Inc. and
 
 To gain access 5,000+ companies please [signup here](https://earningscall.biz/api-pricing) to get your API key.
 
-Once you have access to your API key.
+Once you have access to your API key, you can set the API Key like this:
 
 ```python
 
@@ -99,4 +99,11 @@ import earningscall
 
 
 earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
+```
+
+Alternatively, you can pass in your API key as an environment variable:
+
+```sh
+export ECALL_API_KEY="YOUR SECRET API KEY GOES HERE"
+python your-python-script.py
 ```
