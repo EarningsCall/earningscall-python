@@ -13,6 +13,8 @@ certifi==2024.2.2
     # via requests
 charset-normalizer==3.3.2
     # via requests
+dataclasses==0.6
+    # via earningscall
 dataclasses-json==0.6.6
     # via earningscall
 idna==3.7

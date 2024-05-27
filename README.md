@@ -15,7 +15,7 @@ pip install --upgrade earningscall
 
 # Requirements
 
-* Python 3.7+ (PyPy supported)
+* Python 3.7+ (PyPI supported)
 
 
 ## Get Transcript for a Single Quarter
