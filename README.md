@@ -89,7 +89,7 @@ for company in get_all_companies():
 
 By default, this library grants you access to only two companies, Apple Inc. and Microsoft, Inc.
 
-To gain access 5,000+ companies please [signup here](https://earningscall.biz/api-pricing) to get your API key.
+To gain access to 5,000+ companies please [signup here](https://earningscall.biz/api-pricing) to get your API key.
 
 Once you have access to your API key, you can set the API Key like this:
 

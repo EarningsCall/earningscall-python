@@ -30,6 +30,8 @@ class Company:
 
     def _get_events(self):
         raw_response = api.get_events(self.company_info.exchange, self.company_info.symbol)
+        if not raw_response:
+            return []
         return [EarningsEvent.from_dict(event) for event in raw_response["events"]]
 
     def events(self) -> [EarningsEvent]:

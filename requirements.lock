@@ -21,8 +21,6 @@ idna==3.7
     # via requests
 marshmallow==3.21.2
     # via dataclasses-json
-more-itertools==10.2.0
-    # via earningscall
 mypy-extensions==1.0.0
     # via typing-inspect
 packaging==24.0

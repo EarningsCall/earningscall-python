@@ -1,6 +1,6 @@
 [project]
 name = "earningscall"
-version = "0.0.5"
+version = "0.0.6"
 description = "The EarningsCall Python library."
 readme = "README.md"
 authors = [
@@ -10,7 +10,6 @@ requires-python = ">= 3.8"
 dependencies = [
     "dataclasses>=0.6",
     "dataclasses-json>=0.6.4",
-    "more_itertools>=10.0.0",
     "requests>=2.30.0",
 ]
 
