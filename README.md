@@ -1,10 +1,10 @@
 # EarningsCall Python Library
 
 [![pypi](https://img.shields.io/pypi/v/earningscall.svg)](https://pypi.python.org/pypi/earningscall)
-[![Build Status](https://github.com/EarningsCall/earningscall-python/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/EarningsCall/earningscall-python/actions?query=branch%3Amaster)
+[![Build Status](https://github.com/EarningsCall/earningscall-python/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/EarningsCall/earningscall-python/actions?query=branch%3Amaster)
 [![Coverage Status](https://coveralls.io/repos/github/EarningsCall/earningscall-python/badge.svg?branch=master)](https://coveralls.io/github/EarningsCall/earningscall-python?branch=master)
 
-The EarningsCall Python library provides convenient access to the EarningsCall API from
+The EarningsCall Python library provides convenient access to the [EarningsCall API](https://earningscall.biz/api-guide) from
 applications written in the Python language. It includes a pre-defined set of
 classes for API resources that initialize themselves dynamically from API
 responses.
@@ -20,7 +20,6 @@ pip install --upgrade earningscall
 # Requirements
 
 * Python 3.8+ (PyPI supported)
-
 
 ## Get Transcript for a Single Quarter
 
@@ -86,4 +85,18 @@ from earningscall import get_all_companies
 
 for company in get_all_companies():
     print(f"{company.company_info} -- {company.company_info.sector} -- {company.company_info.industry}")
+```
+
+By default, this library grants you access to only two companies, Apple Inc. and Microsoft, Inc.
+
+To gain access 5,000+ companies please [signup here](https://earningscall.biz/api-pricing) to get your API key.
+
+Once you have access to your API key.
+
+```python
+
+import earningscall
+
+
+earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
 ```
