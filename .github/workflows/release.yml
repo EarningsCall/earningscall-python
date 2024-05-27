@@ -23,11 +23,14 @@ jobs:
     - name: Install Rye
       run: |
         curl -sSf https://rye.astral.sh/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
-        $(HOME)/.rye/shims/rye pin $(PYTHON_VERSION)
-        $(HOME)/.rye/shims/rye sync --no-lock
-    - name: Build a binary wheel
+#        $(HOME)/.rye/shims/rye pin $(PYTHON_VERSION)
+#        $(HOME)/.rye/shims/rye sync --no-lock
+    # https://rye.astral.sh/guide/publish/
+    - name: Build a binary wheel and sdist
       run: |
-        $(HOME)/.rye/shims/rye build
+        source ~/.rye/env
+        rye sync
+        rye build
     - name: Store the distribution packages
       uses: actions/upload-artifact@v3
       with:
