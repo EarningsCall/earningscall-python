@@ -20,8 +20,14 @@ jobs:
         pip install
         build
         --user
-    - name: Build a binary wheel and a source tarball
-      run: python3 -m build
+    - name: Install Rye
+      run: |
+        curl -sSf https://rye-up.com/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
+        $(HOME)/.rye/shims/rye pin $(PYTHON_VERSION)
+        $(HOME)/.rye/shims/rye sync --no-lock
+    - name: Build a binary wheel
+      run: |
+        $(HOME)/.rye/shims/rye build
     - name: Store the distribution packages
       uses: actions/upload-artifact@v3
       with:
