@@ -1,5 +1,9 @@
 # EarningsCall Python Library
 
+[![pypi](https://img.shields.io/pypi/v/earningscall.svg)](https://pypi.python.org/pypi/earningscall)
+[![Build Status](https://github.com/stripe/earningscall-python/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/EarningsCall/earningscall-python/actions?query=branch%3Amaster)
+[![Coverage Status](https://coveralls.io/repos/github/EarningsCall/earningscall-python/badge.svg?branch=master)](https://coveralls.io/github/EarningsCall/earningscall-python?branch=master)
+
 The EarningsCall Python library provides convenient access to the EarningsCall API from
 applications written in the Python language. It includes a pre-defined set of
 classes for API resources that initialize themselves dynamically from API

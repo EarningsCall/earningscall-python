@@ -15,9 +15,12 @@ dependencies = [
 ]
 
 [project.urls]
+Homepage = "https://earningscall.biz"
 Documentation = "https://github.com/EarningsCall/earningscall-python"
+Repository = "https://github.com/EarningsCall/earningscall-python"
 Issues = "https://github.com/EarningsCall/earningscall-python/issues"
 Source = "https://github.com/EarningsCall/earningscall-python"
+Changelog = "https://github.com/EarningsCall/earningscall-python/blob/master/CHANGELOG.md"
 
 [build-system]
 requires = ["hatchling"]
