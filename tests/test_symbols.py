@@ -1,6 +1,6 @@
 import responses
-from earningscall.api import DOMAIN
 
+from earningscall.api import API_BASE
 from earningscall.symbols import Symbols, CompanyInfo
 from earningscall.utils import data_path
 
@@ -8,7 +8,7 @@ from earningscall.utils import data_path
 @responses.activate
 def test_load_symbols_txt_v2():
     ##
-    responses.patch(f"https://{DOMAIN}")
+    responses.patch(API_BASE)
     print("symbols path")
     print(data_path("symbols-v2.yaml"))
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
@@ -22,7 +22,7 @@ def test_load_symbols_txt_v2():
     assert _symbol.sector == "Technology"
     assert _symbol.industry == "Consumer Electronics"
     assert len(responses.calls) == 1
-    assert responses.calls[0].request.url == "https://earningscall.biz/symbols-v2.txt"
+    assert responses.calls[0].request.url == "https://v2.api.earningscall.biz/symbols-v2.txt"
 
 
 def test_symbols_serialization_to_text_v2():
