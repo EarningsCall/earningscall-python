@@ -2,13 +2,16 @@ import responses
 from earningscall.api import DOMAIN
 
 from earningscall.symbols import Symbols, CompanyInfo
+from earningscall.utils import data_path
 
 
 @responses.activate
 def test_load_symbols_txt_v2():
     ##
     responses.patch(f"https://{DOMAIN}")
-    responses._add_from_file(file_path="symbols-v2.yaml")
+    print("symbols path")
+    print(data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     ##
     symbols = Symbols.load_txt_v2()
     ##

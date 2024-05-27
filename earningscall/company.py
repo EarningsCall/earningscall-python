@@ -3,7 +3,7 @@ from typing import Optional
 
 from earningscall import api
 from earningscall.event import EarningsEvent
-from earningscall.symbols import get_symbols, CompanyInfo
+from earningscall.symbols import CompanyInfo
 from earningscall.transcript import Transcript
 
 log = logging.getLogger(__file__)
