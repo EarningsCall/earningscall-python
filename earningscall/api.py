@@ -2,6 +2,7 @@ import logging
 import os
 from typing import Optional
 
+import earningscall
 import requests
 
 
@@ -9,12 +10,11 @@ log = logging.getLogger(__file__)
 
 DOMAIN = os.environ.get("ECALL_DOMAIN", "earningscall.biz")
 API_BASE = f"https://v2.api.{DOMAIN}"
-api_key: Optional[str] = None
 
 
 def get_api_key():
-    global api_key
-    if api_key is None:
+    api_key = earningscall.api_key
+    if not api_key:
         return os.environ.get("ECALL_API_KEY", "demo")
     return api_key
 

@@ -1,7 +1,9 @@
 import logging
-from dataclasses import dataclass
+from typing import Optional
 
+from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
+from earningscall.event import EarningsEvent
 
 log = logging.getLogger(__file__)
 
@@ -11,4 +13,4 @@ log = logging.getLogger(__file__)
 class Transcript:
 
     text: str
-
+    event: Optional[EarningsEvent] = field(default=None)

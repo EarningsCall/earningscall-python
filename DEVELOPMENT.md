@@ -23,3 +23,15 @@ def test_save_symbols_v1():
 def test_save_symbols_v1():
     requests.get("https://earningscall.biz/symbols-v2.txt")
 ```
+
+
+
+### Publishing a new Version to PyPI
+
+Make your changes
+
+```sh
+git commit -a
+git tag v0.0.6
+
+```

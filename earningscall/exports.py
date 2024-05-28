@@ -18,5 +18,6 @@ def get_all_companies() -> [Company]:
 
 
 def get_sp500_companies() -> [Company]:
+    ## TODO: Actually only return SP500 companies.
     for company_info in get_symbols().get_all():
         yield Company(company_info=company_info)
