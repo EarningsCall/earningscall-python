@@ -1,5 +1,9 @@
 # A list of things left to do for this project
 
-* Allow user to set API Key
-* If user is using "demo" API key, and user tries to get non-demo symbol, throw a nice error message
+* Cache symbols on disk, to avoid redundant network calls
 
+
+
+# Considerations
+
+* Consider implementing @dataclass and @dataclass_json from scratch to avoid third-party dependency

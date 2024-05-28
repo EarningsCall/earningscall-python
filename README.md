@@ -52,7 +52,7 @@ company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
 print(f"Getting all transcripts for: {company}..")
 # Retrieve all earnings conference call events for a company, and iterate through each one
 for event in company.events():
-    transcript = company.get_transcript(event)  # Fetch the earnings call transcript for this event
+    transcript = company.get_transcript(event=event)  # Fetch the earnings call transcript for this event
     print(f"* Q{event.quarter} {event.year}")
     if transcript:
         print(f"  Transcript Text: \"{transcript.text[:100]}...\"")

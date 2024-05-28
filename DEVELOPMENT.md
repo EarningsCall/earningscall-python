@@ -28,10 +28,10 @@ def test_save_symbols_v1():
 
 ### Publishing a new Version to PyPI
 
-Make your changes
+Assuming you want to publish version 0.0.7, first, make your changes, then run the commands:
 
 ```sh
 git commit -a
-git tag v0.0.6
-
+git tag v0.0.7
+git push --atomic origin master v0.0.7
 ```
