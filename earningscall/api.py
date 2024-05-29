@@ -2,9 +2,9 @@ import logging
 import os
 from typing import Optional
 
-import earningscall
 import requests
 
+import earningscall
 
 log = logging.getLogger(__file__)
 
@@ -19,6 +19,10 @@ def get_api_key():
     return api_key
 
 
+def api_key_param():
+    return {"apikey": get_api_key()}
+
+
 def is_demo_account():
     return get_api_key() == "demo"
 
@@ -28,7 +32,7 @@ def get_events(exchange: str,
 
     log.debug(f"get_events exchange: {exchange} symbol: {symbol}")
     params = {
-        "apikey": get_api_key(),
+        **api_key_param(),
         "exchange": exchange,
         "symbol": symbol,
     }
@@ -45,7 +49,7 @@ def get_transcript(exchange: str,
 
     log.debug(f"get_transcript year: {year} quarter: {quarter}")
     params = {
-        "apikey": get_api_key(),
+        **api_key_param(),
         "exchange": exchange,
         "symbol": symbol,
         "year": str(year),
@@ -65,10 +69,14 @@ def get_symbols_v1():
 
 
 def get_symbols_v2():
-    params = {
-        "apikey": get_api_key(),
-    }
-    response = requests.get(f"{API_BASE}/symbols-v2.txt", params=params)
+    response = requests.get(f"{API_BASE}/symbols-v2.txt", params=api_key_param())
+    if response.status_code != 200:
+        return None
+    return response.text
+
+
+def get_sp500_companies_txt_file():
+    response = requests.get(f"{API_BASE}/symbols/sp500.txt", params=api_key_param())
     if response.status_code != 200:
         return None
     return response.text

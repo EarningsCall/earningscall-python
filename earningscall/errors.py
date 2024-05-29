@@ -23,7 +23,3 @@ class ClientError(BaseError):
 
 class InsufficientApiAccessError(ClientError):
     pass
-
-
-class CompanyNotFound(ClientError):
-    pass

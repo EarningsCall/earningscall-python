@@ -26,7 +26,6 @@ pip install --upgrade earningscall
 ```python
 from earningscall import get_company
 
-
 company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
 
 transcript = company.get_transcript(year=2021, quarter=3)
@@ -45,7 +44,6 @@ Apple Inc. Q3 2021 Transcript Text: "Good day, and welcome to the Apple Q3 FY 20
 
 ```python
 from earningscall import get_company
-
 
 company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
 
@@ -79,6 +77,15 @@ Getting all transcripts for: Apple Inc...
 
 
 ## List All Companies
+
+```python
+from earningscall import get_all_companies
+
+for company in get_all_companies():
+    print(f"{company.company_info} -- {company.company_info.sector} -- {company.company_info.industry}")
+```
+
+## List S&P 500 Companies
 
 ```python
 from earningscall import get_all_companies
