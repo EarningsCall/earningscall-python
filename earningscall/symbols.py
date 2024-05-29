@@ -129,8 +129,8 @@ class Symbols:
             except KeyError:
                 pass
         if is_demo_account():
-            raise InsufficientApiAccessError(f"For full access, please get an API Key.  See: "
-                                             f"https://earningscall.biz/api-pricing")
+            raise InsufficientApiAccessError(f"\"{symbol}\" requires an API Key for access.  To get your API Key,"
+                                             f" see: https://earningscall.biz/api-pricing")
         return None
 
     def remove_exchange_symbol(self, exchange_symbol: str):
