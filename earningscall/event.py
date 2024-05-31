@@ -16,6 +16,7 @@ class EarningsEvent:
     """
     EarningsEvent
     """
+
     year: int
     quarter: int
     conference_date: Optional[datetime] = field(
@@ -23,6 +24,6 @@ class EarningsEvent:
         metadata=config(
             encoder=lambda date: date.isoformat() if date else None,
             decoder=lambda date: datetime.fromisoformat(date) if date else None,
-            mm_field=fields.DateTime(format="iso")
-        )
+            mm_field=fields.DateTime(format="iso"),
+        ),
     )

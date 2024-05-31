@@ -35,3 +35,4 @@ tasks.xml
 
 # Root files
 /.coverage*
+/.mypy_cache/

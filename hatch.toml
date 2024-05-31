@@ -2,6 +2,7 @@
 dependencies = [
   "coverage[toml]>=6.5",
   "pytest",
+  "responses",
 ]
 [envs.default.scripts]
 test = "pytest {args:tests}"
@@ -19,7 +20,7 @@ cov = [
 type = "container"
 
 [[envs.all.matrix]]
-python = ["3.7", "3.8", "3.9", "3.10", "3.11"]
+python = ["3.8", "3.9", "3.10", "3.11"]
 
 [envs.lint]
 detached = true
@@ -29,7 +30,7 @@ dependencies = [
   "ruff>=0.0.166",
 ]
 [envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:src/hatch_showcase tests}"
+typing = "mypy --install-types --non-interactive {args:earningscall tests}"
 style = [
   "ruff {args:.}",
   "black --check --diff {args:.}",

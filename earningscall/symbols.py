@@ -2,7 +2,7 @@ import json
 import logging
 import re
 from collections import defaultdict
-from typing import Optional
+from typing import Optional, Iterator
 
 from earningscall.api import get_symbols_v2, is_demo_account
 from earningscall.errors import InsufficientApiAccessError
@@ -14,7 +14,9 @@ EXCHANGES_IN_ORDER = ["NYSE", "NASDAQ", "AMEX", "TSX", "TSXV", "OTC"]
 log = logging.getLogger(__file__)
 
 
-def exchange_to_index(_exchange: str) -> int:
+def exchange_to_index(_exchange: Optional[str]) -> int:
+    if not _exchange:
+        return -1
     try:
         return EXCHANGES_IN_ORDER.index(_exchange)
     except ValueError:
@@ -110,7 +112,7 @@ class Symbols:
         if len(self.by_exchange_and_sym) == size_before:
             log.debug(f"Duplicate: {_sym}")
 
-    def get_all(self) -> [CompanyInfo]:
+    def get_all(self) -> Iterator[CompanyInfo]:
         for _exchange_symbol, _symbol in self.by_exchange_and_sym.items():
             yield _symbol
 
@@ -129,8 +131,10 @@ class Symbols:
             except KeyError:
                 pass
         if is_demo_account():
-            raise InsufficientApiAccessError(f"\"{symbol}\" requires an API Key for access.  To get your API Key,"
-                                             f" see: https://earningscall.biz/api-pricing")
+            raise InsufficientApiAccessError(
+                f"\"{symbol}\" requires an API Key for access.  To get your API Key,"
+                f" see: https://earningscall.biz/api-pricing"
+            )
         return None
 
     def remove_exchange_symbol(self, exchange_symbol: str):
@@ -142,11 +146,13 @@ class Symbols:
     def remove_keys(symbol_as_dict: dict, keys_to_remove: set):
         return {key: value for key, value in symbol_as_dict.items() if key not in keys_to_remove}
 
-    def without_security_names(self) -> [dict]:
-        return [self.remove_keys(symbol_as_dict, {"security_name", "sector", "industry"})
-                for symbol_as_dict in self.to_dicts()]
+    def without_security_names(self) -> list[dict]:
+        return [
+            self.remove_keys(symbol_as_dict, {"security_name", "sector", "industry"})
+            for symbol_as_dict in self.to_dicts()
+        ]
 
-    def to_dicts(self) -> [dict]:
+    def to_dicts(self) -> list[dict]:
         return [__symbol.__dict__ for __symbol in self.get_all()]
 
     def to_json(self, remove_security_names: bool = False) -> str:
@@ -154,9 +160,14 @@ class Symbols:
             return json.dumps(self.without_security_names())
         return json.dumps(self.to_dicts())
 
-    def to_json_v2(self) -> str:
-        return json.dumps([[exchange_to_index(__symbol.exchange), __symbol.company_info, __symbol.name]
-                           for __symbol in self.get_all()])
+    # TODO: Test this
+    # def to_json_v2(self) -> str:
+    #     return json.dumps(
+    #         [
+    #             [exchange_to_index(__symbol.exchange), __symbol.company_info, __symbol.name]
+    #             for __symbol in self.get_all()
+    #         ]
+    #     )
 
     def to_txt(self) -> str:
         exchange_symbol_names = [__symbol.to_txt_row() for __symbol in self.get_all()]
@@ -195,13 +206,15 @@ class Symbols:
         __symbols = Symbols()
         for line in txt_str.split("\n"):
             _exchange_index, _symbol, _name, _sector_index, _industry_index = line.split("\t")
-            __symbols.add(CompanyInfo(
-                exchange=index_to_exchange(int(_exchange_index)),
-                symbol=_symbol,
-                name=_name,
-                sector=index_to_sector(int(_sector_index)),
-                industry=index_to_industry(int(_industry_index)),
-            ))
+            __symbols.add(
+                CompanyInfo(
+                    exchange=index_to_exchange(int(_exchange_index)),
+                    symbol=_symbol,
+                    name=_name,
+                    sector=index_to_sector(int(_sector_index)),
+                    industry=index_to_industry(int(_industry_index)),
+                )
+            )
         return __symbols
 
     @staticmethod

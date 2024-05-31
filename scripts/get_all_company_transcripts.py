@@ -11,4 +11,4 @@ for event in company.events():
     if transcript:
         print(f"  Transcript Text: \"{transcript.text[:100]}...\"")
     else:
-        print(f"  No transcript found.")
+        print("  No transcript found.")

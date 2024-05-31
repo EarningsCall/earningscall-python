@@ -27,8 +27,7 @@ def is_demo_account():
     return get_api_key() == "demo"
 
 
-def get_events(exchange: str,
-               symbol: str):
+def get_events(exchange: str, symbol: str):
 
     log.debug(f"get_events exchange: {exchange} symbol: {symbol}")
     params = {
@@ -42,10 +41,7 @@ def get_events(exchange: str,
     return response.json()
 
 
-def get_transcript(exchange: str,
-                   symbol: str,
-                   year: int,
-                   quarter: int) -> Optional[str]:
+def get_transcript(exchange: str, symbol: str, year: int, quarter: int) -> Optional[str]:
 
     log.debug(f"get_transcript year: {year} quarter: {quarter}")
     params = {
@@ -82,7 +78,7 @@ def get_sp500_companies_txt_file():
     return response.text
 
 
-def do_something():
-    session = CachedSession('demo_cache', cache_control=True)
-
-    # CachedSession()
+# def do_something():
+#     session = CachedSession('demo_cache', cache_control=True)
+#
+#     # CachedSession()
