@@ -26,12 +26,33 @@ def test_load_symbols_txt_v2():
 def test_symbols_serialization_to_text_v2():
     ##
     _symbols = Symbols()
-    _symbols.add(CompanyInfo(exchange="TSX", symbol="TLRY", name="Tilray, Inc", sector="Energy",
-                             industry="Electronic Gaming & Multimedia"))
-    _symbols.add(CompanyInfo(exchange="TSX", symbol="ACB", name="Aurora Cannabis Inc.", sector="Technology",
-                             industry="Electronic Gaming & Multimedia"))
-    _symbols.add(CompanyInfo(exchange="NASDAQ", symbol="HITI", name="High Tide Inc.", sector="Consumer Cyclical",
-                             industry="Electronic Gaming & Multimedia"))
+    _symbols.add(
+        CompanyInfo(
+            exchange="TSX",
+            symbol="TLRY",
+            name="Tilray, Inc",
+            sector="Energy",
+            industry="Electronic Gaming & Multimedia",
+        )
+    )
+    _symbols.add(
+        CompanyInfo(
+            exchange="TSX",
+            symbol="ACB",
+            name="Aurora Cannabis Inc.",
+            sector="Technology",
+            industry="Electronic Gaming & Multimedia",
+        )
+    )
+    _symbols.add(
+        CompanyInfo(
+            exchange="NASDAQ",
+            symbol="HITI",
+            name="High Tide Inc.",
+            sector="Consumer Cyclical",
+            industry="Electronic Gaming & Multimedia",
+        )
+    )
     ##
     result = _symbols.to_txt_v2()
     ##

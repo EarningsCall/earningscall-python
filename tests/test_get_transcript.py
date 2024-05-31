@@ -25,8 +25,9 @@ def test_get_demo_company():
     company = get_company("msft")
     ##
     transcript = company.get_transcript(year=2023, quarter=1)
-    assert transcript.text[:100] == ('Greetings, and welcome to the Microsoft Fiscal Year 2023 First Quarter Earnings '
-                                     'Conference Call. At ')
+    assert transcript.text[:100] == (
+        'Greetings, and welcome to the Microsoft Fiscal Year 2023 First Quarter Earnings ' 'Conference Call. At '
+    )
 
 
 @responses.activate
@@ -42,8 +43,9 @@ def test_get_demo_company_with_event_populated():
     assert transcript.event.year == 2022
     assert transcript.event.quarter == 1
     assert transcript.event.conference_date.isoformat() == "2022-01-19T00:00:00-08:00"
-    assert transcript.text[:100] == ("Good day and welcome to the Apple Q1 Fiscal Year 2021 earnings conference "
-                                     "call. Today's call is bein")
+    assert transcript.text[:100] == (
+        "Good day and welcome to the Apple Q1 Fiscal Year 2021 earnings conference " "call. Today's call is bein"
+    )
 
 
 # Uncomment and run following code to generate demo-symbols-v2.yaml file

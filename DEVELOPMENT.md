@@ -1,8 +1,6 @@
 # Development
 
-TODO: Add rye installation instructions.
-
-This project uses Rye: https://rye.astral.sh/
+TODO: Add hatch installation instructions.
 
 
 ### Saving Server-Side Responses for a Mocked Unit test
@@ -34,4 +32,26 @@ Assuming you want to publish version 0.0.7, first, make your changes, then run t
 git commit -a
 git tag v0.0.7
 git push --atomic origin master v0.0.7
+```
+
+
+
+### Manually Running Scripts
+
+Use the library to get a single transcript from the API:
+
+```shell
+python -m scripts.get_single_transcript
+```
+
+Get all transcripts for a company:
+
+```shell
+python -m scripts.get_all_company_transcripts
+```
+
+List all companies:
+
+```shell
+python -m scripts.list_companies
 ```

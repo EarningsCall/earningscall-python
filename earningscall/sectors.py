@@ -1,6 +1,6 @@
 import json
 import logging
-
+from typing import Optional
 
 log = logging.getLogger(__file__)
 sectors_file_name = "sectors.json"
@@ -17,7 +17,7 @@ SECTORS_IN_ORDER = [
     'Industrials',
     'Real Estate',
     'Technology',
-    'Utilities'
+    'Utilities',
 ]
 
 
@@ -166,7 +166,7 @@ INDUSTRIES_IN_ORDER = [
     'Utilities - Regulated Gas',
     'Utilities - Regulated Water',
     'Utilities - Renewable',
-    'Waste Management'
+    'Waste Management',
 ]
 
 
@@ -198,9 +198,7 @@ def industry_to_index(_industry: str) -> int:
 
 class Sectors:
 
-    def __init__(self,
-                 sectors: set = None,
-                 industries: set = None):
+    def __init__(self, sectors: Optional[set] = None, industries: Optional[set] = None):
         if sectors:
             self.sectors = sectors
         else:
@@ -218,7 +216,7 @@ class Sectors:
         if industry is not None:
             self.industries.add(industry)
 
-    def to_dicts(self) -> {}:
+    def to_dicts(self) -> dict:
         return {
             "sectors": list(self.sectors),
             "industries": list(self.industries),
@@ -231,4 +229,3 @@ class Sectors:
     def from_json(json_str):
         data = json.loads(json_str)
         return Sectors(set(data["sectors"]), set(data["industries"]))
-
