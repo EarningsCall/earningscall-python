@@ -1,6 +1,6 @@
 [project]
 name = "earningscall"
-version = "0.0.9"
+version = "0.0.10"
 description = "The EarningsCall Python library."
 readme = "README.md"
 authors = [
@@ -12,6 +12,7 @@ dependencies = [
     "dataclasses-json>=0.6.4",
     "requests>=2.30.0",
 ]
+license = { file = "LICENSE" }
 
 [project.urls]
 Homepage = "https://earningscall.biz"

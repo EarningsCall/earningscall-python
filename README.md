@@ -74,23 +74,12 @@ Getting all transcripts for: Apple Inc...
   ...
 ```
 
-
-
 ## List All Companies
 
 ```python
 from earningscall import get_all_companies
 
 for company in get_all_companies():
-    print(f"{company.company_info} -- {company.company_info.sector} -- {company.company_info.industry}")
-```
-
-## List S&P 500 Companies
-
-```python
-from earningscall import get_sp500_companies
-
-for company in get_sp500_companies():
     print(f"{company.company_info} -- {company.company_info.sector} -- {company.company_info.industry}")
 ```
 
@@ -114,3 +103,13 @@ Alternatively, you can pass in your API key as an environment variable:
 export ECALL_API_KEY="YOUR SECRET API KEY GOES HERE"
 python your-python-script.py
 ```
+
+## List S&P 500 Companies
+
+```python
+from earningscall import get_sp500_companies
+
+for company in get_sp500_companies():
+    print(f"{company.company_info} -- {company.company_info.sector} -- {company.company_info.industry}")
+```
+
