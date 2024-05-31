@@ -80,3 +80,9 @@ def get_sp500_companies_txt_file():
     if response.status_code != 200:
         return None
     return response.text
+
+
+def do_something():
+    session = CachedSession('demo_cache', cache_control=True)
+
+    # CachedSession()

@@ -1,6 +1,6 @@
 # Development
 
-TODO: Add rye installation instructions.
+TODO: Add hatch installation instructions.
 
 This project uses Rye: https://rye.astral.sh/
 
