@@ -1,5 +1,5 @@
 # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
-name: CI
+name: Build
 
 on:
   push:
@@ -105,26 +105,28 @@ jobs:
         '${{ github.ref_name }}' dist/**
         --repo '${{ github.repository }}'
 
-  publish-to-testpypi:
-    name: Publish Python 🐍 distribution 📦 to TestPyPI
-    needs:
-    - build
-    runs-on: ubuntu-latest
-
-    environment:
-      name: testpypi
-      url: https://test.pypi.org/p/earningscall
-
-    permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
-
-    steps:
-    - name: Download all the dists
-      uses: actions/download-artifact@v3
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish distribution 📦 to TestPyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://test.pypi.org/legacy/
+# For now, don't publish to TestPyPI (as it needs a unique version each time).
+# Is there a solution for this?
+#  publish-to-testpypi:
+#    name: Publish Python 🐍 distribution 📦 to TestPyPI
+#    needs:
+#    - build
+#    runs-on: ubuntu-latest
+#
+#    environment:
+#      name: testpypi
+#      url: https://test.pypi.org/p/earningscall
+#
+#    permissions:
+#      id-token: write  # IMPORTANT: mandatory for trusted publishing
+#
+#    steps:
+#    - name: Download all the dists
+#      uses: actions/download-artifact@v3
+#      with:
+#        name: python-package-distributions
+#        path: dist/
+#    - name: Publish distribution 📦 to TestPyPI
+#      uses: pypa/gh-action-pypi-publish@release/v1
+#      with:
+#        repository-url: https://test.pypi.org/legacy/
