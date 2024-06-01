@@ -1,9 +1,18 @@
 # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 name: CI
 
-on: push
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
+
   build:
     name: Build distribution 📦
     runs-on: ubuntu-latest
@@ -20,22 +29,16 @@ jobs:
         pip install
         build
         --user
-    - name: Install Rye
-      run: |
-        curl -sSf https://rye.astral.sh/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
-#        $(HOME)/.rye/shims/rye pin $(PYTHON_VERSION)
-#        $(HOME)/.rye/shims/rye sync --no-lock
-    # https://rye.astral.sh/guide/publish/
+    - name: Build
+      run: python -m build
     - name: Build a binary wheel and sdist
-      run: |
-        source ~/.rye/env
-        rye sync
-        rye build
+      run: python -m build
     - name: Store the distribution packages
       uses: actions/upload-artifact@v3
       with:
         name: python-package-distributions
         path: dist/
+        if-no-files-found: error
 
   publish-to-pypi:
     name: >-
