@@ -3,6 +3,7 @@ dependencies = [
   "coverage[toml]>=6.5",
   "pytest",
   "responses",
+  "coveralls",
 ]
 [envs.default.scripts]
 test = "pytest {args:tests}"

@@ -19,7 +19,7 @@ pip install --upgrade earningscall
 
 # Requirements
 
-* Python 3.8+ (PyPI supported)
+* Python 3.8+
 
 ## Get Transcript for a Single Quarter
 
@@ -110,4 +110,3 @@ from earningscall import get_sp500_companies
 for company in get_sp500_companies():
     print(f"{company.company_info} -- {company.company_info.sector} -- {company.company_info.industry}")
 ```
-

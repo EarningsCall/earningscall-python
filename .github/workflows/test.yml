@@ -43,6 +43,12 @@ jobs:
 
     - name: Run tests and track code coverage
       run: hatch run cov
+    - if: matrix.python-version == '3.9' && runner.os == 'Linux'
+      name: Publish Coverage to Coveralls
+      run: coveralls
+      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
   run-container-matrix:
     name: Container matrix on Linux
