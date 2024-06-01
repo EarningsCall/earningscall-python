@@ -1,11 +1,10 @@
 import logging
-from typing import Optional
+from typing import Optional, List
 
 from earningscall import api
 from earningscall.event import EarningsEvent
 from earningscall.symbols import CompanyInfo
 from earningscall.transcript import Transcript
-
 
 log = logging.getLogger(__file__)
 
@@ -14,7 +13,7 @@ class Company:
 
     company_info: CompanyInfo
     name: Optional[str]
-    _events: Optional[list[EarningsEvent]]
+    _events: Optional[List[EarningsEvent]]
 
     def __init__(self, company_info: CompanyInfo):
         if not company_info:
@@ -26,7 +25,7 @@ class Company:
     def __str__(self):
         return str(self.name)
 
-    def _get_events(self) -> list[EarningsEvent]:
+    def _get_events(self) -> List[EarningsEvent]:
         if not self.company_info.exchange or not self.company_info.symbol:
             return []
         raw_response = api.get_events(self.company_info.exchange, self.company_info.symbol)
@@ -34,7 +33,7 @@ class Company:
             return []
         return [EarningsEvent.from_dict(event) for event in raw_response["events"]]  # type: ignore
 
-    def events(self) -> list[EarningsEvent]:
+    def events(self) -> List[EarningsEvent]:
         if not self._events:
             self._events = self._get_events()
         return self._events

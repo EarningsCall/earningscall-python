@@ -2,7 +2,7 @@ import json
 import logging
 import re
 from collections import defaultdict
-from typing import Optional, Iterator
+from typing import Optional, Iterator, List
 
 from earningscall.api import get_symbols_v2, is_demo_account
 from earningscall.errors import InsufficientApiAccessError
@@ -146,13 +146,13 @@ class Symbols:
     def remove_keys(symbol_as_dict: dict, keys_to_remove: set):
         return {key: value for key, value in symbol_as_dict.items() if key not in keys_to_remove}
 
-    def without_security_names(self) -> list[dict]:
+    def without_security_names(self) -> List[dict]:
         return [
             self.remove_keys(symbol_as_dict, {"security_name", "sector", "industry"})
             for symbol_as_dict in self.to_dicts()
         ]
 
-    def to_dicts(self) -> list[dict]:
+    def to_dicts(self) -> List[dict]:
         return [__symbol.__dict__ for __symbol in self.get_all()]
 
     def to_json(self, remove_security_names: bool = False) -> str:
