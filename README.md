@@ -90,9 +90,7 @@ To gain access to 5,000+ companies please [signup here](https://earningscall.biz
 Once you have access to your API key, you can set the API Key like this:
 
 ```python
-
 import earningscall
-
 
 earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
 ```

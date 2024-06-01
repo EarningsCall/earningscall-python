@@ -1,5 +1,3 @@
-
-
 class BaseError(RuntimeError):
     """
     Base error
@@ -18,6 +16,7 @@ class ClientError(BaseError):
     """
     Used to return 4XX errors.
     """
+
     status: int = 400  # https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
 
 

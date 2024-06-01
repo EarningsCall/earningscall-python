@@ -32,3 +32,7 @@ tasks.xml
 /build
 /sc.egg-info
 /packages
+
+# Root files
+/.coverage*
+/.mypy_cache/

@@ -26,11 +26,13 @@ def test_basic_without_conference_date():
 
 def test_date_field_deserialization():
     #
-    earnings_event = EarningsEvent.from_dict({
-        "year": 2024,
-        "quarter": 1,
-        "conference_date": "2024-04-28T15:00:00.000-05:00",
-    })
+    earnings_event = EarningsEvent.from_dict(
+        {
+            "year": 2024,
+            "quarter": 1,
+            "conference_date": "2024-04-28T15:00:00.000-05:00",
+        }
+    )
     #
     assert earnings_event.year == 2024
     assert earnings_event.quarter == 1
