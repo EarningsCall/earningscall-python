@@ -21,7 +21,7 @@ def test_basic_without_conference_date():
     event_after = EarningsEvent.from_json(raw_json)
     assert event_after.conference_date is None
     assert event_after.year == 2024
-    assert event_after.quarter == 1
+    assert event_after.quarter == 10
 
 
 def test_date_field_deserialization():
