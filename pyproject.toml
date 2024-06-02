@@ -1,6 +1,6 @@
 [project]
 name = "earningscall"
-version = "0.0.12"
+version = "0.0.13"
 description = "The EarningsCall Python library."
 readme = "README.md"
 authors = [
