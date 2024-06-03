@@ -6,7 +6,7 @@ def test_unknown_sector():
 
 
 def test_unknown_sector_index():
-    assert index_to_sector(-1) == "UNKNOWN"
+    assert index_to_sector(-1) == "Unknown"
 
 
 def test_unknown_industry():
@@ -14,4 +14,4 @@ def test_unknown_industry():
 
 
 def test_unknown_industry_index():
-    assert index_to_industry(-1) == "UNKNOWN"
+    assert index_to_industry(-1) == "Unknown"

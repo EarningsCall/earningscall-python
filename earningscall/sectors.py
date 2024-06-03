@@ -177,14 +177,20 @@ def sector_to_index(_sector: str) -> int:
 
 def index_to_sector(_index: int) -> str:
     if _index == -1:
-        return "UNKNOWN"
-    return SECTORS_IN_ORDER[_index]
+        return "Unknown"
+    try:
+        return SECTORS_IN_ORDER[_index]
+    except IndexError:
+        return "Unknown"
 
 
 def index_to_industry(_index: int) -> str:
     if _index == -1:
-        return "UNKNOWN"
-    return INDUSTRIES_IN_ORDER[_index]
+        return "Unknown"
+    try:
+        return INDUSTRIES_IN_ORDER[_index]
+    except IndexError:
+        return "Unknown"
 
 
 def industry_to_index(_industry: str) -> int:

@@ -1,6 +1,6 @@
 # Development
 
-TODO: Add hatch installation instructions.
+First, install Hatch.  See the Hatch [installation instructions](https://hatch.pypa.io/latest/install/).
 
 
 ### Saving Server-Side Responses for a Mocked Unit test
@@ -68,4 +68,16 @@ hatch run test
 
 ```shell
 hatch run cov
+```
+
+### Run Linter
+
+```shell
+hatch run lint:all
+```
+
+If you get linter errors, you can automatically fix them by running this command:
+
+```shell
+hatch run lint:fmt
 ```
