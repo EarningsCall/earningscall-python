@@ -2,6 +2,7 @@ import pytest
 import responses
 
 from earningscall import get_company
+from earningscall.api import purge_cache
 from earningscall.errors import InsufficientApiAccessError
 from earningscall.symbols import clear_symbols
 from earningscall.utils import data_path
@@ -18,6 +19,7 @@ from earningscall.utils import data_path
 @responses.activate
 def test_get_demo_company():
     ##
+    purge_cache()
     clear_symbols()
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     responses._add_from_file(file_path=data_path("msft-transcript-response.yaml"))
@@ -33,6 +35,7 @@ def test_get_demo_company():
 @responses.activate
 def test_get_demo_company_with_event_populated():
     ##
+    purge_cache()
     clear_symbols()
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     responses._add_from_file(file_path=data_path("demo-symbols-v2-alpha.yaml"))
@@ -75,6 +78,7 @@ def test_get_demo_company_with_event_populated():
 @responses.activate
 def test_get_non_demo_company():
     ##
+    purge_cache()
     clear_symbols()
     responses._add_from_file(file_path=data_path("demo-symbols-v2.yaml"))
     ##

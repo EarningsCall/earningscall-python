@@ -1,6 +1,6 @@
 import responses
 
-from earningscall.api import API_BASE
+from earningscall.api import API_BASE, purge_cache
 from earningscall.symbols import Symbols, CompanyInfo
 from earningscall.utils import data_path
 
@@ -8,6 +8,7 @@ from earningscall.utils import data_path
 @responses.activate
 def test_load_symbols_txt_v2():
     ##
+    purge_cache()
     responses.patch(API_BASE)
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     ##
@@ -25,6 +26,7 @@ def test_load_symbols_txt_v2():
 
 def test_symbols_serialization_to_text_v2():
     ##
+    purge_cache()
     _symbols = Symbols()
     _symbols.add(
         CompanyInfo(

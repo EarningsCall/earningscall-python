@@ -110,3 +110,16 @@ from earningscall import get_sp500_companies
 for company in get_sp500_companies():
     print(f"{company.company_info} -- {company.company_info.sector} -- {company.company_info.industry}")
 ```
+
+
+## Advanced
+
+### Disable Caching
+
+If you want to disable the local caching of symbols you can add this code:
+
+```python
+import earningscall
+
+earningscall.enable_requests_cache = False
+```

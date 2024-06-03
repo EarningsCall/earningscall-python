@@ -1,0 +1,28 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: '{"company_name": "Microsoft Corporation", "events": [{"year": 2024, "quarter":
+      3, "conference_date": "2024-04-25T17:30:00.000-04:00"}, {"year": 2024, "quarter":
+      2, "conference_date": "2024-01-30T17:30:00.000-05:00"}, {"year": 2024, "quarter":
+      1, "conference_date": "2023-10-24T14:30:00.000-07:00"}, {"year": 2023, "quarter":
+      4, "conference_date": "2023-07-25T14:30:00.000-07:00"}, {"year": 2023, "quarter":
+      3, "conference_date": "2023-04-25T14:30:00.000-07:00"}, {"year": 2023, "quarter":
+      2, "conference_date": "2023-01-24T14:30:00.000-08:00"}, {"year": 2023, "quarter":
+      1, "conference_date": "2022-10-25T09:00:00.000-04:00"}, {"year": 2022, "quarter":
+      4, "conference_date": "2022-07-26T09:00:00.000-04:00"}, {"year": 2022, "quarter":
+      3, "conference_date": "2022-04-26T14:30:00.000-07:00"}, {"year": 2022, "quarter":
+      2, "conference_date": "2022-01-25T14:30:00.000-08:00"}, {"year": 2022, "quarter":
+      1, "conference_date": "2021-10-26T14:30:00.000-07:00"}, {"year": 2021, "quarter":
+      4, "conference_date": "2021-07-27T14:30:00.000-07:00"}, {"year": 2021, "quarter":
+      3, "conference_date": "2021-04-29T14:30:00.000-07:00"}, {"year": 2021, "quarter":
+      2, "conference_date": "2021-01-26T14:30:00.000-08:00"}, {"year": 2021, "quarter":
+      1, "conference_date": "2020-10-27T14:30:00.000-07:00"}, {"year": 2020, "quarter":
+      4, "conference_date": "2020-07-22T14:30:00.000-07:00"}, {"year": 2020, "quarter":
+      3, "conference_date": "2020-04-29T14:30:00.000-05:00"}, {"year": 2020, "quarter":
+      2, "conference_date": "2020-01-29T14:30:00.000-08:00"}, {"year": 2020, "quarter":
+      1, "conference_date": "2019-10-23T14:30:00.000-07:00"}, {"year": 2019, "quarter":
+      4, "conference_date": "2019-07-18T14:30:00.000-07:00"}]}'
+    content_type: text/plain
+    method: GET
+    status: 200
+    url: https://v2.api.earningscall.biz/events?apikey=demo&exchange=NASDAQ&symbol=MSFT

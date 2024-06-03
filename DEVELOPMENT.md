@@ -55,3 +55,17 @@ List all companies:
 ```shell
 python -m scripts.list_companies
 ```
+
+
+### Running Unit Tests
+
+```shell
+hatch run test
+```
+
+### Run Test Coverage Report
+
+
+```shell
+hatch run cov
+```
