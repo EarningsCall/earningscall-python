@@ -25,7 +25,7 @@ def test_load_sp500_tickers():
         body="AAPL\nMSFT\nTSLA\nNEWCOMPANY",
         status=200,
         adding_headers={
-            "cache-control": "public, max-age=30",  # Allow client to cache for 6 seconds
+            "cache-control": "public, max-age=30",  # Allow client to cache for 30 seconds
         },
     )
     ##
