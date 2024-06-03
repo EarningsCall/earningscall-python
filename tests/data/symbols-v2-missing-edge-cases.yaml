@@ -1,0 +1,10 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: "99999\tA\tAgilent Technologies, Inc.\t9999\t99999\n-1\tAA\tAlcoa Corporation\t-1\t\
+      -1\n-1\tAAB\tAberdeen International Inc.\t-1\t-1\n1\tAACG\tATA Creativity Global\t\
+      3\t38"
+    content_type: text/plain
+    method: GET
+    status: 200
+    url: https://v2.api.earningscall.biz/symbols-v2.txt

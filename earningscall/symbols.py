@@ -1,6 +1,5 @@
 import json
 import logging
-import re
 from collections import defaultdict
 from typing import Optional, Iterator, List
 
@@ -26,7 +25,10 @@ def exchange_to_index(_exchange: Optional[str]) -> int:
 def index_to_exchange(_index: int) -> str:
     if _index == -1:
         return "UNKNOWN"
-    return EXCHANGES_IN_ORDER[_index]
+    try:
+        return EXCHANGES_IN_ORDER[_index]
+    except IndexError:
+        return "UNKNOWN"
 
 
 security_type_pattern = {
@@ -47,21 +49,12 @@ class CompanyInfo:
 
     def __init__(self, **kwargs):
         self.exchange = None
+        self.symbol = None
         self.name = None
-        self.security_name = None
         self.sector = None
         self.industry = None
         for key, value in kwargs.items():
             self.__setattr__(key, value)
-        # If name is not set upon initialization, we'll set it from the security name.  Also, include
-        # sanitization (removing "Common Stock" from the security name for example)
-        if not self.name:
-            if self.exchange == "OTC":
-                self.security_name = self.security_name.title()
-            if self.exchange in security_type_pattern:
-                self.name = re.sub(security_type_pattern[self.exchange], "", self.security_name)
-            else:
-                self.name = self.security_name
 
     def __str__(self):
         return f"({self.exchange}: {self.symbol} - {self.name})"
@@ -160,20 +153,6 @@ class Symbols:
             return json.dumps(self.without_security_names())
         return json.dumps(self.to_dicts())
 
-    # TODO: Test this
-    # def to_json_v2(self) -> str:
-    #     return json.dumps(
-    #         [
-    #             [exchange_to_index(__symbol.exchange), __symbol.company_info, __symbol.name]
-    #             for __symbol in self.get_all()
-    #         ]
-    #     )
-
-    def to_txt(self) -> str:
-        exchange_symbol_names = [__symbol.to_txt_row() for __symbol in self.get_all()]
-        sorted_rows = sorted(exchange_symbol_names, key=lambda row: row[1])
-        return "\n".join(["\t".join(row) for row in sorted_rows])
-
     def to_txt_v2(self) -> str:
         exchange_symbol_names = [__symbol.to_txt_v2_row() for __symbol in self.get_all()]
         sorted_rows = sorted(exchange_symbol_names, key=lambda row: row[1])
@@ -184,21 +163,6 @@ class Symbols:
         __symbols = Symbols()
         for item in json.loads(json_str):
             __symbols.add(CompanyInfo(**item))
-        return __symbols
-
-    @staticmethod
-    def from_json_v2(json_str):
-        __symbols = Symbols()
-        for [_exchange_index, _symbol, _name] in json.loads(json_str):
-            __symbols.add(CompanyInfo(exchange=index_to_exchange(_exchange_index), symbol=_symbol, name=_name))
-        return __symbols
-
-    @staticmethod
-    def from_txt(txt_str):
-        __symbols = Symbols()
-        for line in txt_str.split("\n"):
-            _exchange_index, _symbol, _name = line.split("\t")
-            __symbols.add(CompanyInfo(exchange=index_to_exchange(int(_exchange_index)), symbol=_symbol, name=_name))
         return __symbols
 
     @staticmethod
