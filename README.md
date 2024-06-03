@@ -1,13 +1,18 @@
 # EarningsCall Python Library
 
-[![pypi](https://img.shields.io/pypi/v/earningscall.svg)](https://pypi.python.org/pypi/earningscall)
+[![pypi](https://img.shields.io/pypi/v/earningscall.svg)](https://pypi.org/project/earningscall/)
 [![Build Status](https://github.com/EarningsCall/earningscall-python/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/EarningsCall/earningscall-python/actions?query=branch%3Amaster)
 [![Coverage Status](https://coveralls.io/repos/github/EarningsCall/earningscall-python/badge.svg?branch=master)](https://coveralls.io/github/EarningsCall/earningscall-python?branch=master)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/earningscall?color=blue)](https://pypi.org/project/earningscall/)
 
 The EarningsCall Python library provides convenient access to the [EarningsCall API](https://earningscall.biz/api-guide) from
 applications written in the Python language. It includes a pre-defined set of
 classes for API resources that initialize themselves dynamically from API
 responses.
+
+# Requirements
+
+* Python 3.8+
 
 # Installation
 
@@ -16,10 +21,6 @@ You don't need this source code unless you want to modify the package. If you ju
 ```sh
 pip install --upgrade earningscall
 ```
-
-# Requirements
-
-* Python 3.8+
 
 ## Get Transcript for a Single Quarter
 
@@ -116,7 +117,10 @@ for company in get_sp500_companies():
 
 ### Disable Caching
 
-If you want to disable the local caching of symbols you can add this code:
+When you call `get_company("aapl")` to retrieve a company, internally the library retrieves metadata
+from the EarningsCall API.  By default, it caches this metadata on disk in order to speed up subsequent requests.
+
+If you prefer to disable this local caching behavior, you can do so with this code:
 
 ```python
 import earningscall
