@@ -194,38 +194,3 @@ def industry_to_index(_industry: str) -> int:
         return INDUSTRIES_IN_ORDER.index(_industry)
     except ValueError:
         return -1
-
-
-class Sectors:
-
-    def __init__(self, sectors: Optional[set] = None, industries: Optional[set] = None):
-        if sectors:
-            self.sectors = sectors
-        else:
-            self.sectors = set()
-        if industries:
-            self.industries = industries
-        else:
-            self.industries = set()
-
-    def add_sector(self, sector: str):
-        if sector is not None:
-            self.sectors.add(sector)
-
-    def add_industry(self, industry: str):
-        if industry is not None:
-            self.industries.add(industry)
-
-    def to_dicts(self) -> dict:
-        return {
-            "sectors": list(self.sectors),
-            "industries": list(self.industries),
-        }
-
-    def to_json(self) -> str:
-        return json.dumps(self.to_dicts())
-
-    @staticmethod
-    def from_json(json_str):
-        data = json.loads(json_str)
-        return Sectors(set(data["sectors"]), set(data["industries"]))
