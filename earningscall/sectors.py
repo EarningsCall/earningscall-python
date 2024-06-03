@@ -1,6 +1,4 @@
-import json
 import logging
-from typing import Optional
 
 log = logging.getLogger(__file__)
 sectors_file_name = "sectors.json"
