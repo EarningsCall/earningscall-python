@@ -1,7 +1,7 @@
 [project]
 name = "earningscall"
 version = "0.0.13"
-description = "The EarningsCall Python library."
+description = "The EarningsCall Python library provides convenient access to the EarningsCall API.  It includes a pre-defined set of classes for API resources that initialize themselves dynamically from API responses."
 readme = "README.md"
 authors = [
     {name = "EarningsCall", email = "dev@earningscall.biz"},
@@ -14,6 +14,35 @@ dependencies = [
     "requests-cache>=1.2.0",
 ]
 license = { file = "LICENSE" }
+keywords = [
+    "earnings calls",
+    "earnings call",
+    "earnings call transcripts",
+    "transcripts",
+]
+classifiers = [
+    # How mature is this project? Common values are
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    "Development Status :: 3 - Alpha",
+
+    # Indicate who your project is intended for
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+
+    # Pick your license as you wish (see also "license" above)
+    "License :: OSI Approved :: MIT License",
+
+    # Specify the Python versions you support here.
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
 
 [project.urls]
 Homepage = "https://earningscall.biz"

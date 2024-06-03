@@ -3,6 +3,46 @@
 First, install Hatch.  See the Hatch [installation instructions](https://hatch.pypa.io/latest/install/).
 
 
+## Run Build
+
+```shell
+hatch build
+```
+
+
+### Running Unit Tests
+
+```shell
+hatch run test
+```
+
+### Run Test Coverage Report
+
+
+```shell
+hatch run cov
+```
+
+Or, generate HTML report locally:
+
+```shell
+coverage html
+```
+
+### Run Linter
+
+```shell
+hatch run lint:all
+```
+
+If you get linter errors, you can automatically fix them by running this command:
+
+```shell
+hatch run lint:fmt
+```
+
+
+
 ### Saving Server-Side Responses for a Mocked Unit test
 
 You can use the following test code to save responses from the server as a .YAML file:
@@ -54,30 +94,4 @@ List all companies:
 
 ```shell
 python -m scripts.list_companies
-```
-
-
-### Running Unit Tests
-
-```shell
-hatch run test
-```
-
-### Run Test Coverage Report
-
-
-```shell
-hatch run cov
-```
-
-### Run Linter
-
-```shell
-hatch run lint:all
-```
-
-If you get linter errors, you can automatically fix them by running this command:
-
-```shell
-hatch run lint:fmt
 ```
