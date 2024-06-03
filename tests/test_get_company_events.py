@@ -14,6 +14,7 @@ from earningscall.utils import data_path
 #     requests.get("https://v2.api.earningscall.biz/events?apikey=demo&exchange=NASDAQ&symbol=MSFT")
 #
 
+
 @responses.activate
 def test_get_demo_company():
     ##

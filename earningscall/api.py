@@ -1,6 +1,5 @@
 import logging
 import os
-import tempfile
 from typing import Optional
 
 import requests
@@ -90,7 +89,7 @@ def get_transcript(exchange: str, symbol: str, year: int, quarter: int) -> Optio
 
 
 def get_symbols_v2():
-    log.debug(f"get_symbols_v2")
+    log.debug("get_symbols_v2")
     response = do_get("symbols-v2.txt", use_cache=True)
     if response.status_code != 200:
         return None
@@ -98,7 +97,7 @@ def get_symbols_v2():
 
 
 def get_sp500_companies_txt_file():
-    log.debug(f"get_sp500_companies_txt_file")
+    log.debug("get_sp500_companies_txt_file")
     response = do_get("symbols/sp500.txt", use_cache=True)
     if response.status_code != 200:
         return None
