@@ -34,8 +34,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install Hatch and Upgrade Pip
-      run: pip install --upgrade hatch pip
+    - name: Upgrade Pip
+      run: pip install --upgrade pip
+
+    - name: Install Hatch
+      run: pip install --upgrade hatch
 
     - if: matrix.python-version == '3.9' && runner.os == 'Linux'
       name: Lint
