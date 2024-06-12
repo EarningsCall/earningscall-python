@@ -38,7 +38,7 @@ jobs:
       run: pip install --upgrade pip
 
     - name: Install Hatch
-      run: pip install --upgrade hatch filelock==3.14.0
+      run: pip install --upgrade hatch filelock==3.14.0  # https://github.com/pypa/virtualenv/issues/2735
 
     - if: matrix.python-version == '3.10' && runner.os == 'Linux'
       name: Lint
