@@ -8,7 +8,6 @@ authors = [
 ]
 requires-python = ">= 3.8"
 dependencies = [
-    "dataclasses>=0.6",
     "dataclasses-json>=0.6.4",
     "requests>=2.30.0",
     "requests-cache>=1.2.0",
