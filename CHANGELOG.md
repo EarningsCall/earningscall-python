@@ -1,3 +1,6 @@
+## Release `0.0.16` - 2024-06-12
+* Bump version number.
+
 ## Release `0.0.15` - 2024-06-12
 * Remove `dataclasses` as a project dependency.  It is built directly into Python.
 
