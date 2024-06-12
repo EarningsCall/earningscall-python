@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        python-version: ['3.9.18']
+        python-version: ['3.8']
 
     steps:
     - uses: actions/checkout@v4
@@ -40,13 +40,13 @@ jobs:
     - name: Install Hatch
       run: pip install --upgrade hatch
 
-    - if: matrix.python-version == '3.9' && runner.os == 'Linux'
+    - if: matrix.python-version == '3.8' && runner.os == 'Linux'
       name: Lint
       run: hatch run lint:all
 
     - name: Run tests and track code coverage
       run: hatch run cov
-    - if: matrix.python-version == '3.9' && runner.os == 'Linux'
+    - if: matrix.python-version == '3.8' && runner.os == 'Linux'
       name: Publish Coverage to Coveralls
       run: hatch run coveralls
       env:
