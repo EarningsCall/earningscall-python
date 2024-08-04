@@ -34,7 +34,7 @@ def cache_session() -> CachedSession:
         backend="sqlite",
         cache_control=True,
         use_temp=True,
-        ignored_parameters=['apikey'],
+        ignored_parameters=[],
     )
 
 

@@ -33,7 +33,7 @@ def test_load_sp500_tickers():
     ##
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url == "https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=demo"
-    assert cached_urls() == ["https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=REDACTED"]
+    assert cached_urls() == ["https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=demo"]
     tickers = [ticker_symbol for ticker_symbol in sp500_raw_text.split("\n")]
     assert tickers == ["AAPL", "MSFT", "TSLA"]
     ##
@@ -44,7 +44,7 @@ def test_load_sp500_tickers():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url == "https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=demo"
     urls = cached_urls()
-    assert urls == ["https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=REDACTED"]
+    assert urls == ["https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=demo"]
     tickers = [ticker_symbol for ticker_symbol in sp500_raw_text.split("\n")]
     assert tickers == ["AAPL", "MSFT", "TSLA"]
     ##
@@ -57,6 +57,6 @@ def test_load_sp500_tickers():
     assert len(responses.calls) == 2
     assert responses.calls[0].request.url == "https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=demo"
     assert responses.calls[1].request.url == "https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=demo"
-    assert cached_urls() == ["https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=REDACTED"]
+    assert cached_urls() == ["https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=demo"]
     tickers = [ticker_symbol for ticker_symbol in sp500_raw_text.split("\n")]
     assert tickers == ["AAPL", "MSFT", "TSLA", "NEWCOMPANY"]
