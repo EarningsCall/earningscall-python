@@ -1,3 +1,11 @@
+## Release `0.0.17` - 2024-08-04
+
+* Remove apikey from the ignored parameters list.
+
+When `apikey=demo`, the API will return different results.  If we change
+apikey to some other value, then the old result from when `apikey=demo`
+would be returned.  This is incorrect.
+
 ## Release `0.0.16` - 2024-06-12
 * Bump version number.
 
