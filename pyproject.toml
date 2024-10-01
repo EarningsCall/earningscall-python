@@ -1,6 +1,6 @@
 [project]
 name = "earningscall"
-version = "0.0.17"
+version = "0.0.18"
 description = "The EarningsCall Python library provides convenient access to the EarningsCall API.  It includes a pre-defined set of classes for API resources that initialize themselves dynamically from API responses."
 readme = "README.md"
 authors = [

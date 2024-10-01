@@ -8,7 +8,7 @@ from earningscall.errors import InsufficientApiAccessError
 from earningscall.sectors import sector_to_index, industry_to_index, index_to_sector, index_to_industry
 
 # WARNING: Add new indexes to the *END* of this list
-EXCHANGES_IN_ORDER = ["NYSE", "NASDAQ", "AMEX", "TSX", "TSXV", "OTC"]
+EXCHANGES_IN_ORDER = ["NYSE", "NASDAQ", "AMEX", "TSX", "TSXV", "OTC", "LSE"]
 
 log = logging.getLogger(__file__)
 

@@ -39,9 +39,22 @@ class Company:
         return self._events
 
     def get_transcript(
-        self, year: Optional[int] = None, quarter: Optional[int] = None, event: Optional[EarningsEvent] = None
+        self,
+        year: Optional[int] = None,
+        quarter: Optional[int] = None,
+        event: Optional[EarningsEvent] = None,
     ) -> Optional[Transcript]:
+        """
+        Get the transcript for a given year and quarter.
 
+        Args:
+            year (Optional[int]): The year to get the transcript for.
+            quarter (Optional[int]): The quarter to get the transcript for.
+            event (Optional[EarningsEvent]): The event to get the transcript for.
+
+        Returns:
+            Optional[Transcript]: The transcript for the given year and quarter.
+        """
         if not self.company_info.exchange or not self.company_info.symbol:
             return None
         if (not year or not quarter) and event:
@@ -53,3 +66,36 @@ class Company:
         if not resp:
             return None
         return Transcript.from_dict(resp)  # type: ignore
+
+    def download_audio_file(
+        self,
+        year: Optional[int] = None,
+        quarter: Optional[int] = None,
+        event: Optional[EarningsEvent] = None,
+    ) -> Optional[str]:
+        """
+        Download the audio file for a given year and quarter.
+
+        Args:
+            year (Optional[int]): The year to get the audio for.
+            quarter (Optional[int]): The quarter to get the audio for.
+            event (Optional[EarningsEvent]): The event to get the audio for.
+
+        Returns:
+            Optional[str]: The audio for the given year and quarter.
+        """
+        if not self.company_info.exchange or not self.company_info.symbol:
+            return None
+        if (not year or not quarter) and event:
+            year = event.year
+            quarter = event.quarter
+        if (not year or not quarter) and not event:
+            raise ValueError("Must specify either event or year and quarter")
+        resp = api.download_audio_file(
+            exchange=self.company_info.exchange,
+            symbol=self.company_info.symbol,
+            year=year,
+            quarter=quarter,
+        )
+        if not resp:
+            return None
