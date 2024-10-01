@@ -67,8 +67,9 @@ class Company:
             self.company_info.symbol,
             year,  # type: ignore
             quarter,  # type: ignore
-            level=None,
+            level=None,  # TODO: Pass level to API
         )
+        # TODO: Parse Advanced transcript data
         if not resp:
             return None
         return Transcript.from_dict(resp)  # type: ignore
