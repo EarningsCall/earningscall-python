@@ -1,14 +1,18 @@
 # Development
 
-First, install Hatch.  See the Hatch [installation instructions](https://hatch.pypa.io/latest/install/).
+First, install Hatch plus other build dependencies.  See the Hatch [installation instructions](https://hatch.pypa.io/latest/install/).
 
+My preferred way to install it is to use `pip`:
+
+```shell
+pip install hatch coverage black
+```
 
 ## Run Build
 
 ```shell
 hatch build
 ```
-
 
 ### Running Unit Tests
 
