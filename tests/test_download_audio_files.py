@@ -1,8 +1,6 @@
 import os
-from multiprocessing.managers import Value
 
 import pytest
-from pytest import raises
 import responses
 
 from earningscall import get_company
