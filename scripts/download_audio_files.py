@@ -1,7 +1,11 @@
+import logging
 from earningscall import get_company
+from earningscall.utils import configure_sane_logging
 
+configure_sane_logging(level=logging.DEBUG)
 
 company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+
 
 print(f"Downloading all audio files for: {company}..")
 

@@ -50,7 +50,7 @@ def do_get(
     path: str,
     use_cache: bool = False,
     **kwargs,
-):
+) -> requests.Response:
     """
     Do a GET request to the API.
 
@@ -71,7 +71,11 @@ def do_get(
     if use_cache and earningscall.enable_requests_cache:
         return cache_session().get(url, params=params)
     else:
-        return requests.get(url, params=params)
+        return requests.get(
+            url,
+            params=params,
+            stream=kwargs.get("stream"),
+        )
 
 
 def get_events(exchange: str, symbol: str):
@@ -142,6 +146,7 @@ def download_audio_file(
     symbol: str,
     year: int,
     quarter: int,
+    filename: Optional[str] = None,
 ) -> Optional[str]:
     """
     Get the audio for a given exchange, symbol, year, and quarter.
@@ -151,6 +156,7 @@ def download_audio_file(
         symbol (str): The symbol to get the audio for.
         year (int): The year to get the audio for.
         quarter (int): The quarter to get the audio for.
+        filename (Optional[str]): The filename to save the audio to.
     """
     params = {
         **api_key_param(),
@@ -159,7 +165,7 @@ def download_audio_file(
         "year": str(year),
         "quarter": str(quarter),
     }
-    local_filename = f"{exchange}_{symbol}_{year}_{quarter}.mp3"
+    local_filename = filename or f"{exchange}_{symbol}_{year}_{quarter}.mp3"
     with do_get("audio", params=params, stream=True) as response:
         response.raise_for_status()
         with open(local_filename, "wb") as f:

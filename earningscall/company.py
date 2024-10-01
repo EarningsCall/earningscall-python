@@ -97,5 +97,4 @@ class Company:
             year=year,
             quarter=quarter,
         )
-        if not resp:
-            return None
+        return resp
