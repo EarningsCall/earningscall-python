@@ -12,7 +12,8 @@ def download_audio_files(company):
     print(f"Downloading all audio files for: {company}..")
     for event in company.events():
         file_name = os.path.join(
-            directory, f"{company.company_info.exchange}_{company.company_info.symbol}_{event.year}_Q{event.quarter}.mp3"
+            directory,
+            f"{company.company_info.exchange}_{company.company_info.symbol}_{event.year}_Q{event.quarter}.mp3",
         )
         if os.path.exists(file_name):
             print(f"* {company.company_info.symbol} Q{event.quarter} {event.year} -- already downloaded")
