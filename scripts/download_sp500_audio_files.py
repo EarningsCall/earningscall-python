@@ -1,6 +1,8 @@
 import os
 from earningscall import get_sp500_companies
 
+# TODO: Set your API key here:
+# earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
 
 directory = "audio_files"
 os.makedirs(directory, exist_ok=True)
