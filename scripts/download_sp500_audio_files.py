@@ -1,4 +1,5 @@
 import os
+import earningscall  # noqa: F401
 from earningscall import get_sp500_companies
 
 # TODO: Set your API key here:
