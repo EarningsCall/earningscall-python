@@ -62,7 +62,13 @@ class Company:
             quarter = event.quarter
         if (not year or not quarter) and not event:
             raise ValueError("Must specify either event or year and quarter")
-        resp = api.get_transcript(self.company_info.exchange, self.company_info.symbol, year, quarter)  # type: ignore
+        resp = api.get_transcript(
+            self.company_info.exchange,
+            self.company_info.symbol,
+            year,  # type: ignore
+            quarter,  # type: ignore
+            level=None,
+        )
         if not resp:
             return None
         return Transcript.from_dict(resp)  # type: ignore
@@ -94,7 +100,7 @@ class Company:
         resp = api.download_audio_file(
             exchange=self.company_info.exchange,
             symbol=self.company_info.symbol,
-            year=year,
-            quarter=quarter,
+            year=year,  # type: ignore
+            quarter=quarter,  # type: ignore
         )
         return resp
