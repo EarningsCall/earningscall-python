@@ -146,7 +146,7 @@ def download_audio_file(
     symbol: str,
     year: int,
     quarter: int,
-    filename: Optional[str] = None,
+    file_name: Optional[str] = None,
 ) -> Optional[str]:
     """
     Get the audio for a given exchange, symbol, year, and quarter.
@@ -165,7 +165,7 @@ def download_audio_file(
         "year": str(year),
         "quarter": str(quarter),
     }
-    local_filename = filename or f"{exchange}_{symbol}_{year}_{quarter}.mp3"
+    local_filename = file_name or f"{exchange}_{symbol}_{year}_{quarter}.mp3"
     with do_get("audio", params=params, stream=True) as response:
         response.raise_for_status()
         with open(local_filename, "wb") as f:

@@ -32,6 +32,7 @@ tasks.xml
 /build
 /sc.egg-info
 /packages
+/audio_files
 
 # Root files
 /.coverage*

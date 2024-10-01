@@ -79,6 +79,7 @@ class Company:
         year: Optional[int] = None,
         quarter: Optional[int] = None,
         event: Optional[EarningsEvent] = None,
+        file_name: Optional[str] = None,
     ) -> Optional[str]:
         """
         Download the audio file for a given year and quarter.
@@ -87,6 +88,7 @@ class Company:
             year (Optional[int]): The year to get the audio for.
             quarter (Optional[int]): The quarter to get the audio for.
             event (Optional[EarningsEvent]): The event to get the audio for.
+            file_name (Optional[str]): The file name to save the audio to.
 
         Returns:
             Optional[str]: The audio for the given year and quarter.
@@ -103,5 +105,6 @@ class Company:
             symbol=self.company_info.symbol,
             year=year,  # type: ignore
             quarter=quarter,  # type: ignore
+            file_name=file_name,
         )
         return resp
