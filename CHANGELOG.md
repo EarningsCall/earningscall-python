@@ -1,6 +1,6 @@
 ## Release `0.0.18` - 2024-10-01
 
-* Add `download_audio_file` function to the `Company` class.
+* Add Download Audio File Feature: add `download_audio_file` function to the `Company` class.
 * Add "LSE" to the list of exchanges.
 
 ## Release `0.0.17` - 2024-08-04

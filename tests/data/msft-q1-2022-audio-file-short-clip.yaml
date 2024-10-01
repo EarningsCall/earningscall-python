@@ -5500,12 +5500,8 @@ responses:
       CF-Cache-Status: HIT
       CF-Ray: 8cbd4e2dfcc0c302-IAH
       Cache-Control: max-age=86400
-      Content-Disposition: attachment; filename="teddy-short-comedy-audio-logo-happy-cartoony-intro-outro-music-145155.mp3"
       ETag: '"4915331f304e540426a39dc92a83b28c"'
       Last-Modified: Tue, 04 Apr 2023 11:36:05 GMT
-      Set-Cookie: __cf_bm=G77jv6X.C63VWPbH02aodmb3xxej95nksp3zQneEDOA-1727794649-1.0.1.1-.GFpE4SsY9eQhP.X1Wyx0YIBJNCuHpFl8TmmNWDk3F7vjJmq3Ccm3ROSW73_Zi31PDFBmmmz8RvUzVr2J5Kneg;
-        path=/; expires=Tue, 01-Oct-24 15:27:29 GMT; domain=.pixabay.com; HttpOnly;
-        Secure; SameSite=None
       Vary: Accept-Encoding
       x-amz-replication-status: COMPLETED
       x-amz-server-side-encryption: AES256
