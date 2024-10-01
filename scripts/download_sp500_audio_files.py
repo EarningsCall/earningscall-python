@@ -1,5 +1,5 @@
 import os
-from earningscall import get_company
+from earningscall import get_sp500_companies
 
 
 directory = "audio_files"
@@ -23,5 +23,5 @@ def download_audio_files(company):
                 print(f" No audio file found for {company.company_info.symbol} Q{event.quarter} {event.year}")
 
 
-company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
-download_audio_files(company)
+for company in get_sp500_companies():
+    download_audio_files(company)
