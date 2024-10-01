@@ -24,7 +24,7 @@ def test_get_demo_company():
     purge_cache()
     clear_symbols()
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
-    responses._add_from_file(file_path=data_path("msft-q1-2024-audio-file-short-clip.yaml"))
+    responses._add_from_file(file_path=data_path("msft-q1-2022-audio-file-short-clip.yaml"))
     responses._add_from_file(file_path=data_path("msft-company-events.yaml"))
     ##
     company = get_company("msft")
