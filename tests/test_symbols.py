@@ -12,10 +12,9 @@ def run_before_and_after_tests(tmpdir):
     """Fixture to execute asserts before and after a test is run"""
     # Setup: fill with any logic you want
     earningscall.api_key = None
-    yield # this is where the testing happens
+    yield  # this is where the testing happens
     # Teardown : fill with any logic you want
     earningscall.api_key = None
-
 
 
 @responses.activate
