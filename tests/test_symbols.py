@@ -1,3 +1,4 @@
+import earningscall
 import pytest
 import responses
 
@@ -6,20 +7,20 @@ from earningscall.symbols import Symbols, CompanyInfo
 from earningscall.utils import data_path
 
 
-# @pytest.fixture(autouse=True)
-# def run_before_and_after_tests(tmpdir):
-#     """Fixture to execute asserts before and after a test is run"""
-#     # Setup: fill with any logic you want
-#     earningscall.api_key = None
-#     yield  # this is where the testing happens
-#     # Teardown : fill with any logic you want
-#     earningscall.api_key = None
+@pytest.fixture(autouse=True)
+def run_before_and_after_tests(tmpdir):
+    """Fixture to execute asserts before and after a test is run"""
+    # Setup: fill with any logic you want
+    earningscall.api_key = None
+    purge_cache()
+    yield  # this is where the testing happens
+    # Teardown : fill with any logic you want
+    earningscall.api_key = None
 
 
 @responses.activate
 def test_load_symbols_txt_v2():
     ##
-    purge_cache()
     responses.patch(API_BASE)
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     ##
@@ -42,7 +43,6 @@ def test_load_symbols_txt_v2():
 @responses.activate
 def test_load_symbols_txt_v2_missing_edge_cases():
     ##
-    purge_cache()
     responses.patch(API_BASE)
     responses._add_from_file(file_path=data_path("symbols-v2-missing-edge-cases.yaml"))
     ##
@@ -65,7 +65,6 @@ def test_load_symbols_txt_v2_missing_edge_cases():
 
 def test_symbols_serialization_to_text_v2():
     ##
-    purge_cache()
     _symbols = Symbols()
     _symbols.add(
         CompanyInfo(

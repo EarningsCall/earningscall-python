@@ -2,7 +2,6 @@ import argparse
 import os
 from earningscall import get_company
 import earningscall  # noqa: F401
-from earningscall.company import Company
 from earningscall.utils import configure_sane_logging
 
 
@@ -24,8 +23,7 @@ os.makedirs(directory, exist_ok=True)
 
 file_name = os.path.join(
     directory,
-    f"NASDAQ_META_2024_Q3.mp3",
+    "NASDAQ_META_2024_Q3.mp3",
 )
 company = get_company("meta")  # Lookup Meta, Inc by its ticker symbol, "META"
 company.download_audio_file(year=2024, quarter=3, file_name=file_name)
-# download_audio_files(company)
