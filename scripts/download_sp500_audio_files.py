@@ -1,6 +1,7 @@
 import os
 import earningscall  # noqa: F401
 from earningscall import get_sp500_companies
+from earningscall.company import Company
 
 # TODO: Set your API key here:
 # earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
@@ -9,7 +10,7 @@ directory = "audio_files"
 os.makedirs(directory, exist_ok=True)
 
 
-def download_audio_files(company):
+def download_audio_files(company: Company):
     print(f"Downloading all audio files for: {company}..")
     for event in company.events():
         file_name = os.path.join(

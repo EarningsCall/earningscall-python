@@ -1,7 +1,10 @@
 import logging
 from typing import Optional, List
 
+import requests
+
 from earningscall import api
+from earningscall.errors import InsufficientApiAccessError
 from earningscall.event import EarningsEvent
 from earningscall.symbols import CompanyInfo
 from earningscall.transcript import Transcript
@@ -10,6 +13,9 @@ log = logging.getLogger(__file__)
 
 
 class Company:
+    """
+    A class representing a company.
+    """
 
     company_info: CompanyInfo
     name: Optional[str]
@@ -93,6 +99,7 @@ class Company:
         Returns:
             Optional[str]: The audio for the given year and quarter.
         """
+        log.info(f"Downloading audio file for {self.company_info.symbol} {event}")
         if not self.company_info.exchange or not self.company_info.symbol:
             return None
         if (not year or not quarter) and event:
@@ -100,11 +107,19 @@ class Company:
             quarter = event.quarter
         if (not year or not quarter) and not event:
             raise ValueError("Must specify either event or year and quarter")
-        resp = api.download_audio_file(
-            exchange=self.company_info.exchange,
-            symbol=self.company_info.symbol,
-            year=year,  # type: ignore
-            quarter=quarter,  # type: ignore
-            file_name=file_name,
-        )
-        return resp
+        try:
+            resp = api.download_audio_file(
+                exchange=self.company_info.exchange,
+                symbol=self.company_info.symbol,
+                year=year,  # type: ignore
+                quarter=quarter,  # type: ignore
+                file_name=file_name,
+            )
+            return resp
+        except requests.exceptions.HTTPError as error:
+            log.error(f"Error downloading audio file: {error}")
+            if error.response.status_code == 404:
+                return None
+            if error.response.status_code == 403:
+                raise InsufficientApiAccessError(f"Insufficient API access for {self.company_info.symbol}")
+            raise error

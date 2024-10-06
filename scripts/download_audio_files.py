@@ -1,12 +1,31 @@
+import argparse
 import os
 from earningscall import get_company
+import earningscall  # noqa: F401
+from earningscall.company import Company
+from earningscall.utils import configure_sane_logging
+
+
+# TODO: Set your API key here:
+# earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
+
+
+parser = argparse.ArgumentParser(description='')
+parser.add_argument('--debug', action='store_true', help='Enable debug logs')
+parser.add_argument('--sp-500', action='store_true', help='Show S&P500 Companies')
+
+args = parser.parse_args()
+# level = logging.DEBUG
+# if args.debug:
+    # level = logging.DEBUG
+configure_sane_logging()
 
 
 directory = "audio_files"
 os.makedirs(directory, exist_ok=True)
 
 
-def download_audio_files(company):
+def download_audio_files(company: Company):
     print(f"Downloading all audio files for: {company}..")
     for event in company.events():
         file_name = os.path.join(
@@ -24,5 +43,5 @@ def download_audio_files(company):
                 print(f" No audio file found for {company.company_info.symbol} Q{event.quarter} {event.year}")
 
 
-company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+company = get_company("meta")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
 download_audio_files(company)
