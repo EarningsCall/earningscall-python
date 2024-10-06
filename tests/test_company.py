@@ -31,6 +31,4 @@ def test_company_to_string():
         "industry": "TEST",
     }
     assert company_info.exchange_symbol() == "TEST_TEST"
-    assert company_info.to_txt_row() == [
-        "-1", "TEST", "Test Company"
-    ]
+    assert company_info.to_txt_row() == ["-1", "TEST", "Test Company"]

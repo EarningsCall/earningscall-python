@@ -53,13 +53,11 @@ class Company:
         """
         Get the transcript for a given year and quarter.
 
-        Args:
-            year (Optional[int]): The year to get the transcript for.
-            quarter (Optional[int]): The quarter to get the transcript for.
-            event (Optional[EarningsEvent]): The event to get the transcript for.
+        :param year: The year to get the transcript for.
+        :param quarter: The quarter to get the transcript for.
+        :param event: The event to get the transcript for.
 
-        Returns:
-            Optional[Transcript]: The transcript for the given year and quarter.
+        :return: The transcript for the given year and quarter.
         """
         if not self.company_info.exchange or not self.company_info.symbol:
             return None
@@ -90,14 +88,12 @@ class Company:
         """
         Download the audio file for a given year and quarter.
 
-        Args:
-            year (Optional[int]): The year to get the audio for.
-            quarter (Optional[int]): The quarter to get the audio for.
-            event (Optional[EarningsEvent]): The event to get the audio for.
-            file_name (Optional[str]): The file name to save the audio to.
+        :param year: The year to get the audio for.
+        :param quarter: The quarter to get the audio for.
+        :param event: The event to get the audio for.
+        :param file_name: The file name to save the audio to.
 
-        Returns:
-            Optional[str]: The audio for the given year and quarter.
+        :return: The audio for the given year and quarter.
         """
         log.info(f"Downloading audio file for {self.company_info.symbol} {event}")
         if not self.company_info.exchange or not self.company_info.symbol:
