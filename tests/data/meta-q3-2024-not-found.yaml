@@ -1,0 +1,16 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: '<?xml version="1.0" encoding="UTF-8"?>
+
+      <Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>404.html</Key><RequestId>C1SFD1W2WXC0JHHC</RequestId><HostId>Fp+yajCTsxImKV1EaTFJ7C9i+jpeNUy1t4FcY8Iq0B3Z8js6baJPx4qhYaTECecl8jiD85Odqoc=</HostId></Error>'
+    content_type: text/plain
+    headers:
+      Transfer-Encoding: chunked
+      Via: 1.1 dda997f5acee0f79dcf70db4a17d82f6.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id: hHQoX1-pbWB6rw1QN1G5grABhjXtX_cdjfpnR4lkIU4ypiZRBRk4kQ==
+      X-Amz-Cf-Pop: IAH50-C4
+      X-Cache: Error from cloudfront
+    method: GET
+    status: 404
+    url: https://v2.api.earningscall.biz/audio?apikey=foobar&exchange=NASDAQ&symbol=META&year=2024&quarter=3

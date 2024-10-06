@@ -1,0 +1,1024 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: 'AAPL
+
+      MSFT
+
+      NVDA
+
+      AMZN
+
+      META
+
+      GOOGL
+
+      BRK.B
+
+      GOOG
+
+      AVGO
+
+      LLY
+
+      TSLA
+
+      JPM
+
+      UNH
+
+      XOM
+
+      V
+
+      MA
+
+      HD
+
+      PG
+
+      COST
+
+      JNJ
+
+      WMT
+
+      ABBV
+
+      NFLX
+
+      MRK
+
+      KO
+
+      CRM
+
+      ORCL
+
+      BAC
+
+      AMD
+
+      CVX
+
+      PEP
+
+      TMO
+
+      ACN
+
+      LIN
+
+      ADBE
+
+      MCD
+
+      CSCO
+
+      IBM
+
+      GE
+
+      ABT
+
+      CAT
+
+      QCOM
+
+      VZ
+
+      WFC
+
+      TXN
+
+      PM
+
+      NOW
+
+      NEE
+
+      DHR
+
+      AMGN
+
+      ISRG
+
+      DIS
+
+      INTU
+
+      AMAT
+
+      SPGI
+
+      RTX
+
+      PFE
+
+      T
+
+      CMCSA
+
+      LOW
+
+      GS
+
+      UBER
+
+      AXP
+
+      PGR
+
+      UNP
+
+      BKNG
+
+      BLK
+
+      HON
+
+      COP
+
+      MS
+
+      ETN
+
+      TJX
+
+      LMT
+
+      BSX
+
+      SYK
+
+      VRTX
+
+      C
+
+      ADP
+
+      ELV
+
+      PLD
+
+      MU
+
+      MDT
+
+      ADI
+
+      BX
+
+      PANW
+
+      MMC
+
+      BMY
+
+      CB
+
+      SBUX
+
+      REGN
+
+      AMT
+
+      LRCX
+
+      FI
+
+      GILD
+
+      DE
+
+      KLAC
+
+      TMUS
+
+      ANET
+
+      SO
+
+      NKE
+
+      UPS
+
+      CI
+
+      MDLZ
+
+      INTC
+
+      SCHW
+
+      ICE
+
+      DUK
+
+      KKR
+
+      BA
+
+      TT
+
+      CEG
+
+      SHW
+
+      ZTS
+
+      MO
+
+      EQIX
+
+      CL
+
+      CME
+
+      PH
+
+      CVS
+
+      PYPL
+
+      PLTR
+
+      CMG
+
+      GD
+
+      WM
+
+      SNPS
+
+      AON
+
+      TDG
+
+      MSI
+
+      APH
+
+      EOG
+
+      MMM
+
+      NOC
+
+      MCO
+
+      WELL
+
+      HCA
+
+      CDNS
+
+      FCX
+
+      PNC
+
+      ITW
+
+      CTAS
+
+      GEV
+
+      TGT
+
+      USB
+
+      BDX
+
+      CARR
+
+      ORLY
+
+      CSX
+
+      CRWD
+
+      SLB
+
+      ECL
+
+      APD
+
+      EMR
+
+      AJG
+
+      MCK
+
+      NEM
+
+      NXPI
+
+      FDX
+
+      ROP
+
+      WMB
+
+      MPC
+
+      MAR
+
+      PSX
+
+      ADSK
+
+      AFL
+
+      HLT
+
+      DHI
+
+      PSA
+
+      TFC
+
+      COF
+
+      NSC
+
+      OKE
+
+      ABNB
+
+      O
+
+      AEP
+
+      TRV
+
+      PCAR
+
+      URI
+
+      AZO
+
+      BK
+
+      SRE
+
+      SPG
+
+      GM
+
+      JCI
+
+      CCI
+
+      ALL
+
+      ROST
+
+      FTNT
+
+      D
+
+      DLR
+
+      MET
+
+      FICO
+
+      KMB
+
+      AMP
+
+      AIG
+
+      MSCI
+
+      VLO
+
+      LHX
+
+      GWW
+
+      CPRT
+
+      FIS
+
+      PEG
+
+      VST
+
+      LEN
+
+      KMI
+
+      MPWR
+
+      CMI
+
+      PAYX
+
+      TEL
+
+      PWR
+
+      KVUE
+
+      PRU
+
+      ACGL
+
+      A
+
+      OTIS
+
+      PCG
+
+      MCHP
+
+      RSG
+
+      HWM
+
+      GEHC
+
+      RCL
+
+      F
+
+      EXC
+
+      GIS
+
+      FAST
+
+      CTVA
+
+      IR
+
+      IDXX
+
+      IQV
+
+      EW
+
+      IT
+
+      AME
+
+      HES
+
+      KDP
+
+      YUM
+
+      VRSK
+
+      COR
+
+      DOW
+
+      STZ
+
+      CTSH
+
+      CNC
+
+      EXR
+
+      BKR
+
+      SYY
+
+      KR
+
+      CBRE
+
+      OXY
+
+      DD
+
+      EFX
+
+      ODFL
+
+      ED
+
+      NUE
+
+      XEL
+
+      MNST
+
+      FANG
+
+      RMD
+
+      HPQ
+
+      IRM
+
+      GLW
+
+      DFS
+
+      HIG
+
+      VICI
+
+      TRGP
+
+      EA
+
+      EIX
+
+      DELL
+
+      XYL
+
+      EBAY
+
+      MLM
+
+      VMC
+
+      WAB
+
+      TSCO
+
+      AVB
+
+      CHTR
+
+      MTD
+
+      WEC
+
+      DAL
+
+      CSGP
+
+      LULU
+
+      NDAQ
+
+      KHC
+
+      ON
+
+      ROK
+
+      PPG
+
+      AXON
+
+      PHM
+
+      NVR
+
+      WTW
+
+      CDW
+
+      HUM
+
+      MTB
+
+      ETR
+
+      FITB
+
+      HSY
+
+      AWK
+
+      ADM
+
+      VLTO
+
+      ANSS
+
+      HAL
+
+      KEYS
+
+      BIIB
+
+      CAH
+
+      FTV
+
+      HPE
+
+      DTE
+
+      DXCM
+
+      DVN
+
+      DOV
+
+      GRMN
+
+      VTR
+
+      SBAC
+
+      IFF
+
+      STT
+
+      FSLR
+
+      NTAP
+
+      BR
+
+      EQR
+
+      GPN
+
+      TYL
+
+      CHD
+
+      BRO
+
+      LYB
+
+      PPL
+
+      TTWO
+
+      WY
+
+      DECK
+
+      TROW
+
+      ES
+
+      AEE
+
+      RJF
+
+      SW
+
+      STE
+
+      HUBB
+
+      STX
+
+      BLDR
+
+      EQT
+
+      FE
+
+      LDOS
+
+      EL
+
+      CPAY
+
+      CBOE
+
+      GDDY
+
+      WDC
+
+      K
+
+      ATO
+
+      WST
+
+      COO
+
+      PTC
+
+      CMS
+
+      ZBH
+
+      CINF
+
+      TER
+
+      WAT
+
+      SMCI
+
+      MRNA
+
+      HBAN
+
+      TDY
+
+      RF
+
+      MKC
+
+      CLX
+
+      BALL
+
+      OMC
+
+      CNP
+
+      SYF
+
+      INVH
+
+      MOH
+
+      NRG
+
+      BBY
+
+      DRI
+
+      GPC
+
+      PKG
+
+      ZBRA
+
+      ESS
+
+      HOLX
+
+      LVS
+
+      APTV
+
+      STLD
+
+      EXPE
+
+      UAL
+
+      LUV
+
+      CTRA
+
+      MAS
+
+      MAA
+
+      LH
+
+      PFG
+
+      DG
+
+      ARE
+
+      CFG
+
+      BAX
+
+      NTRS
+
+      ULTA
+
+      CCL
+
+      FDS
+
+      J
+
+      EXPD
+
+      WBD
+
+      WRB
+
+      AVY
+
+      LYV
+
+      EG
+
+      DGX
+
+      IP
+
+      ALGN
+
+      TSN
+
+      SWK
+
+      TXT
+
+      PODD
+
+      AMCR
+
+      CF
+
+      IEX
+
+      MRO
+
+      PNR
+
+      VRSN
+
+      DOC
+
+      NI
+
+      LNT
+
+      SWKS
+
+      KIM
+
+      RVTY
+
+      AKAM
+
+      SNA
+
+      KEY
+
+      TRMB
+
+      DPZ
+
+      CE
+
+      GEN
+
+      ENPH
+
+      L
+
+      POOL
+
+      CAG
+
+      EVRG
+
+      ROL
+
+      DLTR
+
+      NDSN
+
+      BG
+
+      VTRS
+
+      JBL
+
+      AES
+
+      JBHT
+
+      UDR
+
+      JKHY
+
+      ERIE
+
+      CPT
+
+      UHS
+
+      JNPR
+
+      ALLE
+
+      FFIV
+
+      EMN
+
+      SJM
+
+      CHRW
+
+      HST
+
+      TECH
+
+      BXP
+
+      REG
+
+      KMX
+
+      IPG
+
+      TFX
+
+      EPAM
+
+      ALB
+
+      CTLT
+
+      INCY
+
+      TPR
+
+      AOS
+
+      MKTX
+
+      LKQ
+
+      AIZ
+
+      PNW
+
+      HII
+
+      NWSA
+
+      APA
+
+      LW
+
+      CRL
+
+      TAP
+
+      DAY
+
+      QRVO
+
+      WYNN
+
+      MTCH
+
+      GNRC
+
+      CZR
+
+      FOXA
+
+      HAS
+
+      GL
+
+      CPB
+
+      SOLV
+
+      MGM
+
+      HRL
+
+      HSIC
+
+      BF.B
+
+      NCLH
+
+      MOS
+
+      FRT
+
+      MHK
+
+      PAYC
+
+      FMC
+
+      BWA
+
+      IVZ
+
+      RL
+
+      DVA
+
+      PARA
+
+      WBA
+
+      BEN
+
+      FOX
+
+      AMTM
+
+      NWS'
+    content_type: text/plain
+    headers:
+      Age: '2095'
+      Cache-Control: public, max-age=86400
+      ETag: W/"aaa4b9b849de32f18230b01f9af8dab8"
+      Last-Modified: Sun, 06 Oct 2024 17:03:21 GMT
+      Transfer-Encoding: chunked
+      Vary: Accept-Encoding
+      Via: 1.1 1ad8fbeb283818a1cd6cbb4c92cdf9f6.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id: N6mXxHnbi8L-fXBq8uFqwr9fHPUuLOc8gfMTNjiSmG6iP0gnNOqioA==
+      X-Amz-Cf-Pop: DFW57-P4
+      X-Cache: Hit from cloudfront
+      x-amz-server-side-encryption: AES256
+    method: GET
+    status: 200
+    url: https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=foobar
