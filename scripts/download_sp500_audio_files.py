@@ -1,8 +1,8 @@
 import os
 
-import requests
 import earningscall  # noqa: F401
 from earningscall import get_sp500_companies
+from earningscall.company import Company
 
 # TODO: Set your API key here:
 # earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
@@ -11,7 +11,7 @@ directory = "audio_files"
 os.makedirs(directory, exist_ok=True)
 
 
-def download_audio_files(company):
+def download_audio_files(company: Company):
     print(f"Downloading all audio files for: {company}..")
     for event in company.events():
         file_name = os.path.join(
@@ -22,13 +22,10 @@ def download_audio_files(company):
             print(f"* {company.company_info.symbol} Q{event.quarter} {event.year} -- already downloaded")
         else:
             print(f"* Downloading audio file for {company.company_info.symbol} Q{event.quarter} {event.year}...")
-            try:
-                audio_file = company.download_audio_file(event=event, file_name=file_name)
-                if audio_file:
-                    print(f" Downloaded audio file: \"{audio_file}\"")
-                else:
-                    print(f" No audio file found for {company.company_info.symbol} Q{event.quarter} {event.year}")
-            except requests.exceptions.HTTPError as _e:
+            audio_file = company.download_audio_file(event=event, file_name=file_name)
+            if audio_file:
+                print(f" Downloaded audio file: \"{audio_file}\"")
+            else:
                 print(f" No audio file found for {company.company_info.symbol} Q{event.quarter} {event.year}")
 
 

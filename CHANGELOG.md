@@ -1,3 +1,10 @@
+## Release `0.0.19` - 2024-10-06
+
+* Add Advanced Transcript Data structures.
+* Add additional client-side verification and parameter checking.
+* Add additional unit test coverage.
+
+
 ## Release `0.0.18` - 2024-10-01
 
 * Add Download Audio File Feature: add `download_audio_file` function to the `Company` class.
