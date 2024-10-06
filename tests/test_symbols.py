@@ -1,9 +1,21 @@
+import earningscall
 import pytest
 import responses
 
 from earningscall.api import API_BASE, purge_cache
 from earningscall.symbols import Symbols, CompanyInfo
 from earningscall.utils import data_path
+
+
+@pytest.fixture(autouse=True)
+def run_before_and_after_tests(tmpdir):
+    """Fixture to execute asserts before and after a test is run"""
+    # Setup: fill with any logic you want
+    earningscall.api_key = None
+    yield # this is where the testing happens
+    # Teardown : fill with any logic you want
+    earningscall.api_key = None
+
 
 
 @responses.activate
