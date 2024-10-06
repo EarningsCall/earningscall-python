@@ -88,10 +88,10 @@ class Company:
         """
         Download the audio file for a given year and quarter.
 
-        :param year: The year to get the audio for.
-        :param quarter: The quarter to get the audio for.
-        :param event: The event to get the audio for.
-        :param file_name: The file name to save the audio to.
+        :param Optional[int] year: The year to get the audio for.
+        :param Optional[int] quarter: The quarter to get the audio for.
+        :param Optional[EarningsEvent] event: The event to get the audio for.
+        :param Optional[str] file_name: The file name to save the audio to.
 
         :return: The audio for the given year and quarter.
         """
