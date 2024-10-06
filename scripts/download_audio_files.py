@@ -15,9 +15,6 @@ parser.add_argument('--debug', action='store_true', help='Enable debug logs')
 parser.add_argument('--sp-500', action='store_true', help='Show S&P500 Companies')
 
 args = parser.parse_args()
-# level = logging.DEBUG
-# if args.debug:
-    # level = logging.DEBUG
 configure_sane_logging()
 
 
