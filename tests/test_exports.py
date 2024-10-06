@@ -53,9 +53,17 @@ def test_get_sp_500_companies():
     earningscall.api_key = "foobar"  # Bogus key to avoid check for "demo"
     companies = [company for company in get_sp500_companies()]
     ##
-    # for company in get_all_companies():
-    #     print(company)
     assert len(companies) == 493
     assert str(companies[0]) == "Apple Inc."
     assert str(companies[1]) == "Microsoft Corporation"
     assert str(companies[-1]) == "News Corporation"
+
+
+@responses.activate
+def test_get_sp_500_companies_failed_request():
+    responses._add_from_file(file_path=data_path("sp500-company-list-failed.yaml"))
+    ##
+    earningscall.api_key = "foobar"  # Bogus key to avoid check for "demo"
+    companies = [company for company in get_sp500_companies()]
+    ##
+    assert len(companies) == 0
