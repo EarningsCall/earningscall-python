@@ -1,4 +1,6 @@
 import os
+
+import requests
 import earningscall  # noqa: F401
 from earningscall import get_sp500_companies
 
@@ -20,10 +22,13 @@ def download_audio_files(company):
             print(f"* {company.company_info.symbol} Q{event.quarter} {event.year} -- already downloaded")
         else:
             print(f"* Downloading audio file for {company.company_info.symbol} Q{event.quarter} {event.year}...")
-            audio_file = company.download_audio_file(event=event, file_name=file_name)
-            if audio_file:
-                print(f" Downloaded audio file: \"{audio_file}\"")
-            else:
+            try:
+                audio_file = company.download_audio_file(event=event, file_name=file_name)
+                if audio_file:
+                    print(f" Downloaded audio file: \"{audio_file}\"")
+                else:
+                    print(f" No audio file found for {company.company_info.symbol} Q{event.quarter} {event.year}")
+            except requests.exceptions.HTTPError as _e:
                 print(f" No audio file found for {company.company_info.symbol} Q{event.quarter} {event.year}")
 
 
