@@ -59,5 +59,3 @@ def test_get_sp_500_companies():
     assert str(companies[0]) == "Apple Inc."
     assert str(companies[1]) == "Microsoft Corporation"
     assert str(companies[-1]) == "News Corporation"
-
-
