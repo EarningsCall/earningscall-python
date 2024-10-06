@@ -43,5 +43,6 @@ def download_audio_files(company: Company):
             except requests.exceptions.HTTPError as _e:
                 print(f" No audio file found for {company.company_info.symbol} Q{event.quarter} {event.year}")
 
-company = get_company("meta")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+
+company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
 download_audio_files(company)
