@@ -21,6 +21,7 @@ def test_company_to_string():
     )
     company = Company(company_info=company_info)
     assert str(company) == "Test Company"
+    assert str(company.company_info) == "(TEST: TEST - Test Company)"
     assert company.company_info == company_info
     assert json.loads(company_info.to_json()) == {
         "name": "Test Company",
@@ -30,3 +31,6 @@ def test_company_to_string():
         "industry": "TEST",
     }
     assert company_info.exchange_symbol() == "TEST_TEST"
+    assert company_info.to_txt_row() == [
+        "-1", "TEST", "Test Company"
+    ]
