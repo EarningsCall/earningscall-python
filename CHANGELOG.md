@@ -1,3 +1,7 @@
+## Release `0.0.20` - 2024-10-07
+
+* Bugfix: Fix importlib error.
+
 ## Release `0.0.19` - 2024-10-07
 
 * Add Advanced Transcript Data structures (Beta: and subject to change in the future).
