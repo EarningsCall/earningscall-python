@@ -1,10 +1,12 @@
+import earningscall
 import pytest
 import responses
 
 from earningscall import get_company
 from earningscall.api import purge_cache
+from earningscall.company import Company
 from earningscall.errors import InsufficientApiAccessError
-from earningscall.symbols import clear_symbols
+from earningscall.symbols import clear_symbols, CompanyInfo
 from earningscall.utils import data_path
 
 
@@ -16,11 +18,48 @@ from earningscall.utils import data_path
 #     requests.get("https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=MSFT&year=2023&quarter=1")
 
 
+@pytest.fixture(autouse=True)
+def run_before_and_after_tests():
+    """Fixture to execute asserts before and after a test is run"""
+    # Setup: fill with any logic you want
+    earningscall.api_key = None
+    purge_cache()
+    clear_symbols()
+    yield  # this is where the testing happens
+    # Teardown : fill with any logic you want
+    earningscall.api_key = None
+
+
+@responses.activate
+def test_get_transcript_invalid_inputs():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("msft-transcript-response.yaml"))
+    ##
+    company = get_company("msft")
+    ##
+    with pytest.raises(ValueError):
+        company.get_transcript(year=2023)
+    with pytest.raises(ValueError):
+        company.get_transcript(quarter=1)
+    with pytest.raises(ValueError):
+        company.get_transcript(quarter=0)
+    with pytest.raises(ValueError):
+        company.get_transcript(quarter=5)
+    ##
+    invalid_company = Company(company_info=CompanyInfo())
+    transcript = invalid_company.get_transcript(year=2023, quarter=1)
+    ##
+    assert transcript is None
+
+    # assert transcript.text[:100] == (
+    #     'Greetings, and welcome to the Microsoft Fiscal Year 2023 First Quarter Earnings ' 'Conference Call. At '
+    # )
+
+
 @responses.activate
 def test_get_demo_company():
     ##
-    purge_cache()
-    clear_symbols()
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     responses._add_from_file(file_path=data_path("msft-transcript-response.yaml"))
     ##
@@ -35,8 +74,6 @@ def test_get_demo_company():
 @responses.activate
 def test_get_demo_company_with_event_populated():
     ##
-    purge_cache()
-    clear_symbols()
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     responses._add_from_file(file_path=data_path("demo-symbols-v2-alpha.yaml"))
     ##
@@ -78,8 +115,6 @@ def test_get_demo_company_with_event_populated():
 @responses.activate
 def test_get_non_demo_company():
     ##
-    purge_cache()
-    clear_symbols()
     responses._add_from_file(file_path=data_path("demo-symbols-v2.yaml"))
     ##
     with pytest.raises(InsufficientApiAccessError):

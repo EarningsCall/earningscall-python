@@ -49,13 +49,15 @@ class Company:
         year: Optional[int] = None,
         quarter: Optional[int] = None,
         event: Optional[EarningsEvent] = None,
+        level: Optional[int] = None,
     ) -> Optional[Transcript]:
         """
         Get the transcript for a given year and quarter.
 
-        :param year: The year to get the transcript for.
-        :param quarter: The quarter to get the transcript for.
-        :param event: The event to get the transcript for.
+        :param Optional[int] year: The year to get the transcript for.
+        :param Optional[int] quarter: The quarter to get the transcript for.
+        :param Optional[EarningsEvent] event: The event to get the transcript for.
+        :param Optional[int] level: The transcript level to retrieve.  Default: 1
 
         :return: The transcript for the given year and quarter.
         """
@@ -64,19 +66,33 @@ class Company:
         if (not year or not quarter) and event:
             year = event.year
             quarter = event.quarter
-        if (not year or not quarter) and not event:
+        if not year or not quarter:
             raise ValueError("Must specify either event or year and quarter")
-        resp = api.get_transcript(
+        if level is None:
+            level = 1
+        if 1 > level > 4:
+            raise ValueError("Invalid level. Must be between 1-4.")
+        if type(level) != int or level <= 0 or level > 4:
+            raise ValueError(f"Invalid level: {level}.  Must be between 1-4.")
+        response_payload = api.get_transcript(
             self.company_info.exchange,
             self.company_info.symbol,
             year,  # type: ignore
             quarter,  # type: ignore
-            level=None,  # TODO: Pass level to API
+            level=level,
         )
-        # TODO: Parse Advanced transcript data
-        if not resp:
+        if not response_payload:
             return None
-        return Transcript.from_dict(resp)  # type: ignore
+        transcript = Transcript.from_dict(response_payload)
+        if level == 3:
+            for speaker in transcript.speakers:
+                speaker.text = " ".join(speaker.words)
+        if 2 <= level <= 3:
+            transcript.text = " ".join(map(lambda spk: spk.text, transcript.speakers))
+        elif level == 4:
+            transcript.text = " ".join([transcript.prepared_remarks, transcript.questions_and_answers])
+        return transcript
+
 
     def download_audio_file(
         self,
