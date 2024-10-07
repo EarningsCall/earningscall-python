@@ -1,3 +1,7 @@
+## Release `0.0.21` - 2024-10-07
+
+* Bump version for PyPI release: updated README docs.
+
 ## Release `0.0.20` - 2024-10-07
 
 * Bugfix: Fix importlib error.
