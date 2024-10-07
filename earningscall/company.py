@@ -68,10 +68,10 @@ class Company:
             quarter = event.quarter
         if not year or not quarter:
             raise ValueError("Must specify either event or year and quarter")
+        if quarter < 1 or quarter > 4:
+            raise ValueError("Invalid level. Must be between 1-4.")
         if level is None:
             level = 1
-        if 1 > level > 4:
-            raise ValueError("Invalid level. Must be between 1-4.")
         if type(level) != int or level <= 0 or level > 4:
             raise ValueError(f"Invalid level: {level}.  Must be between 1-4.")
         response_payload = api.get_transcript(
