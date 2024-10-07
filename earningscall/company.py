@@ -83,6 +83,8 @@ class Company:
         )
         if not response_payload:
             return None
+        # TODO: Investigate alternatives to @dataclass for level 3 transcripts, as this is
+        #       extremely slow.
         transcript = Transcript.from_dict(response_payload)  # type: ignore
         if level == 3:
             for speaker in transcript.speakers:

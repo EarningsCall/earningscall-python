@@ -1,9 +1,10 @@
-## Release `0.0.19` - 2024-10-06
+## Release `0.0.19` - 2024-10-07
 
-* Add Advanced Transcript Data structures.
+* Add Advanced Transcript Data structures (Beta: and subject to change in the future).
 * Add additional client-side verification and parameter checking.
+* Don't throw an exception when audio file is missing, just return `None`.
+* Throw useful error in the case of not authorized to download Audio Files.
 * Add additional unit test coverage.
-
 
 ## Release `0.0.18` - 2024-10-01
 
