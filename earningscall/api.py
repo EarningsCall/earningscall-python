@@ -12,7 +12,6 @@ log = logging.getLogger(__file__)
 
 DOMAIN = os.environ.get("ECALL_DOMAIN", "earningscall.biz")
 API_BASE = f"https://v2.api.{DOMAIN}"
-EARNINGS_CALL_VERSION = importlib.metadata.version("earningscall")
 
 
 def get_api_key():
@@ -48,9 +47,10 @@ def purge_cache():
 
 
 def get_headers():
+    earnings_call_version = importlib.metadata.version("earningscall")
     return {
-        "User-Agent": f"EarningsCall Python/{EARNINGS_CALL_VERSION}",
-        "X-EarningsCall-Version": EARNINGS_CALL_VERSION,
+        "User-Agent": f"EarningsCall Python/{earnings_call_version}",
+        "X-EarningsCall-Version": earnings_call_version,
     }
 
 
