@@ -74,26 +74,40 @@ class Company:
             level = 1
         if type(level) is not int or level <= 0 or level > 4:
             raise ValueError(f"Invalid level: {level}. Must be one of: 1, 2, 3, or 4.")
-        response_payload = api.get_transcript(
-            self.company_info.exchange,
-            self.company_info.symbol,
-            year,
-            quarter,
-            level=level,
-        )
-        if not response_payload:
-            return None
-        # TODO: Investigate alternatives to @dataclass for level 3 transcripts, as this is
-        #       extremely slow.
-        transcript = Transcript.from_dict(response_payload)  # type: ignore
-        if level == 3:
-            for speaker in transcript.speakers:
-                speaker.text = " ".join(speaker.words)
-        if 2 <= level <= 3:
-            transcript.text = " ".join(map(lambda spk: spk.text, transcript.speakers))
-        elif level == 4:
-            transcript.text = " ".join([transcript.prepared_remarks, transcript.questions_and_answers])
-        return transcript
+        try:
+            response_payload = api.get_transcript(
+                self.company_info.exchange,
+                self.company_info.symbol,
+                year,
+                quarter,
+                level=level,
+            )
+            # TODO: Investigate alternatives to @dataclass for level 3 transcripts, as this is
+            #       extremely slow.
+            transcript = Transcript.from_dict(response_payload)  # type: ignore
+            if level == 3:
+                for speaker in transcript.speakers:
+                    speaker.text = " ".join(speaker.words)
+            if 2 <= level <= 3:
+                transcript.text = " ".join(map(lambda spk: spk.text, transcript.speakers))
+            elif level == 4:
+                transcript.text = " ".join([transcript.prepared_remarks, transcript.questions_and_answers])
+            return transcript
+        except requests.exceptions.HTTPError as error:
+            if error.response.status_code == 404:
+                return None
+            if error.response.status_code == 403:
+                plan_name = error.response.headers.get("X-Plan-Name", "unknown")
+                if 2 <= level <= 4:
+                    error_message = (
+                        f"Your plan ({plan_name}) does not include Advanced Transcript Data. "
+                        "Upgrade your plan here: https://earningscall.biz/api-pricing"
+                    )
+                else:
+                    error_message = f"Unexpected error code was returned from the server.  Your plan is: {plan_name}"
+                log.error(error_message)
+                raise InsufficientApiAccessError(error_message)
+            raise error
 
     def download_audio_file(
         self,

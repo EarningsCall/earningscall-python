@@ -128,8 +128,7 @@ def get_transcript(
         "level": str(level or 1),
     }
     response = do_get("transcript", params=params)
-    if response.status_code != 200:
-        return None
+    response.raise_for_status()
     return response.json()
 
 

@@ -1,0 +1,16 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: '<?xml version="1.0" encoding="UTF-8"?>
+
+      <Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>404.html</Key><RequestId>NJ3NZJ5Z8MYKY8P7</RequestId><HostId>Evq7WC4+spwjkgtSeEkx5Sa8P+qkYqIz6YDpKKJ82aNSZoAt3cdkyVe6YT2KKKP/NjuoRVHl2sg=</HostId></Error>'
+    content_type: text/plain
+    headers:
+      Transfer-Encoding: chunked
+      Via: 1.1 1cae0bb0106fc058447f3b32dee7b228.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id: Eyh4U7RVwWf7aDQPXVuLlje3DlClptXJey8905shjxg9WTJlr2DPPw==
+      X-Amz-Cf-Pop: IAH50-C4
+      X-Cache: Error from cloudfront
+    method: GET
+    status: 403
+    url: https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2030&quarter=1&level=2

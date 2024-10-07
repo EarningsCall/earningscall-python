@@ -1,3 +1,5 @@
+from requests import HTTPError
+
 import earningscall
 import pytest
 import responses
@@ -176,6 +178,56 @@ def test_get_non_demo_company():
         get_company("nvda")
 
 
+@responses.activate
+def test_get_transcript_not_found():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("aapl-q1-2030-not-found.yaml"))
+    ##
+    company = get_company("aapl")
+    ##
+    transcript = company.get_transcript(year=2030, quarter=1)
+    ##
+    assert transcript is None
+
+
+@responses.activate
+def test_get_transcript_not_authorized_level_1():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("aapl-q1-2030-not-authorized.yaml"))
+    ##
+    company = get_company("aapl")
+    ##
+    with pytest.raises(InsufficientApiAccessError):
+        company.get_transcript(year=2030, quarter=1)
+
+
+@responses.activate
+def test_get_transcript_not_authorized_level_2():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("aapl-q1-2030-not-authorized-l2.yaml"))
+    ##
+    company = get_company("aapl")
+    ##
+    with pytest.raises(InsufficientApiAccessError):
+        company.get_transcript(year=2030, quarter=1, level=2)
+
+
+
+@responses.activate
+def test_get_transcript_server_error():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("aapl-q1-2030-server-error.yaml"))
+    ##
+    company = get_company("aapl")
+    ##
+    with pytest.raises(HTTPError):
+        company.get_transcript(year=2030, quarter=1)
+
+
 # Uncomment and run following code to generate demo-symbols-v2.yaml file
 #
 # import requests
@@ -194,8 +246,8 @@ def test_get_non_demo_company():
 # from responses import _recorder
 #
 #
-# @_recorder.record(file_path="aapl-q1-2022-advanced-data-level-4.yaml")
+# @_recorder.record(file_path="data/aapl-q1-2030-not-found.yaml")
 # def test_save_symbols_v1():
 #     requests.get(
-#         "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2022&quarter=1&level=4"
+#         "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2030&quarter=1&level=1"
 #     )

@@ -1,7 +1,8 @@
 import argparse
 import os
-from earningscall import get_company
+
 import earningscall  # noqa: F401
+from earningscall import get_company
 from earningscall.company import Company
 from earningscall.utils import configure_sane_logging
 
