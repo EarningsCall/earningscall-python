@@ -15,7 +15,6 @@ class Speaker:
     start_times: Optional[list[float]] = field(default=None)
 
 
-
 @dataclass_json
 @dataclass
 class Transcript:

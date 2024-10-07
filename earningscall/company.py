@@ -93,7 +93,6 @@ class Company:
             transcript.text = " ".join([transcript.prepared_remarks, transcript.questions_and_answers])
         return transcript
 
-
     def download_audio_file(
         self,
         year: Optional[int] = None,

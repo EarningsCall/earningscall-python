@@ -112,6 +112,16 @@ def test_get_demo_company_with_advanced_transcript_data():
     assert transcript.speakers[0].words is None
     assert transcript.speakers[0].start_times is None
 
+
+@responses.activate
+def test_get_non_demo_company():
+    ##
+    responses._add_from_file(file_path=data_path("demo-symbols-v2.yaml"))
+    ##
+    with pytest.raises(InsufficientApiAccessError):
+        get_company("nvda")
+
+
 # Uncomment and run following code to generate demo-symbols-v2.yaml file
 #
 # import requests
@@ -125,21 +135,13 @@ def test_get_demo_company_with_advanced_transcript_data():
 
 # Uncomment and run following code to generate demo-symbols-v2.yaml file
 #
-import requests
-
-from responses import _recorder
-
-
-@_recorder.record(file_path="aapl-q1-2022-advanced-data-level-2.yaml")
-def test_save_symbols_v1():
-    requests.get("https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2022&quarter=q1&level=2")
-
-
-
-@responses.activate
-def test_get_non_demo_company():
-    ##
-    responses._add_from_file(file_path=data_path("demo-symbols-v2.yaml"))
-    ##
-    with pytest.raises(InsufficientApiAccessError):
-        get_company("nvda")
+# import requests
+#
+# from responses import _recorder
+#
+#
+# @_recorder.record(file_path="aapl-q1-2022-advanced-data-level-4.yaml")
+# def test_save_symbols_v1():
+#     requests.get(
+#         "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2022&quarter=1&level=4"
+#     )
