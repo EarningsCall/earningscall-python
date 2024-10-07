@@ -75,6 +75,98 @@ Getting all transcripts for: Apple Inc...
   ...
 ```
 
+
+## Get Text by Speaker
+
+If you want to get the text by speaker, you can do so by setting the `level` parameter to `2`.
+
+NOTE: Level `2` data is included in any plan that includes access to Enhanced Transcript Data.
+
+```python
+from earningscall import get_company
+
+company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+
+transcript = company.get_transcript(year=2021, quarter=3, level=2)
+
+first_speaker = transcript.speakers[0]
+speaker_label = first_speaker.speaker
+text = first_speaker.text
+print(f"Speaker: {speaker_label}\nText: {text}")
+```
+
+Output
+
+```text
+Speaker: spk11
+Text: Good day, and welcome to the Apple Q3 FY 2021 Earnings Conference Call. Today's call is being recorded. At this time, for opening remarks and introductions, I would like to turn the call over to Tejas Ghala, Director, Investor Relations and Corporate Finance. Please go ahead.
+```
+
+## Get Word-Level Timestamps
+
+If you want to get the word-level timestamps, you can do so by setting the `level` parameter to `3`.
+
+Each timestamp is the number of seconds since the start of the transcript.
+
+NOTE: Level `3` data is included in any plan that includes access to Enhanced Transcript Data.
+
+
+```python
+from earningscall import get_company
+
+company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+
+transcript = company.get_transcript(year=2021, quarter=3, level=3)
+
+first_speaker = transcript.speakers[0]
+words_and_start_times = list(zip(first_speaker.words, first_speaker.start_times))
+print(f"Speaker: {first_speaker.speaker}")
+print(f"Words with start times: {words_and_start_times}")
+```
+
+Output
+
+```text
+Speaker: spk11
+Words with start times: [('Good', 0.049), ('day,', 0.229), ('and', 0.489), ('welcome', 0.609), ('to', 0.929), ('the', 1.029), ('Apple', 1.229), ('Q3', 1.629), ('FY', 2.65), ('2021', 2.6599999999999997), ('Earnings', 3.81), ('Conference', 4.17), ('Call.', 4.55), ("Today's", 5.411), ('call', 5.811), ('is', 6.111), ('being', 6.271), ('recorded.', 6.471), ('At', 7.571), ('this', 7.671), ('time,', 7.871), ('for', 8.111), ('opening', 8.351), ('remarks', 8.631), ('and', 9.092), ('introductions,', 9.232), ('I', 9.832), ('would', 9.912), ('like', 10.052), ('to', 10.192), ('turn', 10.292), ('the', 10.492), ('call', 10.592), ('over', 10.872), ('to', 11.052), ('Tejas', 11.152), ('Ghala,', 11.532), ('Director,', 12.112), ('Investor', 12.533), ('Relations', 12.873), ('and', 13.353), ('Corporate', 13.473), ('Finance.', 13.773), ('Please', 14.413), ('go', 14.653), ('ahead.', 14.793)]
+```
+
+## Get Prepared Remarks and Q&A for a Single Quarter
+
+If you want to get the prepared remarks and Q&A for a single quarter, you can do so by setting the `level` parameter to `4`.
+
+NOTE: Level `4` data is included in any plan that includes access to Enhanced Transcript Data.
+
+```python
+from earningscall import get_company
+
+company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+
+transcript = company.get_transcript(year=2021, quarter=3, level=4)
+print(f"{company} Q3 2021 Prepared Remarks: \"{transcript.prepared_remarks[:100]}...\"")
+print(f"{company} Q3 2021 Q&A: \"{transcript.questions_and_answers[:100]}...\"")
+```
+
+Output
+
+```text
+Apple Inc. Q3 2021 Prepared Remarks: "Good day, and welcome to the Apple Q3 FY 2021 Earnings Conference Call. Today's call is being record..."
+Apple Inc. Q3 2021 Q&A: "Our first question comes from Katie Huberty from Morgan Stanley. Please go ahead. Hello, Katie. Your..."
+```
+
+## Download Audio File
+
+If you want to download the audio file for a single quarter, you can call the `download_audio_file` function.
+
+```python
+from earningscall import get_company
+
+company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+
+print("Downloading audio file for Apple Inc. Q3 2021...")
+audio_file = company.download_audio_file(year=2021, quarter=3, file_name="Apple Q3 2021.mp3")
+```
+
 ## List All Companies
 
 ```python
