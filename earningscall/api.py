@@ -107,20 +107,19 @@ def get_transcript(
     year: int,
     quarter: int,
     level: Optional[int] = None,
-) -> Optional[str]:
+) -> Optional[dict]:
     """
     Get the transcript for a given exchange, symbol, year, and quarter.
 
-    Args:
-        exchange (str): The exchange to get the transcript for.
-        symbol (str): The symbol to get the transcript for.
-        year (int): The year to get the transcript for.
-        quarter (int): The quarter to get the transcript for.
+    :param str exchange: The exchange to get the transcript for.
+    :param str symbol: The symbol to get the transcript for.
+    :param int year: The year to get the transcript for.
+    :param int quarter: The quarter to get the transcript for.
+    :param Optional[int] level: The level to get the transcript for.
 
-    Returns:
-        Optional[str]: The transcript for the given exchange, symbol, year, and quarter.
+    :return: The transcript for the given exchange, symbol, year, and quarter.
     """
-    log.debug(f"get_transcript year: {year} quarter: {quarter}")
+    log.debug(f"get_transcript exchange: {exchange} symbol: {symbol} year: {year} quarter: {quarter} level: {level}")
     params = {
         **api_key_param(),
         "exchange": exchange,
