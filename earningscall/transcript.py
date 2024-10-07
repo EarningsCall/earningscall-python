@@ -20,6 +20,6 @@ class Speaker:
 class Transcript:
     text: Optional[str] = field(default=None)
     event: Optional[EarningsEvent] = field(default=None)
-    speakers: list[Speaker] = field(default=None)
+    speakers: Optional[list[Speaker]] = field(default=None)
     prepared_remarks: Optional[str] = field(default=None)
     questions_and_answers: Optional[str] = field(default=None)

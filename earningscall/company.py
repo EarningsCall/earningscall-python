@@ -77,13 +77,13 @@ class Company:
         response_payload = api.get_transcript(
             self.company_info.exchange,
             self.company_info.symbol,
-            year,  # type: ignore
-            quarter,  # type: ignore
+            year,
+            quarter,
             level=level,
         )
         if not response_payload:
             return None
-        transcript = Transcript.from_dict(response_payload)
+        transcript = Transcript.from_dict(response_payload)  # type: ignore
         if level == 3:
             for speaker in transcript.speakers:
                 speaker.text = " ".join(speaker.words)
