@@ -215,7 +215,6 @@ def test_get_transcript_not_authorized_level_2():
         company.get_transcript(year=2030, quarter=1, level=2)
 
 
-
 @responses.activate
 def test_get_transcript_server_error():
     ##
