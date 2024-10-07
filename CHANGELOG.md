@@ -1,6 +1,8 @@
 ## Release `0.0.19` - 2024-10-06
 
-* Add additional unit test coverage
+* Add Advanced Transcript Data structures.
+* Add additional client-side verification and parameter checking.
+* Add additional unit test coverage.
 
 
 ## Release `0.0.18` - 2024-10-01

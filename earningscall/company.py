@@ -72,7 +72,7 @@ class Company:
             raise ValueError("Invalid level. Must be between 1-4.")
         if level is None:
             level = 1
-        if type(level) != int or level <= 0 or level > 4:
+        if type(level) is not int or level <= 0 or level > 4:
             raise ValueError(f"Invalid level: {level}.  Must be between 1-4.")
         response_payload = api.get_transcript(
             self.company_info.exchange,
