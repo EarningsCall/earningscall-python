@@ -116,14 +116,16 @@ class Company:
         if (not year or not quarter) and event:
             year = event.year
             quarter = event.quarter
-        if (not year or not quarter) and not event:
+        if not year or not quarter:
             raise ValueError("Must specify either event or year and quarter")
+        if quarter < 1 or quarter > 4:
+            raise ValueError("Invalid level. Must be one of: {1,2,3,4}")
         try:
             resp = api.download_audio_file(
                 exchange=self.company_info.exchange,
                 symbol=self.company_info.symbol,
-                year=year,  # type: ignore
-                quarter=quarter,  # type: ignore
+                year=year,
+                quarter=quarter,
                 file_name=file_name,
             )
             return resp

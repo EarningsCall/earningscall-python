@@ -6,8 +6,9 @@ import responses
 
 from earningscall import get_company
 from earningscall.api import purge_cache
+from earningscall.company import Company
 from earningscall.event import EarningsEvent
-from earningscall.symbols import clear_symbols
+from earningscall.symbols import CompanyInfo, clear_symbols
 from earningscall.utils import data_path
 
 
@@ -24,6 +25,8 @@ def run_before_and_after_tests():
     """Fixture to execute asserts before and after a test is run"""
     # Setup: fill with any logic you want
     earningscall.api_key = None
+    purge_cache()
+    clear_symbols()
     yield  # this is where the testing happens
     # Teardown : fill with any logic you want
     earningscall.api_key = None
@@ -32,9 +35,6 @@ def run_before_and_after_tests():
 @responses.activate
 def test_download_audio_file():
     ##
-    earningscall.api_key = None
-    purge_cache()
-    clear_symbols()
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     responses._add_from_file(file_path=data_path("msft-q1-2022-audio-file-short-clip.yaml"))
     responses._add_from_file(file_path=data_path("msft-company-events.yaml"))
@@ -49,9 +49,6 @@ def test_download_audio_file():
 @responses.activate
 def test_download_audio_file_event():
     ##
-    earningscall.api_key = None
-    purge_cache()
-    clear_symbols()
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     responses._add_from_file(file_path=data_path("msft-q1-2022-audio-file-short-clip.yaml"))
     responses._add_from_file(file_path=data_path("msft-company-events.yaml"))
@@ -65,22 +62,30 @@ def test_download_audio_file_event():
 
 def test_download_audio_file_missing_params_raises_value_error():
     ##
-    earningscall.api_key = None
-    purge_cache()
-    clear_symbols()
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     ##
     company = get_company("msft")
     with pytest.raises(ValueError):
         company.download_audio_file()
+    with pytest.raises(ValueError):
+        company.download_audio_file(year=2023)
+    with pytest.raises(ValueError):
+        company.download_audio_file(quarter=1)
+    with pytest.raises(ValueError):
+        company.download_audio_file(quarter=0)
+    with pytest.raises(ValueError):
+        company.download_audio_file(year=2023, quarter=5)
+    ##
+    invalid_company = Company(company_info=CompanyInfo())
+    transcript = invalid_company.download_audio_file(year=2023, quarter=1)
+    ##
+    assert transcript is None
 
 
 @responses.activate
 def test_download_audio_file_missing_from_server():
     ##
     earningscall.api_key = "foobar"  # Set to a bogus API Key.
-    purge_cache()
-    clear_symbols()
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     responses._add_from_file(file_path=data_path("meta-q3-2024-not-found.yaml"))
     ##
