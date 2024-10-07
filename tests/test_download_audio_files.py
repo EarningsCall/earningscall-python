@@ -1,5 +1,7 @@
 import os
 
+from requests import HTTPError
+
 import earningscall
 import pytest
 import responses
@@ -7,6 +9,7 @@ import responses
 from earningscall import get_company
 from earningscall.api import purge_cache
 from earningscall.company import Company
+from earningscall.errors import InsufficientApiAccessError
 from earningscall.event import EarningsEvent
 from earningscall.symbols import CompanyInfo, clear_symbols
 from earningscall.utils import data_path
@@ -93,3 +96,27 @@ def test_download_audio_file_missing_from_server():
     output_file = company.download_audio_file(year=2024, quarter=3)
     ##
     assert output_file is None
+
+
+@responses.activate
+def test_download_audio_file_not_authorized():
+    ##
+    earningscall.api_key = "foobar"  # Set to a bogus API Key.
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("meta-q3-2024-not-authorized.yaml"))
+    ##
+    company = get_company("meta")
+    with pytest.raises(InsufficientApiAccessError):
+        company.download_audio_file(year=2024, quarter=3)
+
+
+@responses.activate
+def test_download_audio_file_500_error():
+    ##
+    earningscall.api_key = "foobar"  # Set to a bogus API Key.
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("meta-q3-2024-other-error.yaml"))
+    ##
+    company = get_company("meta")
+    with pytest.raises(HTTPError):
+        company.download_audio_file(year=2024, quarter=3)

@@ -130,9 +130,14 @@ class Company:
             )
             return resp
         except requests.exceptions.HTTPError as error:
-            log.error(f"Error downloading audio file: {error}")
             if error.response.status_code == 404:
                 return None
             if error.response.status_code == 403:
-                raise InsufficientApiAccessError(f"Insufficient API access for {self.company_info.symbol}")
+                plan_name = error.response.headers["X-Plan-Name"]
+                error_message = (
+                    f"Your plan ({plan_name}) does not include Audio Files. "
+                    "Upgrade your plan here: https://earningscall.biz/api-pricing"
+                )
+                log.error(error_message)
+                raise InsufficientApiAccessError(error_message)
             raise error

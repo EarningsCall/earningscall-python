@@ -7,6 +7,7 @@ from earningscall.utils import configure_sane_logging
 
 # TODO: Set your API key here:
 # earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
+earningscall.api_key = "brockbasic"
 
 
 parser = argparse.ArgumentParser(description='')
