@@ -57,10 +57,6 @@ def test_get_transcript_invalid_inputs():
     ##
     assert transcript is None
 
-    # assert transcript.text[:100] == (
-    #     'Greetings, and welcome to the Microsoft Fiscal Year 2023 First Quarter Earnings ' 'Conference Call. At '
-    # )
-
 
 @responses.activate
 def test_get_demo_company():
@@ -102,6 +98,7 @@ def test_get_demo_company_with_advanced_transcript_data():
     company = get_company("aapl")
     ##
     transcript = company.get_transcript(year=2022, quarter=1, level=2)
+    ##
     assert transcript.event.year == 2022
     assert transcript.event.quarter == 1
     assert transcript.event.conference_date.isoformat() == "2022-01-27T14:00:00-08:00"
@@ -111,6 +108,63 @@ def test_get_demo_company_with_advanced_transcript_data():
     assert transcript.speakers[0].speaker == "spk03"
     assert transcript.speakers[0].words is None
     assert transcript.speakers[0].start_times is None
+
+
+@responses.activate
+def test_get_demo_company_with_advanced_transcript_data_level_3():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("aapl-q1-2022-advanced-data-level-3.yaml"))
+    ##
+    company = get_company("aapl")
+    ##
+    transcript = company.get_transcript(year=2022, quarter=1, level=3)
+    ##
+    assert transcript.event.year == 2022
+    assert transcript.event.quarter == 1
+    assert transcript.event.conference_date.isoformat() == "2022-01-27T14:00:00-08:00"
+    assert transcript.text[:100] == (
+        "Good day and welcome to the Apple Q1 FY 2022 earnings conference call. Today's call is being recorde"
+    )
+    assert transcript.speakers[0].speaker == "spk03"
+    assert " ".join(transcript.speakers[0].words)[:100] == (
+        "Good day and welcome to the Apple Q1 FY 2022 earnings conference call. Today's call is being recorde"
+    )
+    assert transcript.speakers[0].start_times[:7] == [
+        0.029,
+        0.189,
+        0.429,
+        0.57,
+        0.91,
+        1.03,
+        1.27,
+    ]
+
+
+@responses.activate
+def test_get_demo_company_with_advanced_transcript_data_level_4():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("aapl-q1-2022-advanced-data-level-4.yaml"))
+    ##
+    company = get_company("aapl")
+    ##
+    transcript = company.get_transcript(year=2022, quarter=1, level=4)
+    ##
+    assert transcript.event.year == 2022
+    assert transcript.event.quarter == 1
+    assert transcript.event.conference_date.isoformat() == "2022-01-27T14:00:00-08:00"
+    assert transcript.text[:100] == (
+        "Good day and welcome to the Apple Q1 FY 2022 earnings conference call. Today's call is being recorde"
+    )
+    assert transcript.prepared_remarks[:100] == (
+        "Good day and welcome to the Apple Q1 FY 2022 earnings conference call. Today's call is being recorde"
+    )
+    assert transcript.questions_and_answers[:100] == (
+        "We'll take our first question from Katie Huberty with Morgan Stanley. Caller, please check your mute"
+    )
+
+    assert transcript.speakers is None
 
 
 @responses.activate
