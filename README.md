@@ -80,7 +80,7 @@ Getting all transcripts for: Apple Inc...
 
 If you want to get the text by speaker, you can do so by setting the `level` parameter to `2`.
 
-NOTE: Level `2` data is included in any plan that includes access to Enhanced Transcript Data.
+NOTE: Level `2` data is provided in any plan that includes Enhanced Transcript Data.
 
 ```python
 from earningscall import get_company
@@ -108,7 +108,7 @@ If you want to get the word-level timestamps, you can do so by setting the `leve
 
 Each timestamp is the number of seconds since the start of the transcript.
 
-NOTE: Level `3` data is included in any plan that includes access to Enhanced Transcript Data.
+NOTE: Level `3` data is provided in any plan that includes Enhanced Transcript Data.
 
 
 ```python
@@ -135,7 +135,7 @@ Words with start times: [('Good', 0.049), ('day,', 0.229), ('and', 0.489), ('wel
 
 If you want to get the prepared remarks and Q&A for a single quarter, you can do so by setting the `level` parameter to `4`.
 
-NOTE: Level `4` data is included in any plan that includes access to Enhanced Transcript Data.
+NOTE: Level `4` data is provided in any plan that includes Enhanced Transcript Data.
 
 ```python
 from earningscall import get_company
