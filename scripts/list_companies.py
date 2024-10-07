@@ -4,7 +4,6 @@ import logging
 from earningscall import get_all_companies, get_sp500_companies
 from earningscall.utils import configure_sane_logging
 
-
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--debug', action='store_true', help='Enable debug logs')
 parser.add_argument('--sp-500', action='store_true', help='Show S&P500 Companies')

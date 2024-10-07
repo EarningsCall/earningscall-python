@@ -1,3 +1,4 @@
+import importlib
 import logging
 import os
 from typing import Optional
@@ -11,13 +12,13 @@ log = logging.getLogger(__file__)
 
 DOMAIN = os.environ.get("ECALL_DOMAIN", "earningscall.biz")
 API_BASE = f"https://v2.api.{DOMAIN}"
+EARNINGS_CALL_VERSION = importlib.metadata.version("earningscall")
 
 
 def get_api_key():
-    api_key = earningscall.api_key
-    if not api_key:
-        return os.environ.get("ECALL_API_KEY", "demo")
-    return api_key
+    if earningscall.api_key:
+        return earningscall.api_key
+    return os.environ.get("ECALL_API_KEY", "demo")
 
 
 def api_key_param():
@@ -44,6 +45,13 @@ def cached_urls():
 
 def purge_cache():
     return cache_session().cache.clear()
+
+
+def get_headers():
+    return {
+        "User-Agent": f"EarningsCall Python/{EARNINGS_CALL_VERSION}",
+        "X-EarningsCall-Version": EARNINGS_CALL_VERSION,
+    }
 
 
 def do_get(
@@ -74,6 +82,7 @@ def do_get(
         return requests.get(
             url,
             params=params,
+            headers=get_headers(),
             stream=kwargs.get("stream"),
         )
 
@@ -97,20 +106,19 @@ def get_transcript(
     year: int,
     quarter: int,
     level: Optional[int] = None,
-) -> Optional[str]:
+) -> Optional[dict]:
     """
     Get the transcript for a given exchange, symbol, year, and quarter.
 
-    Args:
-        exchange (str): The exchange to get the transcript for.
-        symbol (str): The symbol to get the transcript for.
-        year (int): The year to get the transcript for.
-        quarter (int): The quarter to get the transcript for.
+    :param str exchange: The exchange to get the transcript for.
+    :param str symbol: The symbol to get the transcript for.
+    :param int year: The year to get the transcript for.
+    :param int quarter: The quarter to get the transcript for.
+    :param Optional[int] level: The level to get the transcript for.
 
-    Returns:
-        Optional[str]: The transcript for the given exchange, symbol, year, and quarter.
+    :return: The transcript for the given exchange, symbol, year, and quarter.
     """
-    log.debug(f"get_transcript year: {year} quarter: {quarter}")
+    log.debug(f"get_transcript exchange: {exchange} symbol: {symbol} year: {year} quarter: {quarter} level: {level}")
     params = {
         **api_key_param(),
         "exchange": exchange,
@@ -120,8 +128,7 @@ def get_transcript(
         "level": str(level or 1),
     }
     response = do_get("transcript", params=params)
-    if response.status_code != 200:
-        return None
+    response.raise_for_status()
     return response.json()
 
 
@@ -151,12 +158,13 @@ def download_audio_file(
     """
     Get the audio for a given exchange, symbol, year, and quarter.
 
-    Args:
-        exchange (str): The exchange to get the audio for.
-        symbol (str): The symbol to get the audio for.
-        year (int): The year to get the audio for.
-        quarter (int): The quarter to get the audio for.
-        filename (Optional[str]): The filename to save the audio to.
+    :param str exchange: The exchange to get the audio for.
+    :param str symbol: The symbol to get the audio for.
+    :param int year: The 4-digit year to get the audio for.
+    :param int quarter: The quarter to get the audio for (1, 2, 3, or 4).
+    :param file_name: Optionally specify the filename to save the audio to.
+    :return: The filename of the downloaded audio file.
+    :rtype Optional[str]: The filename of the downloaded audio file.
     """
     params = {
         **api_key_param(),

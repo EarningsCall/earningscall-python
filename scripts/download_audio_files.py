@@ -1,10 +1,10 @@
 import argparse
 import os
-from earningscall import get_company
+
 import earningscall  # noqa: F401
+from earningscall import get_company
 from earningscall.company import Company
 from earningscall.utils import configure_sane_logging
-import requests
 
 
 # TODO: Set your API key here:
@@ -34,13 +34,10 @@ def download_audio_files(company: Company):
             print(f"* {company.company_info.symbol} Q{event.quarter} {event.year} -- already downloaded")
         else:
             print(f"* Downloading audio file for {company.company_info.symbol} Q{event.quarter} {event.year}...")
-            try:
-                audio_file = company.download_audio_file(event=event, file_name=file_name)
-                if audio_file:
-                    print(f" Downloaded audio file: \"{audio_file}\"")
-                else:
-                    print(f" No audio file found for {company.company_info.symbol} Q{event.quarter} {event.year}")
-            except requests.exceptions.HTTPError as _e:
+            audio_file = company.download_audio_file(event=event, file_name=file_name)
+            if audio_file:
+                print(f" Downloaded audio file: \"{audio_file}\"")
+            else:
                 print(f" No audio file found for {company.company_info.symbol} Q{event.quarter} {event.year}")
 
 
