@@ -1,4 +1,5 @@
 import argparse
+from datetime import datetime
 import os
 
 import earningscall  # noqa: F401
@@ -26,6 +27,9 @@ os.makedirs(directory, exist_ok=True)
 def download_audio_files(company: Company):
     print(f"Downloading all audio files for: {company}..")
     for event in company.events():
+        if datetime.now().timestamp() < event.conference_date.timestamp():
+            print(f"* {company.company_info.symbol} Q{event.quarter} {event.year} -- skipping, conference date in the future")
+            continue
         file_name = os.path.join(
             directory,
             f"{company.company_info.exchange}_{company.company_info.symbol}_{event.year}_Q{event.quarter}.mp3",
