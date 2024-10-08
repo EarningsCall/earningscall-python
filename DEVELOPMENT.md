@@ -1,5 +1,13 @@
 # Development
 
+The instructions on this page are meant for library contributors.
+If you are interested in contributing to this project, read on.
+Otherwise, if you are simply wanting to get EarningsCalls Transcripts or Audio Files,
+please read the [README page](README.md) to get started.
+
+
+## Getting Started
+
 First, install Hatch plus other build dependencies.  See the Hatch [installation instructions](https://hatch.pypa.io/latest/install/).
 
 My preferred way to install it is to use `pip`:
