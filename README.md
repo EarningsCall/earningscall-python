@@ -44,6 +44,8 @@ Apple Inc. Q3 2021 Transcript Text: "Good day, and welcome to the Apple Q3 FY 20
 
 
 ```python
+from datetime import datetime
+
 from earningscall import get_company
 
 company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
@@ -51,6 +53,9 @@ company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
 print(f"Getting all transcripts for: {company}..")
 # Retrieve all earnings conference call events for a company, and iterate through each one
 for event in company.events():
+    if datetime.now().timestamp() < event.conference_date.timestamp():
+        print(f"* {company.company_info.symbol} Q{event.quarter} {event.year} -- skipping, conference date in the future")
+        continue
     transcript = company.get_transcript(event=event)  # Fetch the earnings call transcript for this event
     print(f"* Q{event.quarter} {event.year}")
     if transcript:
