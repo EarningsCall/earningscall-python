@@ -28,7 +28,9 @@ def download_audio_files(company: Company):
     print(f"Downloading all audio files for: {company}..")
     for event in company.events():
         if datetime.now().timestamp() < event.conference_date.timestamp():
-            print(f"* {company.company_info.symbol} Q{event.quarter} {event.year} -- skipping, conference date in the future")
+            print(
+                f"* {company.company_info.symbol} Q{event.quarter} {event.year} -- skipping, conference date in the future"
+            )
             continue
         file_name = os.path.join(
             directory,
