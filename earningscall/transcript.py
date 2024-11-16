@@ -8,6 +8,13 @@ from earningscall.event import EarningsEvent
 
 @dataclass_json
 @dataclass
+class SpeakerInfo:
+    name: str
+    title: str
+
+
+@dataclass_json
+@dataclass
 class Speaker:
     speaker: str
     text: Optional[str] = field(default=None)
@@ -23,3 +30,4 @@ class Transcript:
     speakers: Optional[List[Speaker]] = field(default=None)
     prepared_remarks: Optional[str] = field(default=None)
     questions_and_answers: Optional[str] = field(default=None)
+    speaker_name_map_v2: Optional[dict[str, SpeakerInfo]] = field(default=None)

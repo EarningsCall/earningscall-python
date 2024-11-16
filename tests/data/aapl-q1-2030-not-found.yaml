@@ -3,13 +3,13 @@ responses:
     auto_calculate_content_length: false
     body: '<?xml version="1.0" encoding="UTF-8"?>
 
-      <Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>404.html</Key><RequestId>NJ3NZJ5Z8MYKY8P7</RequestId><HostId>Evq7WC4+spwjkgtSeEkx5Sa8P+qkYqIz6YDpKKJ82aNSZoAt3cdkyVe6YT2KKKP/NjuoRVHl2sg=</HostId></Error>'
+      <Error><Code>NoSuchKey</Code><Message>The specified key does not exist.</Message><Key>404.html</Key><RequestId>T532DMCWRFXZJAX6</RequestId><HostId>0DQcECkpkVRCGDYe+N4iiEVGaswLqu3jImGs/fBMYjKxkv72sP485Yur/seEzjbfNfvrtK3IKBA=</HostId></Error>'
     content_type: text/plain
     headers:
-      Age: '246'
+      Age: '151'
       Transfer-Encoding: chunked
-      Via: 1.1 115c7d901fcc7bb17cbb373a1d33eb0a.cloudfront.net (CloudFront)
-      X-Amz-Cf-Id: 2WF2DbT1JJGMOlar0Brv6Xt3tyZp3I6Q6fEI-Bm42xrTtBkbsN9inw==
+      Via: 1.1 16caa40ed375d1dbfbda9f612d337350.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id: 4Ll7-ICBhriU-BhuMhroYiqwhP7vzzMq74R3cPFMZci2hjjmNDUB_Q==
       X-Amz-Cf-Pop: IAH50-C4
       X-Cache: Error from cloudfront
     method: GET

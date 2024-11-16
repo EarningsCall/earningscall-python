@@ -10,6 +10,7 @@ from earningscall.company import Company
 from earningscall.errors import InsufficientApiAccessError
 from earningscall.event import EarningsEvent
 from earningscall.symbols import clear_symbols, CompanyInfo
+from earningscall.transcript import Transcript
 from earningscall.utils import data_path
 
 
@@ -110,6 +111,30 @@ def test_get_demo_company_with_advanced_transcript_data():
     assert transcript.speakers[0].speaker == "spk03"
     assert transcript.speakers[0].words is None
     assert transcript.speakers[0].start_times is None
+
+
+
+@responses.activate
+def test_get_demo_company_with_speaker_name_map_v2():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("aapl-q1-2022-speaker-name-map-v2.yaml"))
+    ##
+    company = get_company("aapl")
+    ##
+    transcript = company.get_transcript(year=2023, quarter=1, level=2)
+    ##
+    assert transcript.event.year == 2023
+    assert transcript.event.quarter == 1
+    assert transcript.event.conference_date.isoformat() == "2023-02-02T17:00:00-05:00"
+    assert transcript.text[:100] == (
+        "Good day, everyone, and welcome to the Apple Q1 Fiscal Year 2023 Earnings Conference Call. Today's c"
+    )
+    assert transcript.speakers[0].speaker == "spk12"
+    assert transcript.speakers[0].words is None
+    assert transcript.speakers[0].start_times is None
+    assert transcript.speaker_name_map_v2["spk01"].name == "Tim Cook"
+    assert transcript.speaker_name_map_v2["spk01"].title == "CEO"
 
 
 @responses.activate
@@ -227,16 +252,21 @@ def test_get_transcript_server_error():
         company.get_transcript(year=2030, quarter=1)
 
 
-# Uncomment and run following code to generate demo-symbols-v2.yaml file
-#
-# import requests
-#
-# from responses import _recorder
-#
-#
-# @_recorder.record(file_path="demo-symbols-v2.yaml")
-# def test_save_symbols_v1():
-#     requests.get("https://v2.api.earningscall.biz/symbols-v2.txt?apikey=demo")
+def test_data_class_for_transcript():
+    ##
+    transcript = Transcript.from_dict({
+        "speakers": [],
+        "speaker_name_map_v2": {
+            "spk01": {
+                "name": "John Doe",
+                "title": "CEO",
+            }
+        }
+    })
+    ##
+    assert transcript.speaker_name_map_v2["spk01"].name == "John Doe"
+    assert transcript.speaker_name_map_v2["spk01"].title == "CEO"
+
 
 # Uncomment and run following code to generate demo-symbols-v2.yaml file
 #
@@ -245,8 +275,19 @@ def test_get_transcript_server_error():
 # from responses import _recorder
 #
 #
+# @_recorder.record(file_path="data/aapl-q1-2022-speaker-name-map-v2-blah.yaml")
+# def test_save_symbols_v1_first():
+#     requests.get("https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=2")
+
+# Uncomment and run following code to generate demo-symbols-v2.yaml file
+
+# import requests
+#
+# from responses import _recorder
+#
+#
 # @_recorder.record(file_path="data/aapl-q1-2030-not-found.yaml")
-# def test_save_symbols_v1():
+# def test_save_symbols_v1_second():
 #     requests.get(
 #         "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2030&quarter=1&level=1"
 #     )

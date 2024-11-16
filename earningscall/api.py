@@ -1,6 +1,7 @@
 import importlib
 import logging
 import os
+from importlib.metadata import PackageNotFoundError
 from typing import Optional
 
 import requests
@@ -46,8 +47,15 @@ def purge_cache():
     return cache_session().cache.clear()
 
 
+def get_earnings_call_version():
+    try:
+        return importlib.metadata.version("earningscall")
+    except PackageNotFoundError:
+        return None
+
+
 def get_headers():
-    earnings_call_version = importlib.metadata.version("earningscall")
+    earnings_call_version = get_earnings_call_version()
     return {
         "User-Agent": f"EarningsCall Python/{earnings_call_version}",
         "X-EarningsCall-Version": earnings_call_version,
