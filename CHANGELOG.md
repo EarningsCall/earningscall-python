@@ -1,3 +1,7 @@
+## Release `0.0.22` - 2024-10-07
+
+* Add **experimental feature**: Speaker Names and Titles
+
 ## Release `0.0.21` - 2024-10-07
 
 * Bump version for PyPI release: updated README docs.

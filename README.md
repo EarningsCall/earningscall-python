@@ -107,6 +107,37 @@ Speaker: spk11
 Text: Good day, and welcome to the Apple Q3 FY 2021 Earnings Conference Call. Today's call is being recorded. At this time, for opening remarks and introductions, I would like to turn the call over to Tejas Ghala, Director, Investor Relations and Corporate Finance. Please go ahead.
 ```
 
+
+## Get Text by Speaker with Speaker Name and Title
+
+NOTE: This is a new experimental feature.
+
+NOTE: Level `2` data is provided in any plan that includes Enhanced Transcript Data.
+
+```python
+from earningscall import get_company
+
+company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+
+transcript = company.get_transcript(year=2021, quarter=3, level=2)
+
+speaker = transcript.speakers[1]  # Get second speaker
+speaker_label = speaker.speaker_info.name
+text = speaker.text
+print("Speaker:")
+print(f"  Name: {speaker.speaker_info.name}")
+print(f"  Title: {speaker.speaker_info.title}")
+print()
+print(f"Text: {text}")
+```
+
+Output
+
+```text
+Speaker: spk11
+Text: Good day, and welcome to the Apple Q3 FY 2021 Earnings Conference Call. Today's call is being recorded. At this time, for opening remarks and introductions, I would like to turn the call over to Tejas Ghala, Director, Investor Relations and Corporate Finance. Please go ahead.
+```
+
 ## Get Word-Level Timestamps
 
 If you want to get the word-level timestamps, you can do so by setting the `level` parameter to `3`.

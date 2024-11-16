@@ -130,8 +130,15 @@ def test_get_demo_company_with_speaker_name_map_v2():
         "Good day, everyone, and welcome to the Apple Q1 Fiscal Year 2023 Earnings Conference Call. Today's c"
     )
     assert transcript.speakers[0].speaker == "spk12"
+    assert transcript.speakers[0].speaker_info.name == "Teja Skala"
+    assert transcript.speakers[0].speaker_info.title == "Director of Investor Relations and Corporate Finance"
     assert transcript.speakers[0].words is None
     assert transcript.speakers[0].start_times is None
+    assert transcript.speakers[1].speaker == "spk07"
+    assert transcript.speakers[1].speaker_info.name == "Operator"
+    assert transcript.speakers[1].speaker_info.title is None
+    assert transcript.speakers[1].words is None
+    assert transcript.speakers[1].start_times is None
     assert transcript.speaker_name_map_v2["spk01"].name == "Tim Cook"
     assert transcript.speaker_name_map_v2["spk01"].title == "CEO"
 

@@ -17,6 +17,7 @@ class SpeakerInfo:
 @dataclass
 class Speaker:
     speaker: str
+    speaker_info: Optional[SpeakerInfo] = field(default=None)
     text: Optional[str] = field(default=None)
     words: Optional[List[str]] = field(default=None)
     start_times: Optional[List[float]] = field(default=None)
