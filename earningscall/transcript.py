@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 from dataclasses_json import dataclass_json
 
@@ -30,4 +30,4 @@ class Transcript:
     speakers: Optional[List[Speaker]] = field(default=None)
     prepared_remarks: Optional[str] = field(default=None)
     questions_and_answers: Optional[str] = field(default=None)
-    speaker_name_map_v2: Optional[dict[str, SpeakerInfo]] = field(default=None)
+    speaker_name_map_v2: Optional[Dict[str, SpeakerInfo]] = field(default=None)
