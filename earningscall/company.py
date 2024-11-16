@@ -92,6 +92,9 @@ class Company:
                 transcript.text = " ".join(map(lambda spk: spk.text, transcript.speakers))
             elif level == 4:
                 transcript.text = " ".join([transcript.prepared_remarks, transcript.questions_and_answers])
+            if transcript.speaker_name_map_v2:
+                for speaker in transcript.speakers:
+                    speaker.speaker_info = transcript.speaker_name_map_v2.get(speaker.speaker)
             return transcript
         except requests.exceptions.HTTPError as error:
             if error.response.status_code == 404:

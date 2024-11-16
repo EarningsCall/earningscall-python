@@ -107,6 +107,38 @@ Speaker: spk11
 Text: Good day, and welcome to the Apple Q3 FY 2021 Earnings Conference Call. Today's call is being recorded. At this time, for opening remarks and introductions, I would like to turn the call over to Tejas Ghala, Director, Investor Relations and Corporate Finance. Please go ahead.
 ```
 
+
+## Get Text by Speaker with Speaker Name and Title
+
+NOTE: This is a new experimental feature.  It includes Speaker Names and Titles.
+
+```python
+from earningscall import get_company
+
+company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+
+transcript = company.get_transcript(year=2021, quarter=3, level=2)
+
+speaker = transcript.speakers[1]  # Get second speaker
+speaker_label = speaker.speaker_info.name
+text = speaker.text
+print("Speaker:")
+print(f"  Name: {speaker.speaker_info.name}")
+print(f"  Title: {speaker.speaker_info.title}")
+print()
+print(f"Text: {text}")
+```
+
+Output
+
+```text
+Speaker:
+  Name: Tejas Ghala
+  Title: Director, Investor Relations and Corporate Finance
+
+Text: Thank you. Good afternoon, and thank you for joining us. Speaking first today is Apple CEO Tim Cook, and he'll be followed by CFO Luca Maestri. After that, we'll open the call to questions from analysts. Please note that some of the information you'll hear during our discussion today will consist of forward-looking statements, including without limitation, those regarding revenue, gross margin, operating expenses, other income and expenses, taxes, capital allocation, and future business outlook, including the potential impact of COVID-19 on the company's business and results of operations. These statements involve risks and uncertainties that may cause actual results or trends to differ materially from our forecast. For more information, please refer to the risk factors discussed in Apple's most recently filed annual report on Form 10-K and the Form 8-K filed with the SEC today, along with the associated press release. Apple assumes no obligation to update any forward-looking statements or information which speak as of their respective dates. I'd like to now turn the call over to Tim for introductory remarks.
+```
+
 ## Get Word-Level Timestamps
 
 If you want to get the word-level timestamps, you can do so by setting the `level` parameter to `3`.
