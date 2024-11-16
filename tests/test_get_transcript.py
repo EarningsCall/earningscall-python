@@ -113,7 +113,6 @@ def test_get_demo_company_with_advanced_transcript_data():
     assert transcript.speakers[0].start_times is None
 
 
-
 @responses.activate
 def test_get_demo_company_with_speaker_name_map_v2():
     ##
@@ -254,15 +253,17 @@ def test_get_transcript_server_error():
 
 def test_data_class_for_transcript():
     ##
-    transcript = Transcript.from_dict({
-        "speakers": [],
-        "speaker_name_map_v2": {
-            "spk01": {
-                "name": "John Doe",
-                "title": "CEO",
-            }
+    transcript = Transcript.from_dict(
+        {
+            "speakers": [],
+            "speaker_name_map_v2": {
+                "spk01": {
+                    "name": "John Doe",
+                    "title": "CEO",
+                }
+            },
         }
-    })
+    )
     ##
     assert transcript.speaker_name_map_v2["spk01"].name == "John Doe"
     assert transcript.speaker_name_map_v2["spk01"].title == "CEO"
