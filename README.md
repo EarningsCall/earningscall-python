@@ -110,9 +110,7 @@ Text: Good day, and welcome to the Apple Q3 FY 2021 Earnings Conference Call. To
 
 ## Get Text by Speaker with Speaker Name and Title
 
-NOTE: This is a new experimental feature.
-
-NOTE: Level `2` data is provided in any plan that includes Enhanced Transcript Data.
+NOTE: This is a new experimental feature.  It includes Speaker Names and Titles.
 
 ```python
 from earningscall import get_company
