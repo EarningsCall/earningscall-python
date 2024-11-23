@@ -1,4 +1,5 @@
 import importlib
+import urllib.parse
 import logging
 import os
 from importlib.metadata import PackageNotFoundError
@@ -83,7 +84,9 @@ def do_get(
         **kwargs.get("params", {}),
     }
     url = f"{API_BASE}/{path}"
-    log.debug(f"do_get url: {url} params: {params}")
+    if log.isEnabledFor(logging.DEBUG):
+        full_url = f"{url}?{urllib.parse.urlencode(params)}"
+        log.debug(f"GET: {full_url}")
     if use_cache and earningscall.enable_requests_cache:
         return cache_session().get(url, params=params)
     else:
