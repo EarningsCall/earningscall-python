@@ -1,3 +1,5 @@
+import logging
+import sys
 from requests import HTTPError
 
 import earningscall
@@ -32,6 +34,7 @@ def run_before_and_after_tests():
     yield  # this is where the testing happens
     # Teardown : fill with any logic you want
     earningscall.api_key = None
+    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 
 
 @responses.activate
