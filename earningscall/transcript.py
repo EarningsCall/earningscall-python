@@ -9,8 +9,8 @@ from earningscall.event import EarningsEvent
 @dataclass_json
 @dataclass
 class SpeakerInfo:
-    name: str
-    title: str
+    name: Optional[str] = field(default=None)
+    title: Optional[str] = field(default=None)
 
 
 @dataclass_json
