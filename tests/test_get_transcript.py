@@ -29,12 +29,12 @@ def run_before_and_after_tests():
     """Fixture to execute asserts before and after a test is run"""
     # Setup: fill with any logic you want
     earningscall.api_key = None
+    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
     purge_cache()
     clear_symbols()
     yield  # this is where the testing happens
     # Teardown : fill with any logic you want
     earningscall.api_key = None
-    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 
 
 @responses.activate
