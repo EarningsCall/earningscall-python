@@ -80,8 +80,8 @@ dependencies = [
     "pytest-cov",
 ]
 [tool.hatch.envs.default.scripts]
-cov = "pytest --log-level=DEBUG --cov-report=term-missing --cov-config=pyproject.toml --cov=hatch_init --cov=tests"
-no-cov = "cov -no-cov"
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=hatch_init --cov=tests"
+no-cov = "cov --no-cov"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
@@ -161,3 +161,6 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
 ]
+
+[tool.pytest.ini_options]
+log_level = "DEBUG"
