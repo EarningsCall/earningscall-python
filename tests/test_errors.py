@@ -7,3 +7,8 @@ def test_errors():
     ##
     assert error.msg == "You don't have access"
     assert str(error) == "You don't have access"
+    ##
+    error = InsufficientApiAccessError()
+    ##
+    assert error.msg is None
+    assert str(error) == ""

@@ -1,5 +1,6 @@
 ## Release `0.0.23` - 2024-11-24
 
+* Allow `None` for optional fields in SpeakerInfo data structure.
 * Update logging format for API calls.
 * Update logging level to DEBUG in unit tests.
 
