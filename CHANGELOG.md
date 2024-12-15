@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `0.0.25` - 2024-12-15
+
+* Bump version for PyPI release (no changes to the code).
+
 ## Release `0.0.24` - 2024-12-15
 
 * Remove extraneous debug logging.
