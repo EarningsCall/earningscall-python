@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `0.0.26` - 2024-12-15
+
+* Bump gh-action-sigstore-python to version 3.0.0.
+
 ## Release `0.0.25` - 2024-12-15
 
 * Bump version for PyPI release (no changes to the code).
