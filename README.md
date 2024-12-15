@@ -5,6 +5,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/EarningsCall/earningscall-python/badge.svg?branch=master)](https://coveralls.io/github/EarningsCall/earningscall-python?branch=master)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/earningscall?color=blue)](https://pypi.org/project/earningscall/)
 
+[![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+
+
 The EarningsCall Python library provides convenient access to the [EarningsCall API](https://earningscall.biz/api-guide) from
 applications written in the Python language. It includes a pre-defined set of
 classes for API resources that initialize themselves dynamically from API
@@ -222,13 +225,13 @@ Once you have access to your API key, you can set the API Key like this:
 ```python
 import earningscall
 
-earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
+earningscall.api_key = "YOUR-SECRET-API-KEY-GOES-HERE"
 ```
 
 Alternatively, you can pass in your API key as an environment variable:
 
 ```sh
-export ECALL_API_KEY="YOUR SECRET API KEY GOES HERE"
+export EARNINGSCALL_API_KEY="YOUR-SECRET-API-KEY-GOES-HERE"
 python your-python-script.py
 ```
 

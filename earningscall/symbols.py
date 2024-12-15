@@ -8,7 +8,7 @@ from earningscall.errors import InsufficientApiAccessError
 from earningscall.sectors import sector_to_index, industry_to_index, index_to_sector, index_to_industry
 
 # WARNING: Add new indexes to the *END* of this list
-EXCHANGES_IN_ORDER = ["NYSE", "NASDAQ", "AMEX", "TSX", "TSXV", "OTC", "LSE"]
+EXCHANGES_IN_ORDER = ["NYSE", "NASDAQ", "AMEX", "TSX", "TSXV", "OTC", "LSE", "CBOE"]
 
 log = logging.getLogger(__file__)
 
@@ -98,12 +98,12 @@ class Symbols:
         self.by_exchange_and_sym = {}
 
     def add(self, _sym: CompanyInfo):
-        size_before = len(self.by_exchange_and_sym)
+        # size_before = len(self.by_exchange_and_sym)
         self.exchanges.add(_sym.exchange)
         self.by_name[_sym.name].add(_sym)
         self.by_exchange_and_sym[f"{_sym.exchange}_{_sym.symbol}"] = _sym
-        if len(self.by_exchange_and_sym) == size_before:
-            log.debug(f"Duplicate: {_sym}")
+        # if len(self.by_exchange_and_sym) == size_before:
+        #     log.debug(f"Duplicate: {_sym}")
 
     def get_all(self) -> Iterator[CompanyInfo]:
         for _exchange_symbol, _symbol in self.by_exchange_and_sym.items():
@@ -115,7 +115,9 @@ class Symbols:
     def get_exchange_symbol(self, exchange_symbol: str) -> CompanyInfo:
         return self.by_exchange_and_sym[exchange_symbol]
 
-    def lookup_company(self, symbol: str) -> Optional[CompanyInfo]:
+    def lookup_company(self, symbol: str, exchange: Optional[str] = None) -> Optional[CompanyInfo]:
+        if exchange:
+            return self.get(exchange, symbol.upper())
         for exchange in EXCHANGES_IN_ORDER:
             try:
                 _symbol = self.get(exchange, symbol.upper())
