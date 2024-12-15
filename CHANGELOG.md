@@ -1,3 +1,11 @@
+# Changelog
+
+## Release `0.0.24` - 2024-12-15
+
+* Remove extraneous debug logging.
+* Add CBOE exchange to the list of exchanges.
+* Support env variable "EARNINGSCALL_API_KEY" for key.
+
 ## Release `0.0.23` - 2024-11-24
 
 * Allow `None` for optional fields in SpeakerInfo data structure.

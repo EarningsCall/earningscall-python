@@ -19,7 +19,13 @@ API_BASE = f"https://v2.api.{DOMAIN}"
 def get_api_key():
     if earningscall.api_key:
         return earningscall.api_key
-    return os.environ.get("ECALL_API_KEY", "demo")
+    e_call_key = os.environ.get("ECALL_API_KEY")
+    earnings_call_key = os.environ.get("EARNINGSCALL_API_KEY")
+    if e_call_key:
+        return e_call_key
+    if earnings_call_key:
+        return earnings_call_key
+    return "demo"
 
 
 def api_key_param():
@@ -99,9 +105,7 @@ def do_get(
 
 
 def get_events(exchange: str, symbol: str):
-    log.debug(f"get_events exchange: {exchange} symbol: {symbol}")
     params = {
-        **api_key_param(),
         "exchange": exchange,
         "symbol": symbol,
     }
@@ -129,9 +133,7 @@ def get_transcript(
 
     :return: The transcript for the given exchange, symbol, year, and quarter.
     """
-    log.debug(f"get_transcript exchange: {exchange} symbol: {symbol} year: {year} quarter: {quarter} level: {level}")
     params = {
-        **api_key_param(),
         "exchange": exchange,
         "symbol": symbol,
         "year": str(year),
@@ -144,7 +146,6 @@ def get_transcript(
 
 
 def get_symbols_v2():
-    log.debug("get_symbols_v2")
     response = do_get("symbols-v2.txt", use_cache=True)
     if response.status_code != 200:
         return None
@@ -152,7 +153,6 @@ def get_symbols_v2():
 
 
 def get_sp500_companies_txt_file():
-    log.debug("get_sp500_companies_txt_file")
     response = do_get("symbols/sp500.txt", use_cache=True)
     if response.status_code != 200:
         return None
@@ -178,7 +178,6 @@ def download_audio_file(
     :rtype Optional[str]: The filename of the downloaded audio file.
     """
     params = {
-        **api_key_param(),
         "exchange": exchange,
         "symbol": symbol,
         "year": str(year),

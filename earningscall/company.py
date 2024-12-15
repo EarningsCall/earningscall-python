@@ -15,6 +15,8 @@ log = logging.getLogger(__file__)
 class Company:
     """
     A class representing a company.
+
+    Can be used to retrieve events, transcripts, and audio files.
     """
 
     company_info: CompanyInfo
@@ -129,7 +131,6 @@ class Company:
 
         :return: The audio for the given year and quarter.
         """
-        log.info(f"Downloading audio file for {self.company_info.symbol} {event}")
         if not self.company_info.exchange or not self.company_info.symbol:
             return None
         if (not year or not quarter) and event:
