@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `1.0.0` - 2024-12-16
+
+* Release the first major version of EarningsCall.
+
 ## Release `0.0.26` - 2024-12-15
 
 * Bump gh-action-sigstore-python to version 3.0.0.
