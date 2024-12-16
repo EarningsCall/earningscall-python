@@ -47,6 +47,7 @@ def test_download_audio_file():
     #
     assert os.path.exists(file_name)
     assert os.path.getsize(file_name) > 0
+    os.unlink(file_name)
 
 
 @responses.activate
@@ -61,6 +62,7 @@ def test_download_audio_file_event():
     #
     assert os.path.exists(file_name)
     assert os.path.getsize(file_name) > 0
+    os.unlink(file_name)
 
 
 def test_download_audio_file_missing_params_raises_value_error():
