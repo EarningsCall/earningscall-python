@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `1.0.1` - 2024-12-20
+
+* Update User-Agent string to standardized format used in the industry.
+
 ## Release `1.0.0` - 2024-12-16
 
 * Release the first major version of EarningsCall.

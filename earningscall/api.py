@@ -1,4 +1,5 @@
 import importlib
+import platform
 import urllib.parse
 import logging
 import os
@@ -61,10 +62,21 @@ def get_earnings_call_version():
         return None
 
 
+def get_user_agent():
+    sdk_name = "EarningsCallPython"
+    sdk_version = get_earnings_call_version()
+    python_version = platform.python_version()
+    os_info = f"{platform.system()} {platform.release()}"
+    arch = platform.machine()
+    requests_version = requests.__version__
+    user_agent = f"{sdk_name}/{sdk_version} (Python/{python_version}; {os_info}; {arch}) Requests/{requests_version}"
+    return user_agent
+
+
 def get_headers():
     earnings_call_version = get_earnings_call_version()
     return {
-        "User-Agent": f"EarningsCall Python/{earnings_call_version}",
+        "User-Agent": get_user_agent(),
         "X-EarningsCall-Version": earnings_call_version,
     }
 
