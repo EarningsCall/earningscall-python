@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `1.0.2` - 2024-12-24
+
+* Add STO exchange to the list of exchanges.
+
 ## Release `1.0.1` - 2024-12-20
 
 * Update User-Agent string to standardized format used in the industry.
