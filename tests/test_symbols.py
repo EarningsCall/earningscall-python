@@ -127,3 +127,17 @@ def test_symbols_serialization_v1():
     assert _deserialized_symbols.get_exchange_symbol("TSX_TLRY").industry == "Uranium"
     assert _deserialized_symbols.get_exchange_symbol("TSX_ACB").name == "Aurora Cannabis Inc."
     assert _deserialized_symbols.get_exchange_symbol("NASDAQ_HITI").name == "High Tide Inc."
+
+
+def test_exchanges_in_order():
+    assert earningscall.symbols.EXCHANGES_IN_ORDER == [
+        "NYSE",
+        "NASDAQ",
+        "AMEX",
+        "TSX",
+        "TSXV",
+        "OTC",
+        "LSE",
+        "CBOE",
+        "STO",
+    ]
