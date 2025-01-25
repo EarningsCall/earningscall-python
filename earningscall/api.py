@@ -137,7 +137,7 @@ def do_get(
             return response
 
         if attempt < retries - 1:  # Don't sleep after the last attempt
-            wait_time = delay * (2 ** attempt)  # Exponential backoff: 3s -> 6s -> 12s -> 24s -> 48s
+            wait_time = delay * (2**attempt)  # Exponential backoff: 3s -> 6s -> 12s -> 24s -> 48s
             log.warning(f"Rate limited (429). Retrying in {wait_time} seconds... (Attempt {attempt + 1}/{retries})")
             time.sleep(wait_time)
 
