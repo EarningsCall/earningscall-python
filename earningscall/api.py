@@ -3,6 +3,7 @@ import platform
 import urllib.parse
 import logging
 import os
+import time
 from importlib.metadata import PackageNotFoundError
 from typing import Optional
 
@@ -15,6 +16,8 @@ log = logging.getLogger(__file__)
 
 DOMAIN = os.environ.get("ECALL_DOMAIN", "earningscall.biz")
 API_BASE = f"https://v2.api.{DOMAIN}"
+DEFAULT_MAX_RETRIES = 5
+DEFAULT_BASE_DELAY = 3  # Base delay in seconds
 
 
 def get_api_key():
@@ -84,14 +87,24 @@ def get_headers():
 def do_get(
     path: str,
     use_cache: bool = False,
+    base_delay: Optional[float] = None,
+    max_retries: Optional[int] = None,
     **kwargs,
 ) -> requests.Response:
     """
-    Do a GET request to the API.
+    Do a GET request to the API with exponential backoff retry for rate limits.
 
     Args:
         path (str): The path to request.
         use_cache (bool): Whether to use the cache.
+        base_delay (Optional[float]): Base delay in seconds between retries. Defaults to DEFAULT_BASE_DELAY (3s).
+        max_retries (Optional[int]): Maximum number of retry attempts. Defaults to DEFAULT_MAX_RETRIES (5).
+            With default values, retry delays are:
+            - 1st retry: 3s
+            - 2nd retry: 6s
+            - 3rd retry: 12s
+            - 4th retry: 24s
+            - 5th retry: 48s
         **kwargs: Additional arguments to pass to the request.
 
     Returns:
@@ -105,15 +118,30 @@ def do_get(
     if log.isEnabledFor(logging.DEBUG):
         full_url = f"{url}?{urllib.parse.urlencode(params)}"
         log.debug(f"GET: {full_url}")
-    if use_cache and earningscall.enable_requests_cache:
-        return cache_session().get(url, params=params)
-    else:
-        return requests.get(
-            url,
-            params=params,
-            headers=get_headers(),
-            stream=kwargs.get("stream"),
-        )
+
+    retries = max_retries if max_retries is not None else DEFAULT_MAX_RETRIES
+    delay = base_delay if base_delay is not None else DEFAULT_BASE_DELAY
+
+    for attempt in range(retries):
+        if use_cache and earningscall.enable_requests_cache:
+            response = cache_session().get(url, params=params)
+        else:
+            response = requests.get(
+                url,
+                params=params,
+                headers=get_headers(),
+                stream=kwargs.get("stream"),
+            )
+
+        if response.status_code != 429:
+            return response
+
+        if attempt < retries - 1:  # Don't sleep after the last attempt
+            wait_time = delay * (2 ** attempt)  # Exponential backoff: 3s -> 6s -> 12s -> 24s -> 48s
+            log.warning(f"Rate limited (429). Retrying in {wait_time} seconds... (Attempt {attempt + 1}/{retries})")
+            time.sleep(wait_time)
+
+    return response  # Return the last response if all retries failed
 
 
 def get_events(exchange: str, symbol: str):
