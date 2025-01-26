@@ -13,7 +13,7 @@ First, install Hatch plus other build dependencies.  See the Hatch [installation
 My preferred way to install it is to use `pip`:
 
 ```shell
-pip install hatch coverage black
+pip install hatch coverage black responses
 ```
 
 ## Run Build

@@ -3,52 +3,50 @@ name = "earningscall"
 version = "1.0.2"
 description = "The EarningsCall Python library provides convenient access to the EarningsCall API.  It includes a pre-defined set of classes for API resources that initialize themselves dynamically from API responses."
 readme = "README.md"
-authors = [
-    {name = "EarningsCall", email = "dev@earningscall.biz"},
-]
+authors = [{ name = "EarningsCall", email = "dev@earningscall.biz" }]
 requires-python = ">= 3.8"
 dependencies = [
-    "dataclasses-json>=0.6.4",
-    "requests>=2.30.0",
-    "requests-cache>=1.2.0",
+  "dataclasses-json>=0.6.4",
+  "requests>=2.30.0",
+  "requests-cache>=1.2.0",
 ]
 license = { file = "LICENSE" }
 keywords = [
-    "earnings calls",
-    "earnings call",
-    "earnings call api",
-    "earnings call transcripts",
-    "earnings call transcripts api",
-    "earnings call transcript api",
-    "earnings call app",
-    "earning call app",
-    "listen to earnings calls",
-    "where to listen to earnings calls",
-    "earnings transcript api",
-    "transcripts",
+  "earnings calls",
+  "earnings call",
+  "earnings call api",
+  "earnings call transcripts",
+  "earnings call transcripts api",
+  "earnings call transcript api",
+  "earnings call app",
+  "earning call app",
+  "listen to earnings calls",
+  "where to listen to earnings calls",
+  "earnings transcript api",
+  "transcripts",
 ]
 classifiers = [
-    # How mature is this project? Common values are
-    #   3 - Alpha
-    #   4 - Beta
-    #   5 - Production/Stable
-    "Development Status :: 3 - Alpha",
+  # How mature is this project? Common values are
+  #   3 - Alpha
+  #   4 - Beta
+  #   5 - Production/Stable
+  "Development Status :: 3 - Alpha",
 
-    # Indicate who your project is intended for
-    "Intended Audience :: Developers",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Typing :: Typed",
+  # Indicate who your project is intended for
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
 
-    # Pick your license as you wish (see also "license" above)
-    "License :: OSI Approved :: MIT License",
+  # Pick your license as you wish (see also "license" above)
+  "License :: OSI Approved :: MIT License",
 
-    # Specify the Python versions you support here.
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
+  # Specify the Python versions you support here.
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
 ]
 
 [project.urls]
@@ -75,10 +73,7 @@ packages = ["earningscall"]
 path = "hatch_init/__about__.py"
 
 [tool.hatch.envs.default]
-dependencies = [
-    "pytest",
-    "pytest-cov",
-]
+dependencies = ["pytest", "pytest-cov", "responses"]
 [tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=hatch_init --cov=tests"
 no-cov = "cov --no-cov"
@@ -91,9 +86,7 @@ python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 enable-by-default = false
 dependencies = ["hatch-mypyc>=0.14.1"]
 require-runtime-dependencies = true
-mypy-args = [
-  "--no-warn-unused-ignores",
-]
+mypy-args = ["--no-warn-unused-ignores"]
 
 [tool.mypy]
 disallow_untyped_defs = false
@@ -121,10 +114,14 @@ ignore = [
   "FBT003",
   # Ignore checks for possible passwords
   # Ignore complexity
-  "C901", "PLR0911", "PLR0912", "PLR0913", "PLR0915",
+  "C901",
+  "PLR0911",
+  "PLR0912",
+  "PLR0913",
+  "PLR0915",
   "PLC1901", # empty string comparisons
   "PLW2901", # `for` loop variable overwritten
-  "SIM114", # Combine `if` branches using logical `or` operator
+  "SIM114",  # Combine `if` branches using logical `or` operator
 ]
 unfixable = [
   # Don't touch unused imports
@@ -156,11 +153,7 @@ earningscall = ["earningscall"]
 tests = ["tests"]
 
 [tool.coverage.report]
-exclude_lines = [
-    "no cov",
-    "if __name__ == .__main__.:",
-    "if TYPE_CHECKING:",
-]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
 
 [tool.pytest.ini_options]
 log_level = "DEBUG"
