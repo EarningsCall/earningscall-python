@@ -1,5 +1,10 @@
 # Changelog
 
+## Release `1.1.0` - 2025-01-26
+
+* Add backoff and retry logic to all API calls.
+* Add tests for rate limiting.
+
 ## Release `1.0.2` - 2024-12-24
 
 * Add STO exchange to the list of exchanges.

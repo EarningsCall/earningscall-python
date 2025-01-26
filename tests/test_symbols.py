@@ -1,7 +1,7 @@
-import earningscall
 import pytest
 import responses
 
+import earningscall
 from earningscall.api import API_BASE, purge_cache
 from earningscall.symbols import Symbols, CompanyInfo
 from earningscall.utils import data_path

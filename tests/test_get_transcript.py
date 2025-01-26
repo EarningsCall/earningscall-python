@@ -1,9 +1,10 @@
+import json
+
+import pytest
+import responses
 from requests import HTTPError
 
 import earningscall
-import pytest
-import responses
-
 from earningscall import get_company
 from earningscall.api import purge_cache
 from earningscall.company import Company
@@ -27,6 +28,11 @@ def run_before_and_after_tests():
     """Fixture to execute asserts before and after a test is run"""
     # Setup: fill with any logic you want
     earningscall.api_key = None
+    earningscall.retry_strategy = {
+        "strategy": "exponential",
+        "base_delay": 0.01,
+        "max_attempts": 3,
+    }
     purge_cache()
     clear_symbols()
     yield  # this is where the testing happens
@@ -274,6 +280,96 @@ def test_data_class_for_transcript():
     ##
     assert transcript.speaker_name_map_v2["spk01"].name == "John Doe"
     assert transcript.speaker_name_map_v2["spk01"].title == "CEO"
+
+
+@responses.activate
+def test_get_transcript_with_rate_limit_backoff_and_retry():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    # First response
+    responses.add(
+        responses.GET,
+        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        body=json.dumps({"error": "Rate limit exceeded"}),
+        status=429,
+    )
+    # Second response
+    responses.add(
+        responses.GET,
+        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        body=json.dumps({"text": "Hello, world!"}),
+        status=200,
+    )
+    ##
+    company = get_company("aapl")
+    ##
+    transcript = company.get_transcript(year=2023, quarter=1, level=1)
+    # ##
+    assert transcript.text == "Hello, world!"
+
+
+@responses.activate
+def test_get_transcript_fails_all_attempts():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    # Always throttle the caller
+    responses.add(
+        responses.GET,
+        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        body=json.dumps({"error": "Rate limit exceeded"}),
+        status=429,
+    )
+    ##
+    company = get_company("aapl")
+    ##
+    with pytest.raises(HTTPError):
+        company.get_transcript(year=2023, quarter=1, level=1)
+
+
+@responses.activate
+def test_get_transcript_fails_all_attempts_linear_retry_strategy():
+    earningscall.retry_strategy = {
+        "strategy": "linear",
+        "base_delay": 0.01,
+        "max_attempts": 3,
+    }
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    # Always throttle the caller
+    responses.add(
+        responses.GET,
+        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        body=json.dumps({"error": "Rate limit exceeded"}),
+        status=429,
+    )
+    ##
+    company = get_company("aapl")
+    ##
+    with pytest.raises(HTTPError):
+        company.get_transcript(year=2023, quarter=1, level=1)
+
+
+@responses.activate
+def test_get_transcript_fails_all_attempts_invalid_retry_strategy():
+    earningscall.retry_strategy = {
+        "strategy": "invalid",
+        "base_delay": 0.01,
+        "max_attempts": 3,
+    }
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    # Always throttle the caller
+    responses.add(
+        responses.GET,
+        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        body=json.dumps({"error": "Rate limit exceeded"}),
+        status=429,
+    )
+    ##
+    company = get_company("aapl")
+    ##
+    with pytest.raises(ValueError):
+        company.get_transcript(year=2023, quarter=1, level=1)
 
 
 # Uncomment and run following code to generate demo-symbols-v2.yaml file

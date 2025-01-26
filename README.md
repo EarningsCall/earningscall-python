@@ -260,3 +260,60 @@ import earningscall
 
 earningscall.enable_requests_cache = False
 ```
+
+### Retry Strategy
+
+The library implements a flexible retry strategy to handle rate limiting and HTTP 5xx errors effectively. By default, it retries with increasing delays: 3 seconds, 6 seconds, 12 seconds, 24 seconds, and finally 48 seconds. If the request fails after five attempts, the library raises an exception.
+
+#### Customizing the Retry Strategy
+
+Depending on your specific requirements, you can adjust the retry strategy. For latency-sensitive applications, consider reducing the base delay and limiting the number of retry attempts. Conversely, for plans with lower rate limits, such as the "Starter" plan, a higher base delay with more retry attempts can improve reliability. For higher-rate-limit plans, such as "Enterprise," a shorter delay and fewer attempts may be more appropriate.
+
+To customize the retry behavior, set the `retry_strategy` variable with the desired parameters:
+
+- **strategy**: "exponential" | "linear" — defines the type of retry strategy (default is "exponential").
+- **base_delay**: float (in seconds) — specifies the delay between retries (default is 3 seconds).
+- **max_attempts**: int — sets the maximum number of total request attempts (default is 5).
+
+#### Default Retry Strategy
+
+Below is the default retry configuration:
+
+```python
+import earningscall
+
+earningscall.retry_strategy = {
+    "strategy": "exponential",
+    "base_delay": 3,
+    "max_attempts": 5,
+}
+```
+
+#### Disabling Retries
+
+To disable retries entirely and limit the request to a single attempt, set `max_attempts` to `1`:
+
+```python
+import earningscall
+
+earningscall.retry_strategy = {
+    "strategy": "exponential",
+    "base_delay": 3,
+    "max_attempts": 1,
+}
+```
+
+#### Linear Retry Strategy
+
+You can switch to a linear retry strategy by setting the `strategy` parameter to "linear":
+
+```python
+import earningscall
+
+earningscall.retry_strategy = {
+    "strategy": "linear",
+    "base_delay": 1,
+    "max_attempts": 3,
+}
+```
+
