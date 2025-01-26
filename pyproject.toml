@@ -1,6 +1,6 @@
 [project]
 name = "earningscall"
-version = "1.0.2"
+version = "1.0.3"
 description = "The EarningsCall Python library provides convenient access to the EarningsCall API.  It includes a pre-defined set of classes for API resources that initialize themselves dynamically from API responses."
 readme = "README.md"
 authors = [{ name = "EarningsCall", email = "dev@earningscall.biz" }]

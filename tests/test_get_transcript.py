@@ -318,9 +318,8 @@ def test_get_transcript_fails_all_attempts():
     ##
     company = get_company("aapl")
     ##
-    transcript = company.get_transcript(year=2023, quarter=1, level=1)
-    # ##
-    assert transcript.text == "Hello, world!"
+    with pytest.raises(HTTPError):
+        company.get_transcript(year=2023, quarter=1, level=1)
 
 
 # Uncomment and run following code to generate demo-symbols-v2.yaml file
