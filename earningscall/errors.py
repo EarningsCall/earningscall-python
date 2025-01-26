@@ -22,3 +22,7 @@ class ClientError(BaseError):
 
 class InsufficientApiAccessError(ClientError):
     pass
+
+
+class InvalidApiKeyError(ClientError):
+    pass

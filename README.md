@@ -272,8 +272,8 @@ Depending on your specific requirements, you can adjust the retry strategy. For 
 To customize the retry behavior, set the `retry_strategy` variable with the desired parameters:
 
 - **strategy**: "exponential" | "linear" — defines the type of retry strategy (default is "exponential").
-- **base_delay**: float (in seconds) — specifies the delay between retries (default is 3 seconds).
-- **max_attempts**: int — sets the maximum number of total request attempts (default is 5).
+- **base_delay**: float (in seconds) — specifies the delay between retries (default is 1 seconds).
+- **max_attempts**: int — sets the maximum number of total request attempts (default is 10).
 
 #### Default Retry Strategy
 
@@ -284,8 +284,8 @@ import earningscall
 
 earningscall.retry_strategy = {
     "strategy": "exponential",
-    "base_delay": 3,
-    "max_attempts": 5,
+    "base_delay": 1,
+    "max_attempts": 10,
 }
 ```
 
@@ -298,7 +298,7 @@ import earningscall
 
 earningscall.retry_strategy = {
     "strategy": "exponential",
-    "base_delay": 3,
+    "base_delay": 1,
     "max_attempts": 1,
 }
 ```
