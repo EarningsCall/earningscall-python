@@ -270,9 +270,9 @@ Depending on your specific requirements, you can adjust the retry strategy. For 
 
 To customize the retry behavior, set the `retry_strategy` variable with the desired parameters:
 
-- **strategy**: "exponential" | "linear" — defines the type of retry strategy.
-- **base_delay**: float (in seconds) — specifies the delay between retries.
-- **max_attempts**: int — sets the maximum number of retry attempts.
+- **strategy**: "exponential" | "linear" — defines the type of retry strategy (default is "exponential").
+- **base_delay**: float (in seconds) — specifies the delay between retries (default is 3 seconds).
+- **max_attempts**: int — sets the maximum number of total request attempts (default is 5).
 
 #### Default Retry Strategy
 
