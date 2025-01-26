@@ -18,6 +18,12 @@ DOMAIN = os.environ.get("ECALL_DOMAIN", "earningscall.biz")
 API_BASE = f"https://v2.api.{DOMAIN}"
 DEFAULT_MAX_RETRIES = 5
 DEFAULT_BASE_DELAY = 3  # Base delay in seconds
+RETRY_STRATEGY = {
+    429: {
+        "delay": 3,
+        "max_retries": 5,
+    },
+}
 
 
 def get_api_key():
@@ -119,10 +125,10 @@ def do_get(
         full_url = f"{url}?{urllib.parse.urlencode(params)}"
         log.debug(f"GET: {full_url}")
 
-    retries = max_retries if max_retries is not None else DEFAULT_MAX_RETRIES
-    delay = base_delay if base_delay is not None else DEFAULT_BASE_DELAY
+    delay = earningscall.retry_strategy["base_delay"]
+    max_attempts = earningscall.retry_strategy["max_attempts"]
 
-    for attempt in range(retries):
+    for attempt in range(max_attempts):
         if use_cache and earningscall.enable_requests_cache:
             response = cache_session().get(url, params=params)
         else:
@@ -136,9 +142,12 @@ def do_get(
         if response.status_code != 429:
             return response
 
-        if attempt < retries - 1:  # Don't sleep after the last attempt
-            wait_time = delay * (2**attempt)  # Exponential backoff: 3s -> 6s -> 12s -> 24s -> 48s
-            log.warning(f"Rate limited (429). Retrying in {wait_time} seconds... (Attempt {attempt + 1}/{retries})")
+        if attempt < max_attempts - 1:  # Don't sleep after the last attempt
+            if earningscall.retry_strategy["strategy"] == "exponential":
+                wait_time = delay * (2**attempt)  # Exponential backoff: 3s -> 6s -> 12s -> 24s -> 48s
+            elif earningscall.retry_strategy["strategy"] == "linear":
+                wait_time = delay * (attempt + 1)  # Linear backoff: 3s -> 6s -> 9s -> 12s -> 15s
+            log.warning(f"Rate limited (429). Retrying in {wait_time} seconds... (Attempt {attempt + 1}/{max_attempts})")
             time.sleep(wait_time)
 
     return response  # Return the last response if all retries failed

@@ -259,3 +259,52 @@ import earningscall
 
 earningscall.enable_requests_cache = False
 ```
+
+
+### Retry Strategy
+
+The library uses a retry strategy to handle rate limiting.  The default retry strategy is to wait 3 seconds, then 6 seconds, then 12 seconds, then 24 seconds, then 48 seconds.  If the request fails after 5 attempts, the library will raise an exception.
+
+You can customize the retry strategy by setting the `retry_strategy` variable.
+
+
+```
+strategy: "exponential" | "linear"
+base_delay: float (in seconds)
+max_attempts: int (number of attempts)
+```
+
+
+```python
+import earningscall
+
+earningscall.retry_strategy = {
+    "strategy": "exponential",
+    "base_delay": 3,
+    "max_attempts": 5,
+}
+```
+
+If you want to disable the retry strategy, you can set the `max_attempts` variable to `1`.
+
+```python
+import earningscall
+
+earningscall.retry_strategy = {
+    "strategy": "exponential",
+    "base_delay": 3,
+    "max_attempts": 1,
+}
+```
+
+You can set a linear retry strategy by setting the `strategy` to `linear`.
+
+```python
+import earningscall
+
+earningscall.retry_strategy = {
+    "strategy": "linear",
+    "base_delay": 1,
+    "max_attempts": 3,
+}
+```

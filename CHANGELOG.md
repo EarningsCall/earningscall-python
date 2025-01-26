@@ -1,6 +1,6 @@
 # Changelog
 
-## Release `1.0.3` - 2025-01-26
+## Release `1.1.0` - 2025-01-26
 
 * Add backoff and retry logic to all API calls.
 * Add tests for rate limiting.

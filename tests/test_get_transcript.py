@@ -29,6 +29,11 @@ def run_before_and_after_tests():
     """Fixture to execute asserts before and after a test is run"""
     # Setup: fill with any logic you want
     earningscall.api_key = None
+    earningscall.retry_strategy = {
+        "strategy": "exponential",
+        "base_delay": 0.01,
+        "max_attempts": 3,
+    }
     purge_cache()
     clear_symbols()
     yield  # this is where the testing happens
@@ -306,6 +311,30 @@ def test_get_transcript_with_rate_limit_backoff_and_retry():
 
 @responses.activate
 def test_get_transcript_fails_all_attempts():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    # Always throttle the caller
+    responses.add(
+        responses.GET,
+        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        body=json.dumps({"error": "Rate limit exceeded"}),
+        status=429,
+    )
+    ##
+    company = get_company("aapl")
+    ##
+    with pytest.raises(HTTPError):
+        company.get_transcript(year=2023, quarter=1, level=1)
+
+
+
+@responses.activate
+def test_get_transcript_fails_all_attempts_linear_retry_strategy():
+    earningscall.retry_strategy = {
+        "strategy": "linear",
+        "base_delay": 0.01,
+        "max_attempts": 3,
+    }
     ##
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
     # Always throttle the caller
