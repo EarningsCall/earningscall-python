@@ -260,26 +260,23 @@ import earningscall
 earningscall.enable_requests_cache = False
 ```
 
-
 ### Retry Strategy
 
-The library uses a retry strategy to handle rate limiting and HTTP 5xx errors.  The default retry strategy is to wait 3 seconds, then 6 seconds, then 12 seconds, then 24 seconds, then 48 seconds.  If the request fails after 5 attempts, the library will raise an exception.
+The library implements a flexible retry strategy to handle rate limiting and HTTP 5xx errors effectively. By default, it retries with increasing delays: 3 seconds, 6 seconds, 12 seconds, 24 seconds, and finally 48 seconds. If the request fails after five attempts, the library raises an exception.
 
-Depending on your use case, you may want to customize the retry strategy.  For example, if you are more latency sensitive, you may want to lower the base delay and decrease the maximum number of attempts.
+#### Customizing the Retry Strategy
 
-For the plans such as "Starter" which includes the lowest rate limits, it's useful to have a higher base delay and more attempts.
+Depending on your specific requirements, you can adjust the retry strategy. For latency-sensitive applications, consider reducing the base delay and limiting the number of retry attempts. Conversely, for plans with lower rate limits, such as the "Starter" plan, a higher base delay with more retry attempts can improve reliability. For higher-rate-limit plans, such as "Enterprise," a shorter delay and fewer attempts may be more appropriate.
 
-However, for the plans such as "Enterprise" which includes higher rate limits, it's useful to have a lower base delay and fewer attempts.
+To customize the retry behavior, set the `retry_strategy` variable with the desired parameters:
 
-You can customize the retry strategy by setting the `retry_strategy` variable.
-
-* strategy: "exponential" | "linear" - the type of retry strategy to use
-* base_delay: float (in seconds) - the base delay between retries
-* max_attempts: int (number of attempts) - the maximum number of retries
+- **strategy**: "exponential" | "linear" — defines the type of retry strategy.
+- **base_delay**: float (in seconds) — specifies the delay between retries.
+- **max_attempts**: int — sets the maximum number of retry attempts.
 
 #### Default Retry Strategy
 
-The following is the default retry strategy:
+Below is the default retry configuration:
 
 ```python
 import earningscall
@@ -291,7 +288,9 @@ earningscall.retry_strategy = {
 }
 ```
 
-If you want to disable retries (you only have 1 attempt, but no retries), you can set the `max_attempts` variable to `1`.
+#### Disabling Retries
+
+To disable retries entirely and limit the request to a single attempt, set `max_attempts` to `1`:
 
 ```python
 import earningscall
@@ -303,7 +302,9 @@ earningscall.retry_strategy = {
 }
 ```
 
-You can set a linear retry strategy by setting the `strategy` to `linear`.
+#### Linear Retry Strategy
+
+You can switch to a linear retry strategy by setting the `strategy` parameter to "linear":
 
 ```python
 import earningscall
@@ -314,3 +315,4 @@ earningscall.retry_strategy = {
     "max_attempts": 3,
 }
 ```
+
