@@ -1,11 +1,10 @@
 import os
 
+import pytest
+import responses
 from requests import HTTPError
 
 import earningscall
-import pytest
-import responses
-
 from earningscall import get_company
 from earningscall.api import purge_cache
 from earningscall.company import Company
@@ -28,6 +27,11 @@ def run_before_and_after_tests():
     """Fixture to execute asserts before and after a test is run"""
     # Setup: fill with any logic you want
     earningscall.api_key = None
+    earningscall.retry_strategy = {
+        "strategy": "exponential",
+        "base_delay": 0.001,
+        "max_attempts": 3,
+    }
     purge_cache()
     clear_symbols()
     yield  # this is where the testing happens

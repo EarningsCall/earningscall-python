@@ -13,7 +13,7 @@ First, install Hatch plus other build dependencies.  See the Hatch [installation
 My preferred way to install it is to use `pip`:
 
 ```shell
-pip install hatch coverage black
+pip install hatch hatch-containers coverage black responses
 ```
 
 ## Run Build
@@ -39,6 +39,18 @@ Or, generate HTML report locally:
 
 ```shell
 coverage html
+```
+
+### Run Container Tests
+
+The container tests are run in GitHub Actions.  Normally, you don't need to run them locally.
+
+The container tests run all unit tests in a containerized environment.
+
+Each environment is a different Python version.
+
+```shell
+hatch run all:test
 ```
 
 ### Run Linter

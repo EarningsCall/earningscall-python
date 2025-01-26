@@ -3,6 +3,7 @@ import platform
 import urllib.parse
 import logging
 import os
+import time
 from importlib.metadata import PackageNotFoundError
 from typing import Optional
 
@@ -81,13 +82,27 @@ def get_headers():
     }
 
 
+def can_retry(response: requests.Response) -> bool:
+    if response.status_code == 429:
+        return True
+    # Check for 5XX errors
+    if response.status_code >= 500 and response.status_code < 600:
+        return True
+    return False
+
+
+def is_success(response: requests.Response) -> bool:
+    # TODO: Do we need to check for 2xx status codes?
+    return response.status_code == 200
+
+
 def do_get(
     path: str,
     use_cache: bool = False,
     **kwargs,
 ) -> requests.Response:
     """
-    Do a GET request to the API.
+    Do a GET request to the API with exponential backoff retry for rate limits.
 
     Args:
         path (str): The path to request.
@@ -105,15 +120,40 @@ def do_get(
     if log.isEnabledFor(logging.DEBUG):
         full_url = f"{url}?{urllib.parse.urlencode(params)}"
         log.debug(f"GET: {full_url}")
-    if use_cache and earningscall.enable_requests_cache:
-        return cache_session().get(url, params=params)
-    else:
-        return requests.get(
-            url,
-            params=params,
-            headers=get_headers(),
-            stream=kwargs.get("stream"),
-        )
+
+    delay = earningscall.retry_strategy["base_delay"]
+    max_attempts = int(earningscall.retry_strategy["max_attempts"])
+
+    for attempt in range(max_attempts):
+        if use_cache and earningscall.enable_requests_cache:
+            response = cache_session().get(url, params=params)
+        else:
+            response = requests.get(
+                url,
+                params=params,
+                headers=get_headers(),
+                stream=kwargs.get("stream"),
+            )
+
+        if is_success(response):
+            return response
+
+        if not can_retry(response):
+            return response
+
+        if attempt < max_attempts - 1:  # Don't sleep after the last attempt
+            if earningscall.retry_strategy["strategy"] == "exponential":
+                wait_time = delay * (2**attempt)  # Exponential backoff: 3s -> 6s -> 12s -> 24s -> 48s
+            elif earningscall.retry_strategy["strategy"] == "linear":
+                wait_time = delay * (attempt + 1)  # Linear backoff: 3s -> 6s -> 9s -> 12s -> 15s
+            else:
+                raise ValueError("Invalid retry strategy. Must be one of: 'exponential', 'linear'")
+            log.warning(
+                f"Rate limited (429). Retrying in {wait_time} seconds... (Attempt {attempt + 1}/{max_attempts})"
+            )
+            time.sleep(wait_time)
+
+    return response  # Return the last response if all retries failed
 
 
 def get_events(exchange: str, symbol: str):
