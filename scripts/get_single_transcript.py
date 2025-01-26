@@ -1,4 +1,3 @@
-import importlib
 import earningscall  # noqa: F401
 
 from earningscall import get_company
