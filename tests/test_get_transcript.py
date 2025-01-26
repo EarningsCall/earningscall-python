@@ -327,7 +327,6 @@ def test_get_transcript_fails_all_attempts():
         company.get_transcript(year=2023, quarter=1, level=1)
 
 
-
 @responses.activate
 def test_get_transcript_fails_all_attempts_linear_retry_strategy():
     earningscall.retry_strategy = {
