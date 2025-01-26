@@ -16,14 +16,6 @@ log = logging.getLogger(__file__)
 
 DOMAIN = os.environ.get("ECALL_DOMAIN", "earningscall.biz")
 API_BASE = f"https://v2.api.{DOMAIN}"
-DEFAULT_MAX_RETRIES = 5
-DEFAULT_BASE_DELAY = 3  # Base delay in seconds
-RETRY_STRATEGY = {
-    429: {
-        "delay": 3,
-        "max_retries": 5,
-    },
-}
 
 
 def get_api_key():
