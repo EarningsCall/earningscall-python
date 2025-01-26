@@ -90,11 +90,22 @@ def get_headers():
     }
 
 
+def can_retry(response: requests.Response) -> bool:
+    if response.status_code == 429:
+        return True
+    # Check for 5XX errors
+    if response.status_code >= 500 and response.status_code < 600:
+        return True
+    return False
+
+
+def is_success(response: requests.Response) -> bool:
+    return response.status_code == 200
+
+
 def do_get(
     path: str,
     use_cache: bool = False,
-    base_delay: Optional[float] = None,
-    max_retries: Optional[int] = None,
     **kwargs,
 ) -> requests.Response:
     """
@@ -103,14 +114,6 @@ def do_get(
     Args:
         path (str): The path to request.
         use_cache (bool): Whether to use the cache.
-        base_delay (Optional[float]): Base delay in seconds between retries. Defaults to DEFAULT_BASE_DELAY (3s).
-        max_retries (Optional[int]): Maximum number of retry attempts. Defaults to DEFAULT_MAX_RETRIES (5).
-            With default values, retry delays are:
-            - 1st retry: 3s
-            - 2nd retry: 6s
-            - 3rd retry: 12s
-            - 4th retry: 24s
-            - 5th retry: 48s
         **kwargs: Additional arguments to pass to the request.
 
     Returns:
@@ -139,7 +142,10 @@ def do_get(
                 stream=kwargs.get("stream"),
             )
 
-        if response.status_code != 429:
+        if is_success(response):
+            return response
+
+        if not can_retry(response):
             return response
 
         if attempt < max_attempts - 1:  # Don't sleep after the last attempt
