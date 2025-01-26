@@ -126,7 +126,7 @@ def do_get(
         log.debug(f"GET: {full_url}")
 
     delay = earningscall.retry_strategy["base_delay"]
-    max_attempts = earningscall.retry_strategy["max_attempts"]
+    max_attempts = int(earningscall.retry_strategy["max_attempts"])
 
     for attempt in range(max_attempts):
         if use_cache and earningscall.enable_requests_cache:
