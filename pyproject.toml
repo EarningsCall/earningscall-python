@@ -80,7 +80,7 @@ cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=hatch_
 no-cov = "cov --no-cov"
 
 [[tool.hatch.envs.test.matrix]]
-# python = ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
 
 
 [tool.hatch.build.targets.wheel.hooks.mypyc]
