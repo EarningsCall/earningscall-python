@@ -147,6 +147,8 @@ def do_get(
                 wait_time = delay * (2**attempt)  # Exponential backoff: 3s -> 6s -> 12s -> 24s -> 48s
             elif earningscall.retry_strategy["strategy"] == "linear":
                 wait_time = delay * (attempt + 1)  # Linear backoff: 3s -> 6s -> 9s -> 12s -> 15s
+            else:
+                raise ValueError("Invalid retry strategy. Must be one of: 'exponential', 'linear'")
             log.warning(
                 f"Rate limited (429). Retrying in {wait_time} seconds... (Attempt {attempt + 1}/{max_attempts})"
             )

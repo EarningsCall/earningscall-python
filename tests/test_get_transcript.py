@@ -350,6 +350,29 @@ def test_get_transcript_fails_all_attempts_linear_retry_strategy():
         company.get_transcript(year=2023, quarter=1, level=1)
 
 
+@responses.activate
+def test_get_transcript_fails_all_attempts_invalid_retry_strategy():
+    earningscall.retry_strategy = {
+        "strategy": "invalid",
+        "base_delay": 0.01,
+        "max_attempts": 3,
+    }
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    # Always throttle the caller
+    responses.add(
+        responses.GET,
+        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        body=json.dumps({"error": "Rate limit exceeded"}),
+        status=429,
+    )
+    ##
+    company = get_company("aapl")
+    ##
+    with pytest.raises(ValueError):
+        company.get_transcript(year=2023, quarter=1, level=1)
+
+
 # Uncomment and run following code to generate demo-symbols-v2.yaml file
 #
 # import requests

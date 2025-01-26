@@ -267,13 +267,13 @@ The library uses a retry strategy to handle rate limiting.  The default retry st
 
 You can customize the retry strategy by setting the `retry_strategy` variable.
 
+* strategy: "exponential" | "linear" - the type of retry strategy to use
+* base_delay: float (in seconds) - the base delay between retries
+* max_attempts: int (number of attempts) - the maximum number of retries
 
-```
-strategy: "exponential" | "linear"
-base_delay: float (in seconds)
-max_attempts: int (number of attempts)
-```
+#### Default Retry Strategy
 
+The following is the default retry strategy:
 
 ```python
 import earningscall
@@ -285,7 +285,7 @@ earningscall.retry_strategy = {
 }
 ```
 
-If you want to disable the retry strategy, you can set the `max_attempts` variable to `1`.
+If you want to disable retries (you only have 1 attempt, but no retries), you can set the `max_attempts` variable to `1`.
 
 ```python
 import earningscall
