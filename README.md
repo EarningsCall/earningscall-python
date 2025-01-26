@@ -263,7 +263,13 @@ earningscall.enable_requests_cache = False
 
 ### Retry Strategy
 
-The library uses a retry strategy to handle rate limiting.  The default retry strategy is to wait 3 seconds, then 6 seconds, then 12 seconds, then 24 seconds, then 48 seconds.  If the request fails after 5 attempts, the library will raise an exception.
+The library uses a retry strategy to handle rate limiting and HTTP 5xx errors.  The default retry strategy is to wait 3 seconds, then 6 seconds, then 12 seconds, then 24 seconds, then 48 seconds.  If the request fails after 5 attempts, the library will raise an exception.
+
+Depending on your use case, you may want to customize the retry strategy.  For example, if you are more latency sensitive, you may want to lower the base delay and decrease the maximum number of attempts.
+
+For the plans such as "Starter" which includes the lowest rate limits, it's useful to have a higher base delay and more attempts.
+
+However, for the plans such as "Enterprise" which includes higher rate limits, it's useful to have a lower base delay and fewer attempts.
 
 You can customize the retry strategy by setting the `retry_strategy` variable.
 
