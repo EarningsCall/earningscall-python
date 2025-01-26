@@ -92,6 +92,7 @@ def can_retry(response: requests.Response) -> bool:
 
 
 def is_success(response: requests.Response) -> bool:
+    # TODO: Do we need to check for 2xx status codes?
     return response.status_code == 200
 
 
