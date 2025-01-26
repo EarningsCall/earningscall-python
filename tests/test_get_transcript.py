@@ -1,11 +1,10 @@
 import json
 
+import pytest
+import responses
 from requests import HTTPError
 
 import earningscall
-import pytest
-import responses
-
 from earningscall import get_company
 from earningscall.api import purge_cache
 from earningscall.company import Company
