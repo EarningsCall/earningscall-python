@@ -1,5 +1,11 @@
 # Changelog
 
+## Release `1.1.1` - 2025-01-26
+
+* Modify default retry strategy to use 1s base delay and 10 max attempts (necessary for starter plan).
+* Check for HTTP 401 Unauthorized status code from server and raise a helpful error message to the user.
+* Update documentation and example scripts to reflect new retry configuration
+
 ## Release `1.1.0` - 2025-01-26
 
 * Add backoff and retry logic to all API calls.

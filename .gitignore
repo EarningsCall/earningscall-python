@@ -37,3 +37,6 @@ tasks.xml
 # Root files
 /.coverage*
 /.mypy_cache/
+
+# Downloaded Data from Scripts
+/data

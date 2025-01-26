@@ -5,17 +5,23 @@ import logging
 import os
 import time
 from importlib.metadata import PackageNotFoundError
-from typing import Optional
+from typing import Dict, Optional, Union
 
 import requests
 from requests_cache import CachedSession
 
 import earningscall
+from earningscall.errors import InvalidApiKeyError
 
 log = logging.getLogger(__file__)
 
-DOMAIN = os.environ.get("ECALL_DOMAIN", "earningscall.biz")
+DOMAIN = os.environ.get("EARNINGSCALL_DOMAIN", "earningscall.biz")
 API_BASE = f"https://v2.api.{DOMAIN}"
+DEFAULT_RETRY_STRATEGY: Dict[str, Union[str, int, float]] = {
+    "strategy": "exponential",
+    "base_delay": 1,
+    "max_attempts": 10,
+}
 
 
 def get_api_key():
@@ -121,8 +127,9 @@ def do_get(
         full_url = f"{url}?{urllib.parse.urlencode(params)}"
         log.debug(f"GET: {full_url}")
 
-    delay = earningscall.retry_strategy["base_delay"]
-    max_attempts = int(earningscall.retry_strategy["max_attempts"])
+    retry_strategy = earningscall.retry_strategy or DEFAULT_RETRY_STRATEGY
+    delay = retry_strategy["base_delay"]
+    max_attempts = int(retry_strategy["max_attempts"])
 
     for attempt in range(max_attempts):
         if use_cache and earningscall.enable_requests_cache:
@@ -138,16 +145,22 @@ def do_get(
         if is_success(response):
             return response
 
+        if response.status_code == 401:
+            raise InvalidApiKeyError(
+                "Your API key is invalid. You can get your API key at: https://earningscall.biz/api-key"
+            )
+
         if not can_retry(response):
             return response
 
         if attempt < max_attempts - 1:  # Don't sleep after the last attempt
-            if earningscall.retry_strategy["strategy"] == "exponential":
-                wait_time = delay * (2**attempt)  # Exponential backoff: 3s -> 6s -> 12s -> 24s -> 48s
-            elif earningscall.retry_strategy["strategy"] == "linear":
-                wait_time = delay * (attempt + 1)  # Linear backoff: 3s -> 6s -> 9s -> 12s -> 15s
+            if retry_strategy["strategy"] == "exponential":
+                wait_time = delay * (2**attempt)  # Exponential backoff: 1s -> 2s -> 4s -> 8s -> 16s -> 32s -> 64s
+            elif retry_strategy["strategy"] == "linear":
+                wait_time = delay * (attempt + 1)  # Linear backoff: 1s -> 2s -> 3s -> 4s -> 5s -> 6s -> 7s
             else:
                 raise ValueError("Invalid retry strategy. Must be one of: 'exponential', 'linear'")
+            # TODO: Should we log a warning here?  Does the customer want to see this log?
             log.warning(
                 f"Rate limited (429). Retrying in {wait_time} seconds... (Attempt {attempt + 1}/{max_attempts})"
             )

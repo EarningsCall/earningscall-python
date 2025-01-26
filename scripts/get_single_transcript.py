@@ -4,10 +4,9 @@ from earningscall import get_company
 
 
 # TODO: Set your API key here:
-# earningscall.api_key = "YOUR SECRET API KEY GOES HERE"
+# earningscall.api_key = "YOUR API KEY HERE"
 
-
-company = get_company("aapl")
+company = get_company("AAPL")
 
 transcript = company.get_transcript(year=2021, quarter=3, level=2)
 

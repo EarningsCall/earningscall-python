@@ -8,7 +8,7 @@ import earningscall
 from earningscall import get_company
 from earningscall.api import purge_cache
 from earningscall.company import Company
-from earningscall.errors import InsufficientApiAccessError
+from earningscall.errors import InsufficientApiAccessError, InvalidApiKeyError
 from earningscall.event import EarningsEvent
 from earningscall.symbols import clear_symbols, CompanyInfo
 from earningscall.transcript import Transcript
@@ -370,6 +370,20 @@ def test_get_transcript_fails_all_attempts_invalid_retry_strategy():
     ##
     with pytest.raises(ValueError):
         company.get_transcript(year=2023, quarter=1, level=1)
+
+
+@responses.activate
+def test_get_company_fails_not_authorized():
+    # Always throttle the caller
+    responses.add(
+        responses.GET,
+        "https://v2.api.earningscall.biz/symbols-v2.txt",
+        body=json.dumps({"error": "Not authorized"}),
+        status=401,
+    )
+    ##
+    with pytest.raises(InvalidApiKeyError):
+        get_company("aapl")
 
 
 # Uncomment and run following code to generate demo-symbols-v2.yaml file
