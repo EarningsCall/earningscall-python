@@ -15,7 +15,7 @@ from earningscall.errors import InvalidApiKeyError
 
 log = logging.getLogger(__file__)
 
-DOMAIN = os.environ.get("ECALL_DOMAIN", "earningscall.biz")
+DOMAIN = os.environ.get("EARNINGSCALL_DOMAIN", "earningscall.biz")
 API_BASE = f"https://v2.api.{DOMAIN}"
 DEFAULT_RETRY_STRATEGY: Dict[str, Union[str, int, float]] = {
     "strategy": "exponential",
