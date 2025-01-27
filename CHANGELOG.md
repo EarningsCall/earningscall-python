@@ -1,5 +1,10 @@
 # Changelog
 
+## Release `1.2.0` - 2025-01-27
+
+* Add customized retry strategy for different plan types.
+* Update default retry strategy to use 0.5s base delay and 5 max attempts.
+
 ## Release `1.1.1` - 2025-01-26
 
 * Modify default retry strategy to use 1s base delay and 10 max attempts (necessary for starter plan).

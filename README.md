@@ -284,8 +284,8 @@ import earningscall
 
 earningscall.retry_strategy = {
     "strategy": "exponential",
-    "base_delay": 1,
-    "max_attempts": 10,
+    "base_delay": 0.5,
+    "max_attempts": 3,
 }
 ```
 

@@ -19,8 +19,50 @@ DOMAIN = os.environ.get("EARNINGSCALL_DOMAIN", "earningscall.biz")
 API_BASE = f"https://v2.api.{DOMAIN}"
 DEFAULT_RETRY_STRATEGY: Dict[str, Union[str, int, float]] = {
     "strategy": "exponential",
-    "base_delay": 1,
-    "max_attempts": 10,
+    "base_delay": 0.5,
+    "max_attempts": 3,
+}
+RETRY_STRATEGIES_BY_PLAN = {
+    "starter": {
+        "strategy": "exponential",
+        "base_delay": 1,
+        "max_attempts": 10,
+    },
+    "premium": {
+        "strategy": "exponential",
+        "base_delay": 1,
+        "max_attempts": 5,
+    },
+    "ultimate": {
+        "strategy": "exponential",
+        "base_delay": 0.001,
+        "max_attempts": 5,
+    },
+    "ultimate_plus": {
+        "strategy": "exponential",
+        "base_delay": 0.0001,
+        "max_attempts": 5,
+    },
+    "startup": {
+        "strategy": "exponential",
+        "base_delay": 0.00001,
+        "max_attempts": 5,
+    },
+    "seed": {
+        "strategy": "exponential",
+        "base_delay": 0.000001,
+        "max_attempts": 5,
+    },
+    "enterprise": {
+        "strategy": "exponential",
+        "base_delay": 0.1,
+        "max_attempts": 5,
+    },
+    "enterprise_plus": {
+        "strategy": "exponential",
+        "base_delay": 0.1,
+        "max_attempts": 5,
+    },
 }
 
 
@@ -102,6 +144,20 @@ def is_success(response: requests.Response) -> bool:
     return response.status_code == 200
 
 
+def get_retry_strategy_from_api_key(api_key: str) -> Dict[str, Union[str, int, float]]:
+    for key, value in RETRY_STRATEGIES_BY_PLAN.items():
+        if api_key.startswith(key):
+            return value
+    return DEFAULT_RETRY_STRATEGY
+
+
+def get_retry_strategy(api_key: str) -> Dict[str, Union[str, int, float]]:
+    if earningscall.retry_strategy:
+        return earningscall.retry_strategy
+    # Customize retry strategy for different plan types
+    return get_retry_strategy_from_api_key(get_api_key())
+
+
 def do_get(
     path: str,
     use_cache: bool = False,
@@ -127,7 +183,7 @@ def do_get(
         full_url = f"{url}?{urllib.parse.urlencode(params)}"
         log.debug(f"GET: {full_url}")
 
-    retry_strategy = earningscall.retry_strategy or DEFAULT_RETRY_STRATEGY
+    retry_strategy = get_retry_strategy(get_api_key())
     delay = retry_strategy["base_delay"]
     max_attempts = int(retry_strategy["max_attempts"])
 
