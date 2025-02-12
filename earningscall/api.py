@@ -1,9 +1,9 @@
 import importlib
-import platform
-import urllib.parse
 import logging
 import os
+import platform
 import time
+import urllib.parse
 from importlib.metadata import PackageNotFoundError
 from typing import Dict, Optional, Union
 
@@ -169,7 +169,18 @@ def do_get(
     return response  # Return the last response if all retries failed
 
 
-def get_events(exchange: str, symbol: str):
+def get_calendar_api_operation(year: int, month: int, day: int) -> dict:
+    params = {
+        "year": str(year),
+        "month": str(month),
+        "day": str(day),
+    }
+    response = do_get("calendar", params=params)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_events(exchange: str, symbol: str) -> Optional[dict]:
     params = {
         "exchange": exchange,
         "symbol": symbol,

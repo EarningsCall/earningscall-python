@@ -245,6 +245,19 @@ for company in get_sp500_companies():
     print(f"{company.company_info} -- {company.company_info.sector} -- {company.company_info.industry}")
 ```
 
+## Get Earnings Event Calendar
+
+```python
+from datetime import date
+
+from earningscall import get_calendar
+
+calendar = get_calendar(date(2025, 2, 10))
+
+for event in calendar:
+    print(f"{event.company_name} -- {event.exchange} -- {event.symbol} -- {event.year} -- {event.quarter} -- {event.conference_date}")
+```
+
 
 ## Advanced
 
