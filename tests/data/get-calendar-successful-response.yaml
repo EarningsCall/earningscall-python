@@ -1,0 +1,62 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: '[{"exchange": "NASDAQ", "symbol": "MPAA", "year": 2025, "quarter": 3, "conference_date":
+      "2025-02-10T13:00:00.000-05:00", "company_name": "Motorcar Parts of America,
+      Inc.", "transcript_ready": true}, {"exchange": "NASDAQ", "symbol": "SPSC", "year":
+      2024, "quarter": 4, "conference_date": "2025-02-10T16:30:00-05:00", "company_name":
+      "SPS Commerce, Inc.", "transcript_ready": true}, {"exchange": "NASDAQ", "symbol":
+      "RICK", "year": 2025, "quarter": 1, "conference_date": "2025-02-10T16:30:00-05:00",
+      "company_name": "RCI Hospitality Holdings, Inc.", "transcript_ready": true},
+      {"exchange": "NASDAQ", "symbol": "ALAB", "year": 2024, "quarter": 4, "conference_date":
+      "2025-02-10T16:30:00-05:00", "company_name": "Astera Labs, Inc.", "transcript_ready":
+      true}, {"exchange": "NASDAQ", "symbol": "PETS", "year": 2025, "quarter": 3,
+      "conference_date": "2025-02-10T16:30:00-05:00", "company_name": "PetMed Express,
+      Inc.", "transcript_ready": true}, {"exchange": "NASDAQ", "symbol": "XAIR", "year":
+      2025, "quarter": 3, "conference_date": "2025-02-10T16:30:00-05:00", "company_name":
+      "Beyond Air, Inc.", "transcript_ready": true}, {"exchange": "NASDAQ", "symbol":
+      "BLFS", "year": 2024, "quarter": 4, "conference_date": "2025-02-10T16:30:00.000-05:00",
+      "company_name": "BioLife Solutions, Inc.", "transcript_ready": true}, {"exchange":
+      "NASDAQ", "symbol": "VRTX", "year": 2024, "quarter": 4, "conference_date": "2025-02-10T16:30:00.000-05:00",
+      "company_name": "Vertex Pharmaceuticals Incorporated", "transcript_ready": true},
+      {"exchange": "NYSE", "symbol": "TAK", "year": 2025, "quarter": 1, "conference_date":
+      "2025-02-10T16:30:00-05:00", "company_name": "Takeda Pharmaceutical Company
+      Limited", "transcript_ready": true}, {"exchange": "OTC", "symbol": "PRKA", "year":
+      2025, "quarter": 1, "conference_date": "2025-02-10T16:30:00.000-05:00", "company_name":
+      "Parks! America Inc", "transcript_ready": true}, {"exchange": "NASDAQ", "symbol":
+      "AMKR", "year": 2024, "quarter": 4, "conference_date": "2025-02-10T17:00:00.000-05:00",
+      "company_name": "Amkor Technology, Inc.", "transcript_ready": true}, {"exchange":
+      "NASDAQ", "symbol": "MITK", "year": 2025, "quarter": 1, "conference_date": "2025-02-10T17:00:00-05:00",
+      "company_name": "Mitek Systems, Inc.", "transcript_ready": true}, {"exchange":
+      "NYSE", "symbol": "SLQT", "year": 2025, "quarter": 2, "conference_date": "2025-02-10T17:00:00-05:00",
+      "company_name": "SelectQuote, Inc.", "transcript_ready": true}, {"exchange":
+      "NYSE", "symbol": "NGL", "year": 2025, "quarter": 3, "conference_date": "2025-02-10T16:00:00-06:00",
+      "company_name": "NGL Energy Partners LP", "transcript_ready": true}, {"exchange":
+      "NASDAQ", "symbol": "LSCC", "year": 2024, "quarter": 4, "conference_date": "2025-02-10T17:00:00-05:00",
+      "company_name": "Lattice Semiconductor Corporation", "transcript_ready": true},
+      {"exchange": "TSX", "symbol": "CVO", "year": 2025, "quarter": 3, "conference_date":
+      "2025-02-10T17:00:00-05:00", "company_name": "Coveo Solutions Inc.", "transcript_ready":
+      true}, {"exchange": "NYSE", "symbol": "INSP", "year": 2024, "quarter": 4, "conference_date":
+      "2025-02-10T17:00:00-05:00", "company_name": "Inspire Medical Systems, Inc.",
+      "transcript_ready": true}, {"exchange": "NASDAQ", "symbol": "CMCO", "year":
+      2025, "quarter": 3, "conference_date": "2025-02-10T17:00:00-05:00", "company_name":
+      "Columbus McKinnon Corporation", "transcript_ready": true}, {"exchange": "NASDAQ",
+      "symbol": "HLIT", "year": 2024, "quarter": 4, "conference_date": "2025-02-10T14:00:00-08:00",
+      "company_name": "Harmonic Inc.", "transcript_ready": true}, {"exchange": "NYSE",
+      "symbol": "SSD", "year": 2024, "quarter": 4, "conference_date": "2025-02-10T17:00:00-05:00",
+      "company_name": "Simpson Manufacturing Company, Inc.", "transcript_ready": true}]'
+    content_type: text/plain
+    headers:
+      Cache-Control: public, max-age=500
+      ETag: W/"ff349ae06e2284df57d342fd9e3c9d4b"
+      Last-Modified: Wed, 12 Feb 2025 15:44:12 GMT
+      Transfer-Encoding: chunked
+      Vary: accept-encoding
+      Via: 1.1 dab9621fb9e60d4beae799f308450f86.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id: o-89nbe8YAinJi-F0rXkAr8qIUAcTkW6Mmvk4vQeDH-9ob1MZ7QVfg==
+      X-Amz-Cf-Pop: IAH50-C4
+      X-Cache: Miss from cloudfront
+      x-amz-server-side-encryption: AES256
+    method: GET
+    status: 200
+    url: https://v2.api.earningscall.biz/calendar?apikey=XXXXXXXXXXX&year=2025&month=2&day=10

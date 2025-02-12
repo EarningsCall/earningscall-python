@@ -208,6 +208,20 @@ print("Downloading audio file for Apple Inc. Q3 2021...")
 audio_file = company.download_audio_file(year=2021, quarter=3, file_name="Apple Q3 2021.mp3")
 ```
 
+## Get Earnings Event Calendar
+
+```python
+from datetime import date
+
+from earningscall import get_calendar
+
+calendar = get_calendar(date(2025, 1, 10))
+
+for event in calendar:
+    print(f"{event.company_name} - Q{event.quarter} {event.year} on: {event.conference_date.astimezone().isoformat()} Transcript Ready: {event.transcript_ready}")
+```
+
+
 ## List All Companies
 
 ```python
@@ -244,7 +258,6 @@ from earningscall import get_sp500_companies
 for company in get_sp500_companies():
     print(f"{company.company_info} -- {company.company_info.sector} -- {company.company_info.industry}")
 ```
-
 
 ## Advanced
 

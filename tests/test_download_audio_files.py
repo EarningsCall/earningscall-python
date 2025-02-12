@@ -14,14 +14,6 @@ from earningscall.symbols import CompanyInfo, clear_symbols
 from earningscall.utils import data_path
 
 
-# Uncomment and run following code to generate msft-transcript-response.yaml file
-#
-# from responses import _recorder
-# @_recorder.record(file_path="meta-q3-2024-not-found.yaml")
-# def test_save_symbols_v1():
-#     requests.get("https://v2.api.alpha.earningscall.biz/audio?apikey=brocktest&exchange=NASDAQ&symbol=META&year=2024&quarter=3")
-
-
 @pytest.fixture(autouse=True)
 def run_before_and_after_tests():
     """Fixture to execute asserts before and after a test is run"""

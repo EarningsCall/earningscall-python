@@ -1,0 +1,14 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: ''
+    content_type: text/plain
+    headers:
+      Via: 1.1 1cae0bb0106fc058447f3b32dee7b228.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id: GJG7c5roSXmd3WXEWTNzyrl8VN9fWmIm3OR8oYxEZg8bWpoiZE6XvA==
+      X-Amz-Cf-Pop: IAH50-C4
+      X-Cache: FunctionGeneratedResponse from cloudfront
+      X-Plan-Name: demo
+    method: GET
+    status: 500
+    url: https://v2.api.earningscall.biz/calendar?apikey=XXXXXXXXXXX&year=2020&month=1&day=1

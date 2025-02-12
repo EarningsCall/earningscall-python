@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `1.2.0` - 2025-02-12
+
+* Add `get_calendar` function to get the calendar for a given date.
+
 ## Release `1.1.1` - 2025-01-26
 
 * Modify default retry strategy to use 1s base delay and 10 max attempts (necessary for starter plan).
