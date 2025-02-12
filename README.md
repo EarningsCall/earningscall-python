@@ -221,6 +221,20 @@ for event in calendar:
     print(f"{event.company_name} - Q{event.quarter} {event.year} on: {event.conference_date.astimezone().isoformat()} Transcript Ready: {event.transcript_ready}")
 ```
 
+Output
+
+```text
+Tilray Brands, Inc. - Q2 2025 on: 2025-01-10T07:30:00-06:00 Transcript Ready: True
+Walgreens Boots Alliance, Inc. - Q1 2025 on: 2025-01-10T07:30:00-06:00 Transcript Ready: True
+Neogen Corporation - Q2 2025 on: 2025-01-10T07:30:00-06:00 Transcript Ready: True
+E2open Parent Holdings, Inc. - Q3 2025 on: 2025-01-10T07:30:00-06:00 Transcript Ready: True
+TD SYNNEX Corporation - Q4 2024 on: 2025-01-10T08:00:00-06:00 Transcript Ready: True
+Delta Air Lines, Inc. - Q4 2024 on: 2025-01-10T09:00:00-06:00 Transcript Ready: True
+Constellation Brands, Inc. - Q3 2025 on: 2025-01-10T09:30:00-06:00 Transcript Ready: True
+PriceSmart, Inc. - Q1 2025 on: 2025-01-10T11:00:00-06:00 Transcript Ready: True
+KORU Medical Systems, Inc. - Q4 2024 on: 2025-01-10T15:30:00-06:00 Transcript Ready: True
+WD-40 Company - Q1 2025 on: 2025-01-10T16:00:00-06:00 Transcript Ready: True
+```
 
 ## List All Companies
 
