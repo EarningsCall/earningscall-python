@@ -11,7 +11,7 @@ from earningscall.errors import InsufficientApiAccessError
 from earningscall.utils import data_path
 
 
-# Uncomment and run following code to generate msft-transcript-response.yaml file
+# Uncomment and run following code to generate data/get-calendar-not-found-response.yaml file
 #
 
 # import earningscall
