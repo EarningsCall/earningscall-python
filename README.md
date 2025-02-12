@@ -215,10 +215,10 @@ from datetime import date
 
 from earningscall import get_calendar
 
-calendar = get_calendar(date(2025, 2, 10))
+calendar = get_calendar(date(2025, 1, 10))
 
 for event in calendar:
-    print(f"{event.company_name} -- {event.exchange} -- {event.symbol} -- {event.year} -- {event.quarter} -- {event.conference_date}")
+    print(f"{event.company_name} - Q{event.quarter} {event.year} on: {event.conference_date.astimezone().isoformat()} Transcript Ready: {event.transcript_ready}")
 ```
 
 
