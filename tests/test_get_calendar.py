@@ -96,8 +96,6 @@ def test_get_calendar_server_error():
     responses._add_from_file(file_path=data_path("get-calendar-500-error.yaml"))
     with pytest.raises(requests.exceptions.HTTPError):
         get_calendar(date(2020, 1, 1))
-    # calendar = get_calendar(date(2020, 1, 1))
-    # assert len(calendar) == 0
 
 
 @responses.activate
