@@ -93,7 +93,10 @@ class Company:
             if 2 <= level <= 3:
                 transcript.text = " ".join(map(lambda spk: spk.text, transcript.speakers))
             elif level == 4:
-                transcript.text = " ".join([transcript.prepared_remarks, transcript.questions_and_answers])
+                if transcript.questions_and_answers:
+                    transcript.text = " ".join([transcript.prepared_remarks, transcript.questions_and_answers])
+                else:
+                    transcript.text = transcript.prepared_remarks
             if transcript.speaker_name_map_v2:
                 for speaker in transcript.speakers:
                     speaker.speaker_info = transcript.speaker_name_map_v2.get(speaker.speaker)
