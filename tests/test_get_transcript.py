@@ -207,6 +207,29 @@ def test_get_demo_company_with_advanced_transcript_data_level_4():
 
 
 @responses.activate
+def test_get_demo_company_with_advanced_transcript_data_level_4_q_and_a_is_missing():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("nvda-q2-2025-level-4-data-missing.yaml"))
+    ##
+    company = get_company("nvda")
+    ##
+    transcript = company.get_transcript(year=2025, quarter=2, level=4)
+    ##
+    assert transcript.event.year == 2025
+    assert transcript.event.quarter == 2
+    assert transcript.event.conference_date.isoformat() == "2024-08-28T17:00:00-04:00"
+    assert transcript.text[:100] == (
+        "Good afternoon, everyone, and welcome to NVIDIA's conference call for the second quarter of fiscal 2"
+    )
+    assert transcript.prepared_remarks[:100] == (
+        "Good afternoon, everyone, and welcome to NVIDIA's conference call for the second quarter of fiscal 2"
+    )
+    assert transcript.questions_and_answers is None
+    assert transcript.speakers is None
+
+
+@responses.activate
 def test_get_non_demo_company():
     ##
     responses._add_from_file(file_path=data_path("demo-symbols-v2.yaml"))
@@ -393,9 +416,9 @@ def test_get_company_fails_not_authorized():
 # from responses import _recorder
 #
 #
-# @_recorder.record(file_path="data/aapl-q1-2022-speaker-name-map-v2-blah.yaml")
+# @_recorder.record(file_path="data/nvda-q2-2025-level-4-data-missing.yaml")
 # def test_save_symbols_v1_first():
-#     requests.get("https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=2")
+#     requests.get("https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=NVDA&year=2025&quarter=2&level=4")
 
 # Uncomment and run following code to generate demo-symbols-v2.yaml file
 

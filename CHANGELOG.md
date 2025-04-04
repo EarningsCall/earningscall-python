@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `1.2.1` - 2025-04-04
+
+* Bugfix: handle case where Q&A section is missing from the transcript for level 4 transcription.
+
 ## Release `1.2.0` - 2025-02-12
 
 * Add `get_calendar` function to get the calendar for a given date.
