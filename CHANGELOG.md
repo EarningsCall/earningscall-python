@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `1.3.0` - 2025-07-17
+
+* Add `download_slide_deck` function to the `Company` class.
+
 ## Release `1.2.1` - 2025-04-04
 
 * Bugfix: handle case where Q&A section is missing from the transcript for level 4 transcription.
