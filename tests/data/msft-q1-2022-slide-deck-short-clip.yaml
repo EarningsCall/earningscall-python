@@ -1,0 +1,62 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: '%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 44
+>>
+stream
+BT
+/F1 12 Tf
+100 700 Td
+(Test Slide Deck) Tj
+ET
+endstream
+endobj
+xref
+0 5
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000208 00000 n 
+trailer
+<<
+/Size 5
+/Root 1 0 R
+>>
+startxref
+299
+%%EOF'
+    content_type: application/pdf
+    headers:
+      Transfer-Encoding: chunked
+      Via: 1.1 dda997f5acee0f79dcf70db4a17d82f6.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id: hHQoX1-pbWB6rw1QN1G5grABhjXtX_cdjfpnR4lkIU4ypiZRBRk4kQ==
+      X-Amz-Cf-Pop: IAH50-C4
+      X-Cache: Hit from cloudfront
+    method: GET
+    status: 200
+    url: https://v2.api.earningscall.biz/slides?apikey=demo&exchange=NASDAQ&symbol=MSFT&year=2022&quarter=1 

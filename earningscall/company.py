@@ -164,3 +164,51 @@ class Company:
                 log.error(error_message)
                 raise InsufficientApiAccessError(error_message)
             raise error
+
+    def download_slide_deck(
+        self,
+        year: Optional[int] = None,
+        quarter: Optional[int] = None,
+        event: Optional[EarningsEvent] = None,
+        file_name: Optional[str] = None,
+    ) -> Optional[str]:
+        """
+        Download the slide deck for a given year and quarter.
+
+        :param Optional[int] year: The year to get the slide deck for.
+        :param Optional[int] quarter: The quarter to get the slide deck for.
+        :param Optional[EarningsEvent] event: The event to get the slide deck for.
+        :param Optional[str] file_name: The file name to save the slide deck to.
+
+        :return: The filename of the downloaded slide deck file.
+        """
+        if not self.company_info.exchange or not self.company_info.symbol:
+            return None
+        if (not year or not quarter) and event:
+            year = event.year
+            quarter = event.quarter
+        if not year or not quarter:
+            raise ValueError("Must specify either event or year and quarter")
+        if quarter < 1 or quarter > 4:
+            raise ValueError("Invalid quarter. Must be one of: {1,2,3,4}")
+        try:
+            resp = api.download_slide_deck(
+                exchange=self.company_info.exchange,
+                symbol=self.company_info.symbol,
+                year=year,
+                quarter=quarter,
+                file_name=file_name,
+            )
+            return resp
+        except requests.exceptions.HTTPError as error:
+            if error.response.status_code == 404:
+                return None
+            if error.response.status_code == 403:
+                plan_name = error.response.headers["X-Plan-Name"]
+                error_message = (
+                    f"Your plan ({plan_name}) does not include Slide Decks. "
+                    "Upgrade your plan here: https://earningscall.biz/api-pricing"
+                )
+                log.error(error_message)
+                raise InsufficientApiAccessError(error_message)
+            raise error

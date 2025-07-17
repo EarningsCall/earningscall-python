@@ -208,6 +208,16 @@ print("Downloading audio file for Apple Inc. Q3 2021...")
 audio_file = company.download_audio_file(year=2021, quarter=3, file_name="Apple Q3 2021.mp3")
 ```
 
+## Download Slide Deck
+
+```python
+from earningscall import get_company
+
+company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+
+slide_deck = company.download_slide_deck(year=2021, quarter=3, file_name="Apple Q3 2021 Slides.pdf")
+```
+
 ## Get Earnings Event Calendar
 
 ```python

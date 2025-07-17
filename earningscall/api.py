@@ -1,10 +1,9 @@
-import importlib
+import importlib.metadata
 import logging
 import os
 import platform
 import time
 import urllib.parse
-from importlib.metadata import PackageNotFoundError
 from typing import Dict, Optional, Union
 
 import requests
@@ -65,7 +64,7 @@ def purge_cache():
 def get_earnings_call_version():
     try:
         return importlib.metadata.version("earningscall")
-    except PackageNotFoundError:
+    except importlib.metadata.PackageNotFoundError:
         return None
 
 
@@ -164,7 +163,7 @@ def do_get(
             log.warning(
                 f"Rate limited (429). Retrying in {wait_time} seconds... (Attempt {attempt + 1}/{max_attempts})"
             )
-            time.sleep(wait_time)
+            time.sleep(float(wait_time))
 
     return response  # Return the last response if all retries failed
 
@@ -261,6 +260,39 @@ def download_audio_file(
     }
     local_filename = file_name or f"{exchange}_{symbol}_{year}_{quarter}.mp3"
     with do_get("audio", params=params, stream=True) as response:
+        response.raise_for_status()
+        with open(local_filename, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+    return local_filename
+
+
+def download_slide_deck(
+    exchange: str,
+    symbol: str,
+    year: int,
+    quarter: int,
+    file_name: Optional[str] = None,
+) -> Optional[str]:
+    """
+    Get the slide deck for a given exchange, symbol, year, and quarter.
+
+    :param str exchange: The exchange to get the slide deck for.
+    :param str symbol: The symbol to get the slide deck for.
+    :param int year: The 4-digit year to get the slide deck for.
+    :param int quarter: The quarter to get the slide deck for (1, 2, 3, or 4).
+    :param file_name: Optionally specify the filename to save the slide deck to.
+    :return: The filename of the downloaded slide deck file.
+    :rtype Optional[str]: The filename of the downloaded slide deck file.
+    """
+    params = {
+        "exchange": exchange,
+        "symbol": symbol,
+        "year": str(year),
+        "quarter": str(quarter),
+    }
+    local_filename = file_name or f"{exchange}_{symbol}_{year}_{quarter}_slides.pdf"
+    with do_get("slides", params=params, stream=True) as response:
         response.raise_for_status()
         with open(local_filename, "wb") as f:
             for chunk in response.iter_content(chunk_size=8192):
