@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `1.3.1` - 2025-07-18
+
+* Update README.md with new slide deck download example.
+
 ## Release `1.3.0` - 2025-07-17
 
 * Add `download_slide_deck` function to the `Company` class.
