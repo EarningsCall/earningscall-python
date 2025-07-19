@@ -214,9 +214,9 @@ print(f"Downloaded audio file to: {audio_file}")
 ```python
 from earningscall import get_company
 
-company = get_company("aapl")  # Lookup Apple, Inc by its ticker symbol, "AAPL"
+company = get_company("MSFT")  # Lookup Microsoft by its ticker symbol, "MSFT"
 
-slide_deck_filename = company.download_slide_deck(year=2021, quarter=3, file_name="Apple-Q3-2021-Slides.pdf")
+slide_deck_filename = company.download_slide_deck(year=2025, quarter=1, file_name="Microsoft-Q1-2025-Slides.pdf")
 print(f"Downloaded slide deck to: {slide_deck_filename}")
 ```
 
