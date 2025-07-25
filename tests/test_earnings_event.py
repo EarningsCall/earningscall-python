@@ -35,9 +35,7 @@ def test_date_field_deserialization():
     )
     assert earnings_event.year == 2024
     assert earnings_event.quarter == 1
-    assert earnings_event.conference_date == datetime.datetime.fromisoformat(
-        "2024-04-28T15:00:00.000-05:00"
-    )
+    assert earnings_event.conference_date == datetime.datetime.fromisoformat("2024-04-28T15:00:00.000-05:00")
 
 
 def test_date_field_deserialization_with_z_suffix():
