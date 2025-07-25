@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `1.3.2` - 2025-07-25
+
+* Bugfix: handle case where conference date has a 'Z' UTC suffix, which fails on Python 3.10 and below.
+
 ## Release `1.3.1` - 2025-07-18
 
 * Update README.md with new slide deck download example.
