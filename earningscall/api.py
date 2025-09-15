@@ -87,6 +87,15 @@ def get_headers():
     }
 
 
+def _get_with_optional_cache(url: str, *, params: Optional[dict] = None, stream: Optional[bool] = None):
+    """
+    Internal helper to GET an absolute URL, using the shared requests cache when enabled.
+    """
+    if earningscall.enable_requests_cache:
+        return cache_session().get(url, params=params, headers=get_headers(), stream=stream)
+    return requests.get(url, params=params, headers=get_headers(), stream=stream)
+
+
 def can_retry(response: requests.Response) -> bool:
     if response.status_code == 429:
         return True
@@ -298,3 +307,15 @@ def download_slide_deck(
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
     return local_filename
+
+
+def get_exchanges_json():
+    """Fetch the public exchanges JSON from the website domain.
+
+    Uses the shared cache to avoid frequent network requests.
+    """
+    url = f"https://{DOMAIN}/exchanges.json"
+    response = _get_with_optional_cache(url)
+    if response.status_code != 200:
+        return None
+    return response.json()

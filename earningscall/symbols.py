@@ -4,21 +4,11 @@ from collections import defaultdict
 from typing import Optional, Iterator, List
 
 from earningscall.api import get_symbols_v2, is_demo_account
+from earningscall.exchanges import get_exchanges_in_order
 from earningscall.errors import InsufficientApiAccessError
 from earningscall.sectors import sector_to_index, industry_to_index, index_to_sector, index_to_industry
 
-# WARNING: Add new indexes to the *END* of this list
-EXCHANGES_IN_ORDER = [
-    "NYSE",
-    "NASDAQ",
-    "AMEX",
-    "TSX",
-    "TSXV",
-    "OTC",
-    "LSE",
-    "CBOE",
-    "STO",
-]
+from earningscall.exchanges import FALLBACK_EXCHANGES_IN_ORDER
 
 log = logging.getLogger(__file__)
 
@@ -27,7 +17,7 @@ def exchange_to_index(_exchange: Optional[str]) -> int:
     if not _exchange:
         return -1
     try:
-        return EXCHANGES_IN_ORDER.index(_exchange)
+        return get_exchanges_in_order().index(_exchange)
     except ValueError:
         return -1
 
@@ -36,7 +26,7 @@ def index_to_exchange(_index: int) -> str:
     if _index == -1:
         return "UNKNOWN"
     try:
-        return EXCHANGES_IN_ORDER[_index]
+        return get_exchanges_in_order()[_index]
     except IndexError:
         return "UNKNOWN"
 
@@ -128,7 +118,7 @@ class Symbols:
     def lookup_company(self, symbol: str, exchange: Optional[str] = None) -> Optional[CompanyInfo]:
         if exchange:
             return self.get(exchange, symbol.upper())
-        for exchange in EXCHANGES_IN_ORDER:
+        for exchange in get_exchanges_in_order():
             try:
                 _symbol = self.get(exchange, symbol.upper())
                 if _symbol:
