@@ -1,6 +1,5 @@
 import pytest
 
-import earningscall.api as api
 import earningscall.exchanges as exchanges
 
 
@@ -36,7 +35,7 @@ def test_load_exchanges_in_order_fallback_when_missing_key(monkeypatch):
 
 def test_exchange_to_index_when_none_returns_minus_one(monkeypatch):
     # Given a known order to avoid any external calls
-    monkeypatch.setattr(exchanges, "get_exchanges_in_order", lambda: ["NYSE", "NASDAQ"]) 
+    monkeypatch.setattr(exchanges, "get_exchanges_in_order", lambda: ["NYSE", "NASDAQ"])
 
     # When exchange is None
     assert exchanges.exchange_to_index(None) == -1
@@ -44,7 +43,7 @@ def test_exchange_to_index_when_none_returns_minus_one(monkeypatch):
 
 def test_exchange_to_index_when_empty_string_returns_minus_one(monkeypatch):
     # Given a known order to avoid any external calls
-    monkeypatch.setattr(exchanges, "get_exchanges_in_order", lambda: ["NYSE", "NASDAQ"]) 
+    monkeypatch.setattr(exchanges, "get_exchanges_in_order", lambda: ["NYSE", "NASDAQ"])
 
     # When exchange is empty
     assert exchanges.exchange_to_index("") == -1
@@ -52,9 +51,7 @@ def test_exchange_to_index_when_empty_string_returns_minus_one(monkeypatch):
 
 def test_exchange_to_index_when_unknown_exchange_returns_minus_one(monkeypatch):
     # Given a known order to avoid any external calls
-    monkeypatch.setattr(exchanges, "get_exchanges_in_order", lambda: ["NYSE", "NASDAQ"]) 
+    monkeypatch.setattr(exchanges, "get_exchanges_in_order", lambda: ["NYSE", "NASDAQ"])
 
     # When exchange is not in the list
     assert exchanges.exchange_to_index("UNKNOWN") == -1
-
-
