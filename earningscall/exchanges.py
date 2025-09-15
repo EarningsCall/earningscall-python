@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 from earningscall.api import get_exchanges_json
 
@@ -22,7 +23,7 @@ FALLBACK_EXCHANGES_IN_ORDER = [
 _exchanges_in_order = None
 
 
-def load_exchanges_in_order() -> list:
+def load_exchanges_in_order() -> list[str]:
     """Load exchanges from the website JSON with a safe fallback.
 
     Returns a list of exchange codes in order.
@@ -37,10 +38,26 @@ def load_exchanges_in_order() -> list:
         return FALLBACK_EXCHANGES_IN_ORDER
 
 
-def get_exchanges_in_order() -> list:
+def get_exchanges_in_order() -> list[str]:
     global _exchanges_in_order
     if _exchanges_in_order is None:
         _exchanges_in_order = load_exchanges_in_order()
     return _exchanges_in_order
 
 
+def exchange_to_index(_exchange: Optional[str]) -> int:
+    if not _exchange:
+        return -1
+    try:
+        return get_exchanges_in_order().index(_exchange)
+    except ValueError:
+        return -1
+
+
+def index_to_exchange(_index: int) -> str:
+    if _index == -1:
+        return "UNKNOWN"
+    try:
+        return get_exchanges_in_order()[_index]
+    except IndexError:
+        return "UNKNOWN"
