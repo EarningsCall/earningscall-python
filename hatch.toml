@@ -11,6 +11,7 @@ test-cov = "coverage run -m pytest {args:tests}"
 cov-report = [
   "- coverage combine",
   "coverage report --show-missing",
+  "coverage xml -o coverage.xml",
 ]
 cov = [
   "test-cov",
