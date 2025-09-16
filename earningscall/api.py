@@ -155,7 +155,7 @@ def do_get(
 
         if response.status_code == 401:
             raise InvalidApiKeyError(
-                "Your API key is invalid. You can get your API key at: https://earningscall.biz/api-key"
+                "Your API key is invalid. You can get your API key at: https://{DOMAIN}/api-key"
             )
 
         if not can_retry(response):
