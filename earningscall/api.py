@@ -154,9 +154,7 @@ def do_get(
             return response
 
         if response.status_code == 401:
-            raise InvalidApiKeyError(
-                "Your API key is invalid. You can get your API key at: https://{DOMAIN}/api-key"
-            )
+            raise InvalidApiKeyError("Your API key is invalid. You can get your API key at: https://{DOMAIN}/api-key")
 
         if not can_retry(response):
             return response
