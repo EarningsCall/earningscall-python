@@ -1,6 +1,7 @@
 from typing import Dict, Optional, Union
 
 from earningscall.exports import get_company, get_all_companies, get_sp500_companies, get_calendar
+import earningscall.exchanges as exchanges
 from earningscall.symbols import Symbols, load_symbols
 
 api_key: Optional[str] = None
@@ -14,4 +15,5 @@ __all__ = [
     "Symbols",
     "load_symbols",
     "get_calendar",
+    "exchanges",
 ]

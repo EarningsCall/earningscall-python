@@ -129,8 +129,30 @@ def test_symbols_serialization_v1():
     assert _deserialized_symbols.get_exchange_symbol("NASDAQ_HITI").name == "High Tide Inc."
 
 
+@responses.activate
 def test_exchanges_in_order():
-    assert earningscall.symbols.EXCHANGES_IN_ORDER == [
+    responses.add(
+        responses.GET,
+        "https://earningscall.biz/exchanges.json",
+        json={
+            "exchanges": [
+                {"name": "New York Stock Exchange", "code": "NYSE"},
+                {"name": "NASDAQ Global Market", "code": "NASDAQ"},
+                {"name": "American Stock Exchange", "code": "AMEX"},
+                {"name": "Toronto Stock Exchange", "code": "TSX"},
+                {"name": "TSX Venture Exchange", "code": "TSXV"},
+                {"name": "OTC Markets", "code": "OTC"},
+                {"name": "London Stock Exchange", "code": "LSE"},
+                {"name": "Chicago Board Options Exchange", "code": "CBOE"},
+                {"name": "Stockholm Stock Exchange", "code": "STO"},
+                {"name": "Australian Securities Exchange", "code": "ASX"},
+            ]
+        },
+        status=200,
+    )
+    # Clear any cached exchanges and load dynamically
+    earningscall.exchanges._exchanges_in_order = None
+    assert earningscall.symbols.get_exchanges_in_order() == [
         "NYSE",
         "NASDAQ",
         "AMEX",
@@ -140,4 +162,5 @@ def test_exchanges_in_order():
         "LSE",
         "CBOE",
         "STO",
+        "ASX",
     ]

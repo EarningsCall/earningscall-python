@@ -40,3 +40,6 @@ tasks.xml
 
 # Downloaded Data from Scripts
 /data
+
+# Coverage
+coverage.xml
