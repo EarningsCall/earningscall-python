@@ -1,6 +1,11 @@
 from typing import Dict, Optional, Union
 
-from earningscall.api import clear_latency_metrics, get_latency_metrics, get_latency_metrics_summary, pop_latency_metrics
+from earningscall.api import (
+    clear_latency_metrics,
+    get_latency_metrics,
+    get_latency_metrics_summary,
+    pop_latency_metrics,
+)
 from earningscall.exports import get_company, get_all_companies, get_sp500_companies, get_calendar
 import earningscall.exchanges as exchanges
 from earningscall.symbols import Symbols, load_symbols

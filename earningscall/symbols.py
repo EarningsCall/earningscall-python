@@ -72,7 +72,6 @@ class CompanyInfo:
 
 
 class Symbols:
-
     def __init__(self):
         self.exchanges = set()
         self.by_name = defaultdict(set)

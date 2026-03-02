@@ -313,16 +313,16 @@ def do_get(
                 return response
 
             if response.status_code == 401:
-                raise InvalidApiKeyError("Your API key is invalid. You can get your API key at: https://{DOMAIN}/api-key")
+                raise InvalidApiKeyError(
+                    "Your API key is invalid. You can get your API key at: https://{DOMAIN}/api-key"
+                )
 
             if not can_retry(response):
                 return response
 
             if attempt < max_attempts - 1:  # Don't sleep after the last attempt
                 if retry_strategy["strategy"] == "exponential":
-                    wait_time = delay * (
-                        2**attempt
-                    )  # Exponential backoff: 1s -> 2s -> 4s -> 8s -> 16s -> 32s -> 64s
+                    wait_time = delay * (2**attempt)  # Exponential backoff: 1s -> 2s -> 4s -> 8s -> 16s -> 32s -> 64s
                 elif retry_strategy["strategy"] == "linear":
                     wait_time = delay * (attempt + 1)  # Linear backoff: 1s -> 2s -> 3s -> 4s -> 5s -> 6s -> 7s
                 else:
