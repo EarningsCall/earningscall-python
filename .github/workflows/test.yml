@@ -34,18 +34,23 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install Hatch
-      run: pip install --upgrade "hatch<1.16"
-
     - if: matrix.python-version == '3.9' && runner.os == 'Linux'
       name: Lint
-      run: hatch run lint:all
+      run: |
+        pip install "black==22.10.0" "mypy>=0.991" "ruff>=0.0.166"
+        ruff check .
+        black --check --diff .
+        mypy --install-types --non-interactive earningscall tests
 
     - name: Run tests and track code coverage
-      run: hatch run cov
+      run: |
+        pip install -e . "coverage[toml]>=6.5" pytest responses coveralls
+        python -m coverage run -m pytest tests
+        python -m coverage combine
+        python -m coverage report --show-missing
     - if: matrix.python-version == '3.9' && runner.os == 'Linux'
       name: Publish Coverage to Coveralls
-      run: hatch run coveralls
+      run: python -m coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
