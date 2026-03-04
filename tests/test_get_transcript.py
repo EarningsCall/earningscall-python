@@ -14,7 +14,6 @@ from earningscall.symbols import clear_symbols, CompanyInfo
 from earningscall.transcript import Transcript
 from earningscall.utils import data_path
 
-
 # Uncomment and run following code to generate msft-transcript-response.yaml file
 #
 # from responses import _recorder
