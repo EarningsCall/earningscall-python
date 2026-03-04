@@ -2,7 +2,6 @@ import earningscall  # noqa: F401
 
 from earningscall import get_company
 
-
 # TODO: Set your API key here:
 # earningscall.api_key = "YOUR API KEY HERE"
 

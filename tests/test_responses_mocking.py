@@ -1,7 +1,6 @@
 import requests
 import responses
 
-
 # NOTE: this test is only testing the behavior of the responses library, and therefore it is not testing any
 #       code in earningscall at all.
 
