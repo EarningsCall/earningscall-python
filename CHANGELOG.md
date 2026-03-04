@@ -1,5 +1,10 @@
 # Changelog
 
+## Release `2.0.0` - 2026-03-04
+
+* **Breaking**: Drop support for Python 3.8 and 3.9. Minimum required version is now Python 3.10.
+* Add Python 3.14 to supported versions.
+
 ## Release `1.4.0` - 2025-09-15
 
 * Implement dynamic loading of exchanges.
