@@ -4,7 +4,7 @@ version = "1.4.0"
 description = "The EarningsCall Python library provides convenient access to the EarningsCall API.  It includes a pre-defined set of classes for API resources that initialize themselves dynamically from API responses."
 readme = "README.md"
 authors = [{ name = "EarningsCall", email = "dev@earningscall.biz" }]
-requires-python = ">= 3.8"
+requires-python = ">= 3.10"
 dependencies = [
   "dataclasses-json>=0.6.4",
   "requests>=2.30.0",
@@ -42,8 +42,6 @@ classifiers = [
 
   # Specify the Python versions you support here.
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -80,7 +78,7 @@ cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=hatch_
 no-cov = "cov --no-cov"
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
 
 [tool.hatch.build.targets.wheel.hooks.mypyc]
@@ -100,12 +98,12 @@ warn_unused_ignores = true
 
 
 [tool.black]
-target-version = ["py37"]
+target-version = ["py310"]
 line-length = 120
 skip-string-normalization = true
 
 [tool.ruff]
-target-version = "py37"
+target-version = "py310"
 
 [tool.ruff.lint]
 ignore = [
