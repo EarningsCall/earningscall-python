@@ -5,7 +5,6 @@ from earningscall.api import purge_cache
 from earningscall.symbols import clear_symbols
 from earningscall.utils import data_path
 
-
 # Uncomment and run following code to generate msft-transcript-response.yaml file
 #
 # from responses import _recorder

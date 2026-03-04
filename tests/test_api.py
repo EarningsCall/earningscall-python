@@ -84,13 +84,13 @@ def test_get_api_key_returns_demo_when_no_keys_set(monkeypatch):
 def test_get_earnings_call_version_returns_version_when_package_found(monkeypatch):
     """Test that get_earnings_call_version returns version when package is found."""
     # Given importlib.metadata.version returns a version string
-    monkeypatch.setattr(importlib.metadata, "version", lambda package: "1.4.0" if package == "earningscall" else None)
+    monkeypatch.setattr(importlib.metadata, "version", lambda package: "2.0.0" if package == "earningscall" else None)
 
     # When get_earnings_call_version is called
     result = get_earnings_call_version()
 
     # Then it returns the version
-    assert result == "1.4.0"
+    assert result == "2.0.0"
 
 
 def test_get_earnings_call_version_returns_none_when_package_not_found(monkeypatch):

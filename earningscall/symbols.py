@@ -8,7 +8,6 @@ from earningscall.exchanges import exchange_to_index, get_exchanges_in_order, in
 from earningscall.errors import InsufficientApiAccessError
 from earningscall.sectors import sector_to_index, industry_to_index, index_to_sector, index_to_industry
 
-
 log = logging.getLogger(__file__)
 
 

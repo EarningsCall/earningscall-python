@@ -3,7 +3,6 @@ from typing import List, Optional
 
 from earningscall.api import get_exchanges_json
 
-
 log = logging.getLogger(__file__)
 
 
