@@ -67,7 +67,7 @@ def purge_cache():
 
 
 def _get_telemetry_max_entries() -> int:
-    return max(getattr(earningscall, "telemetry_max_entries", DEFAULT_TELEMETRY_MAX_ENTRIES), 0)
+    return max(earningscall.telemetry_max_entries, 0)
 
 
 def _record_latency_metric(
@@ -80,7 +80,7 @@ def _record_latency_metric(
     from_cache: bool = False,
     error_type: Optional[str] = None,
 ) -> None:
-    if not getattr(earningscall, "enable_telemetry", True):
+    if not earningscall.enable_telemetry:
         return
 
     max_entries = _get_telemetry_max_entries()
