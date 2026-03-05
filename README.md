@@ -357,3 +357,38 @@ earningscall.retry_strategy = {
 }
 ```
 
+### Telemetry
+
+The library collects per-request telemetry in memory so you can monitor latency and errors in your own
+observability stack. Telemetry is enabled by default.
+
+Each metric includes:
+
+- request target (API path or URL)
+- HTTP method
+- status code
+- duration in milliseconds
+- retry attempt count
+- cache hit information
+- error type (when a request raises)
+
+```python
+import earningscall
+from earningscall import get_latency_metrics_summary, pop_latency_metrics
+
+# Telemetry is enabled by default. To disable:
+# earningscall.enable_telemetry = False
+
+# Optional tuning
+earningscall.telemetry_max_entries = 1000  # Keep latest N request metrics in memory (default)
+
+# ...run your EarningsCall API requests...
+
+# Snapshot aggregated latency stats without clearing the buffer
+summary = get_latency_metrics_summary()
+print(summary)
+
+# Drain raw metrics when it's time to ship a batch to your observability service
+raw_metrics = pop_latency_metrics()
+# requests.post("https://your-observability-endpoint.example/v1/metrics", json=raw_metrics)
+```
