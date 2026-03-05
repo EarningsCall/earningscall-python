@@ -340,6 +340,7 @@ def do_get(
             error_type=error_type,
         )
 
+    assert response is not None  # Always set when max_attempts >= 1
     return response  # Return the last response if all retries failed
 
 
