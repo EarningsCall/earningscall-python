@@ -277,6 +277,15 @@ export EARNINGSCALL_API_KEY="YOUR-SECRET-API-KEY-GOES-HERE"
 python your-python-script.py
 ```
 
+### Using a Custom API URL
+
+To use a custom API endpoint (e.g., for testing or self-hosted), set the `EARNINGSCALL_API_URL` environment variable:
+
+```sh
+export EARNINGSCALL_API_URL="https://api.earningscall.dev"
+python your-python-script.py
+```
+
 ## List S&P 500 Companies
 
 ```python
