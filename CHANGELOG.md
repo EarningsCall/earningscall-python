@@ -1,5 +1,11 @@
 # Changelog
 
+## Release `2.0.1` - 2026-03-11
+
+* Bugfix: `get_symbols_v2()`, `get_sp500_companies_txt_file()`, `get_events()`, and `get_exchanges_json()` now raise `HTTPError` on failed API responses instead of silently returning the raw response. Previously, non-200 responses were passed through to callers, which would then crash with `AttributeError` (e.g., calling `.split()` on a non-text response) or return corrupt data.
+* Bugfix: `_get_events()` in `Company` now handles `HTTPError` (returns `[]` on 404), consistent with `get_transcript()`, `download_audio_file()`, and `download_slide_deck()`.
+* Add return type hints to all public functions in `api.py`.
+
 ## Release `2.0.0` - 2026-03-04
 
 * **Breaking**: Drop support for Python 3.8 and 3.9. Minimum required version is now Python 3.10.

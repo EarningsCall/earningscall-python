@@ -36,9 +36,12 @@ class Company:
     def _get_events(self) -> List[EarningsEvent]:
         if not self.company_info.exchange or not self.company_info.symbol:
             return []
-        raw_response = api.get_events(self.company_info.exchange, self.company_info.symbol)
-        if not raw_response:
-            return []
+        try:
+            raw_response = api.get_events(self.company_info.exchange, self.company_info.symbol)
+        except requests.exceptions.HTTPError as error:
+            if error.response.status_code == 404:
+                return []
+            raise
         return [EarningsEvent.from_dict(event) for event in raw_response["events"]]  # type: ignore
 
     def events(self) -> List[EarningsEvent]:
