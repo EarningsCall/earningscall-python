@@ -1,7 +1,22 @@
 import importlib.metadata
 
+import pytest
+import requests
+import responses
+
 import earningscall
-from earningscall.api import get_api_key, get_earnings_call_version, get_user_agent
+from earningscall.api import (
+    API_BASE,
+    DOMAIN,
+    get_api_key,
+    get_earnings_call_version,
+    get_events,
+    get_exchanges_json,
+    get_sp500_companies_txt_file,
+    get_symbols_v2,
+    get_user_agent,
+    purge_cache,
+)
 
 
 def test_get_api_key_returns_earningscall_api_key_when_set(monkeypatch):
@@ -115,3 +130,73 @@ def test_get_user_agent():
     assert "EarningsCallPython/" in user_agent
     assert "Python" in user_agent
     assert "Requests" in user_agent
+
+
+@pytest.fixture()
+def setup_api():
+    earningscall.api_key = "foobar"
+    earningscall.retry_strategy = {
+        "strategy": "exponential",
+        "base_delay": 0.01,
+        "max_attempts": 1,
+    }
+    purge_cache()
+    yield
+    earningscall.api_key = None
+    earningscall.retry_strategy = None
+
+
+@responses.activate
+def test_get_symbols_v2_raises_on_500(setup_api):
+    responses.add(responses.GET, f"{API_BASE}/symbols-v2.txt", status=500)
+    with pytest.raises(requests.HTTPError, match="500 Server Error"):
+        get_symbols_v2()
+
+
+@responses.activate
+def test_get_symbols_v2_raises_on_404(setup_api):
+    responses.add(responses.GET, f"{API_BASE}/symbols-v2.txt", status=404)
+    with pytest.raises(requests.HTTPError, match="404 Client Error"):
+        get_symbols_v2()
+
+
+@responses.activate
+def test_get_sp500_companies_txt_file_raises_on_500(setup_api):
+    responses.add(responses.GET, f"{API_BASE}/symbols/sp500.txt", status=500)
+    with pytest.raises(requests.HTTPError, match="500 Server Error"):
+        get_sp500_companies_txt_file()
+
+
+@responses.activate
+def test_get_sp500_companies_txt_file_raises_on_404(setup_api):
+    responses.add(responses.GET, f"{API_BASE}/symbols/sp500.txt", status=404)
+    with pytest.raises(requests.HTTPError, match="404 Client Error"):
+        get_sp500_companies_txt_file()
+
+
+@responses.activate
+def test_get_events_raises_on_500(setup_api):
+    responses.add(responses.GET, f"{API_BASE}/events", status=500)
+    with pytest.raises(requests.HTTPError, match="500 Server Error"):
+        get_events("NASDAQ", "AAPL")
+
+
+@responses.activate
+def test_get_events_raises_on_404(setup_api):
+    responses.add(responses.GET, f"{API_BASE}/events", status=404)
+    with pytest.raises(requests.HTTPError, match="404 Client Error"):
+        get_events("NASDAQ", "AAPL")
+
+
+@responses.activate
+def test_get_exchanges_json_raises_on_500(setup_api):
+    responses.add(responses.GET, f"https://{DOMAIN}/exchanges.json", status=500)
+    with pytest.raises(requests.HTTPError, match="500 Server Error"):
+        get_exchanges_json()
+
+
+@responses.activate
+def test_get_exchanges_json_raises_on_404(setup_api):
+    responses.add(responses.GET, f"https://{DOMAIN}/exchanges.json", status=404)
+    with pytest.raises(requests.HTTPError, match="404 Client Error"):
+        get_exchanges_json()

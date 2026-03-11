@@ -61,6 +61,7 @@ def test_download_audio_file_event():
     os.unlink(file_name)
 
 
+@responses.activate
 def test_download_audio_file_missing_params_raises_value_error():
     ##
     responses._add_from_file(file_path=data_path("symbols-v2.yaml"))

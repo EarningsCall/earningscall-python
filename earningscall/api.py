@@ -23,7 +23,7 @@ DEFAULT_RETRY_STRATEGY: Dict[str, Union[str, int, float]] = {
 }
 
 
-def get_api_key():
+def get_api_key() -> str:
     if earningscall.api_key:
         return earningscall.api_key
     e_call_key = os.environ.get("ECALL_API_KEY")
@@ -35,11 +35,11 @@ def get_api_key():
     return "demo"
 
 
-def api_key_param():
+def api_key_param() -> dict:
     return {"apikey": get_api_key()}
 
 
-def is_demo_account():
+def is_demo_account() -> bool:
     return get_api_key() == "demo"
 
 
@@ -53,22 +53,22 @@ def cache_session() -> CachedSession:
     )
 
 
-def cached_urls():
+def cached_urls() -> list[str]:
     return cache_session().cache.urls()
 
 
-def purge_cache():
+def purge_cache() -> None:
     return cache_session().cache.clear()
 
 
-def get_earnings_call_version():
+def get_earnings_call_version() -> str | None:
     try:
         return importlib.metadata.version("earningscall")
     except importlib.metadata.PackageNotFoundError:
         return None
 
 
-def get_user_agent():
+def get_user_agent() -> str:
     sdk_name = "EarningsCallPython"
     sdk_version = get_earnings_call_version()
     python_version = platform.python_version()
@@ -79,7 +79,7 @@ def get_user_agent():
     return user_agent
 
 
-def get_headers():
+def get_headers() -> dict:
     earnings_call_version = get_earnings_call_version()
     return {
         "User-Agent": get_user_agent(),
@@ -87,7 +87,9 @@ def get_headers():
     }
 
 
-def _get_with_optional_cache(url: str, *, params: Optional[dict] = None, stream: Optional[bool] = None):
+def _get_with_optional_cache(
+    url: str, *, params: Optional[dict] = None, stream: Optional[bool] = None
+) -> requests.Response:
     """
     Internal helper to GET an absolute URL, using the shared requests cache when enabled.
     """
@@ -186,14 +188,13 @@ def get_calendar_api_operation(year: int, month: int, day: int) -> dict:
     return response.json()
 
 
-def get_events(exchange: str, symbol: str) -> Optional[dict]:
+def get_events(exchange: str, symbol: str) -> dict:
     params = {
         "exchange": exchange,
         "symbol": symbol,
     }
     response = do_get("events", params=params)
-    if response.status_code != 200:
-        return None
+    response.raise_for_status()
     return response.json()
 
 
@@ -227,17 +228,15 @@ def get_transcript(
     return response.json()
 
 
-def get_symbols_v2():
+def get_symbols_v2() -> str:
     response = do_get("symbols-v2.txt", use_cache=True)
-    if response.status_code != 200:
-        return None
+    response.raise_for_status()
     return response.text
 
 
-def get_sp500_companies_txt_file():
+def get_sp500_companies_txt_file() -> str:
     response = do_get("symbols/sp500.txt", use_cache=True)
-    if response.status_code != 200:
-        return None
+    response.raise_for_status()
     return response.text
 
 
@@ -307,13 +306,12 @@ def download_slide_deck(
     return local_filename
 
 
-def get_exchanges_json():
+def get_exchanges_json() -> dict:
     """Fetch the public exchanges JSON from the website domain.
 
     Uses the shared cache to avoid frequent network requests.
     """
     url = f"https://{DOMAIN}/exchanges.json"
     response = _get_with_optional_cache(url)
-    if response.status_code != 200:
-        return None
+    response.raise_for_status()
     return response.json()

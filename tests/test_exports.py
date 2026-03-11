@@ -1,4 +1,5 @@
 import pytest
+import requests
 import responses
 
 import earningscall
@@ -64,6 +65,5 @@ def test_get_sp_500_companies_failed_request():
     responses._add_from_file(file_path=data_path("sp500-company-list-failed.yaml"))
     ##
     earningscall.api_key = "foobar"  # Bogus key to avoid check for "demo"
-    companies = [company for company in get_sp500_companies()]
-    ##
-    assert len(companies) == 0
+    with pytest.raises(requests.HTTPError):
+        list(get_sp500_companies())
