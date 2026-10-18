@@ -1,6 +1,7 @@
 import email.utils
 import importlib.metadata
 import logging
+import math
 import os
 import platform
 import time
@@ -123,13 +124,19 @@ def get_retry_after_seconds(response: requests.Response) -> Optional[float]:
     if not retry_after:
         return None
     try:
-        return max(float(retry_after), 0.0)
+        seconds = float(retry_after)
     except ValueError:
         pass
+    else:
+        # float() also accepts "inf" and "nan", which time.sleep() rejects.
+        return max(seconds, 0.0) if math.isfinite(seconds) else None
     try:
         retry_at = email.utils.parsedate_to_datetime(retry_after)
     except (TypeError, ValueError):
         return None
+    if retry_at.tzinfo is None:
+        # HTTP dates are always GMT, but asctime-format and "-0000" dates parse without a timezone.
+        retry_at = retry_at.replace(tzinfo=timezone.utc)
     return max((retry_at - datetime.now(timezone.utc)).total_seconds(), 0.0)
 
 

@@ -1,8 +1,9 @@
 import json
 
 import pytest
+import requests
 
-from earningscall.company import Company
+from earningscall.company import Company, _plan_name
 from earningscall.symbols import CompanyInfo
 
 
@@ -32,3 +33,25 @@ def test_company_to_string():
     }
     assert company_info.exchange_symbol() == "TEST_TEST"
     assert company_info.to_txt_row() == ["-1", "TEST", "Test Company"]
+
+
+def _response_with_headers(headers: dict) -> requests.Response:
+    response = requests.Response()
+    response.headers.update(headers)
+    return response
+
+
+@pytest.mark.parametrize(
+    "headers, expected",
+    [
+        ({"X-Plan-Name": "basic", "X-Plan-Type": "starter"}, "basic"),
+        ({"X-Plan-Type": "starter"}, "starter"),
+        ({}, "unknown"),
+    ],
+)
+def test_plan_name(headers, expected):
+    assert _plan_name(_response_with_headers(headers)) == expected
+
+
+def test_plan_name_without_response():
+    assert _plan_name(None) == "unknown"

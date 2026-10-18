@@ -248,6 +248,24 @@ def test_normalize_transcript_payload_converts_v4_speakers():
     assert "speaker_name_map_v2" not in payload
 
 
+def test_normalize_transcript_payload_keeps_speaker_ids_alongside_v4_speakers():
+    payload = {
+        "speakers": [
+            {"speaker": {"id": "spk01", "name": "Tim Cook", "title": "CEO"}, "text": "Hello."},
+            {"speaker": "spk02", "text": "First question."},
+        ],
+        "speaker_name_map_v2": {"spk02": {"name": "Operator", "title": None}},
+    }
+    ##
+    normalized = normalize_transcript_payload(payload)
+    ##
+    assert [speaker["speaker"] for speaker in normalized["speakers"]] == ["spk01", "spk02"]
+    assert normalized["speaker_name_map_v2"] == {
+        "spk01": {"name": "Tim Cook", "title": "CEO"},
+        "spk02": {"name": "Operator", "title": None},
+    }
+
+
 @responses.activate
 def test_get_demo_company_with_advanced_transcript_data_level_3():
     ##

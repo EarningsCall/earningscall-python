@@ -311,7 +311,12 @@ def test_retry_gives_up_after_max_attempts(retry_three_times, sleeps):
         ("0", 0.0),
         ("1.5", 1.5),
         ("-5", 0.0),
+        ("inf", None),
+        ("nan", None),
+        ("1e400", None),  # Overflows to inf
         ("Wed, 21 Oct 2015 07:28:00 GMT", 0.0),  # In the past
+        ("Wed, 21 Oct 2015 07:28:00 -0000", 0.0),  # Parses without a timezone
+        ("Wed Oct 21 07:28:00 2015", 0.0),  # asctime format, parses without a timezone
     ],
 )
 def test_get_retry_after_seconds(header, expected):
@@ -319,3 +324,18 @@ def test_get_retry_after_seconds(header, expected):
     if header is not None:
         response.headers["Retry-After"] = header
     assert get_retry_after_seconds(response) == expected
+
+
+def test_get_retry_after_seconds_treats_dates_without_timezone_as_gmt():
+    retry_at = datetime.now(timezone.utc) + timedelta(seconds=30)
+    response = requests.Response()
+    response.headers["Retry-After"] = retry_at.strftime("%a %b %d %H:%M:%S %Y")  # asctime format
+    assert 25 <= get_retry_after_seconds(response) <= 30
+
+
+@responses.activate
+def test_retry_falls_back_to_backoff_for_non_finite_retry_after(retry_three_times, sleeps):
+    responses.add(responses.GET, f"{API_BASE}/events", status=429, headers={"Retry-After": "inf"})
+    responses.add(responses.GET, f"{API_BASE}/events", json={"company_name": "Apple Inc.", "events": []})
+    get_events("NASDAQ", "AAPL")
+    assert sleeps == [0.01]
