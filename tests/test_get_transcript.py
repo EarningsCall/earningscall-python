@@ -11,7 +11,7 @@ from earningscall.company import Company
 from earningscall.errors import InsufficientApiAccessError, InvalidApiKeyError
 from earningscall.event import EarningsEvent
 from earningscall.symbols import clear_symbols, CompanyInfo
-from earningscall.transcript import Transcript
+from earningscall.transcript import Transcript, normalize_transcript_payload
 from earningscall.utils import data_path
 
 # Uncomment and run following code to generate msft-transcript-response.yaml file
@@ -19,7 +19,7 @@ from earningscall.utils import data_path
 # from responses import _recorder
 # @_recorder.record(file_path="msft-transcript-response.yaml")
 # def test_save_symbols_v1():
-#     requests.get("https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=MSFT&year=2023&quarter=1")
+#     requests.get("https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=MSFT&year=2023&quarter=1")
 
 
 @pytest.fixture(autouse=True)
@@ -146,6 +146,106 @@ def test_get_demo_company_with_speaker_name_map_v2():
     assert transcript.speakers[1].start_times is None
     assert transcript.speaker_name_map_v2["spk01"].name == "Tim Cook"
     assert transcript.speaker_name_map_v2["spk01"].title == "CEO"
+
+
+@responses.activate
+def test_get_transcript_schema_v4_level_2():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("aapl-q1-2023-level-2-schema-v4.yaml"))
+    ##
+    company = get_company("aapl")
+    ##
+    transcript = company.get_transcript(year=2023, quarter=1, level=2)
+    ##
+    assert responses.calls[-1].request.headers["X-API-Version-Schema"] == "v4"
+    assert transcript.event.year == 2023
+    assert transcript.event.quarter == 1
+    assert transcript.event.conference_date.isoformat() == "2023-02-02T17:00:00-05:00"
+    assert transcript.text[:100] == (
+        "Good day, everyone, and welcome to the Apple Q1 Fiscal Year 2023 Earnings Conference Call. Today's c"
+    )
+    assert transcript.speakers[0].speaker == "spk12"
+    assert transcript.speakers[0].speaker_info.name == "Teja Skala"
+    assert transcript.speakers[0].speaker_info.title == "Director of Investor Relations and Corporate Finance"
+    assert transcript.speakers[0].words is None
+    assert transcript.speaker_name_map_v2["spk01"].name == "Tim Cook"
+    assert transcript.speaker_name_map_v2["spk01"].title == "CEO"
+
+
+@responses.activate
+def test_get_transcript_schema_v4_level_3():
+    ##
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses._add_from_file(file_path=data_path("aapl-q1-2023-level-3-schema-v4.yaml"))
+    ##
+    company = get_company("aapl")
+    ##
+    transcript = company.get_transcript(year=2023, quarter=1, level=3)
+    ##
+    speaker = transcript.speakers[0]
+    assert speaker.speaker == "spk12"
+    assert speaker.speaker_info.name == "Teja Skala"
+    assert len(speaker.words) == len(speaker.start_times)
+    assert speaker.text == " ".join(speaker.words)
+    assert transcript.text.startswith("Good day, everyone, and welcome to the Apple Q1 Fiscal Year 2023")
+
+
+def _get_aapl_q1_2023_level_2_transcript(fixture_file_name: str) -> Transcript:
+    with responses.RequestsMock(assert_all_requests_are_fired=False) as mock:
+        mock._add_from_file(file_path=data_path("symbols-v2.yaml"))
+        mock._add_from_file(file_path=data_path(fixture_file_name))
+        clear_symbols()
+        company = get_company("aapl")
+        assert company
+        transcript = company.get_transcript(year=2023, quarter=1, level=2)
+        assert transcript
+        return transcript
+
+
+def test_get_transcript_schema_v4_matches_v2():
+    v2_transcript = _get_aapl_q1_2023_level_2_transcript("aapl-q1-2022-speaker-name-map-v2.yaml")
+    v4_transcript = _get_aapl_q1_2023_level_2_transcript("aapl-q1-2023-level-2-schema-v4.yaml")
+    ##
+    assert v4_transcript.text == v2_transcript.text
+    assert v4_transcript.event == v2_transcript.event
+    assert v4_transcript.speakers == v2_transcript.speakers
+    assert v4_transcript.speaker_name_map_v2 == v2_transcript.speaker_name_map_v2
+
+
+def test_normalize_transcript_payload_leaves_v2_payload_unchanged():
+    payload = {
+        "speakers": [{"speaker": "spk01", "text": "Hello."}],
+        "speaker_name_map_v2": {"spk01": {"name": "Tim Cook", "title": "CEO"}},
+    }
+    assert normalize_transcript_payload(payload) is payload
+
+
+def test_normalize_transcript_payload_leaves_payload_without_speakers_unchanged():
+    payload = {"text": "Hello."}
+    assert normalize_transcript_payload(payload) is payload
+
+
+def test_normalize_transcript_payload_converts_v4_speakers():
+    payload = {
+        "speakers": [
+            {"speaker": {"id": "spk01", "name": "Tim Cook", "title": "CEO"}, "text": "Hello."},
+            {"speaker": {"id": "spk02", "name": "Operator"}, "text": "First question."},
+            {"speaker": {"id": "spk01", "name": "Tim Cook", "title": "CEO"}, "text": "Thanks."},
+        ],
+    }
+    ##
+    normalized = normalize_transcript_payload(payload)
+    ##
+    assert [speaker["speaker"] for speaker in normalized["speakers"]] == ["spk01", "spk02", "spk01"]
+    assert [speaker["text"] for speaker in normalized["speakers"]] == ["Hello.", "First question.", "Thanks."]
+    assert normalized["speaker_name_map_v2"] == {
+        "spk01": {"name": "Tim Cook", "title": "CEO"},
+        "spk02": {"name": "Operator", "title": None},
+    }
+    # The input payload is not mutated
+    assert payload["speakers"][0]["speaker"] == {"id": "spk01", "name": "Tim Cook", "title": "CEO"}
+    assert "speaker_name_map_v2" not in payload
 
 
 @responses.activate
@@ -311,14 +411,14 @@ def test_get_transcript_with_rate_limit_backoff_and_retry():
     # First response
     responses.add(
         responses.GET,
-        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        "https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
         body=json.dumps({"error": "Rate limit exceeded"}),
         status=429,
     )
     # Second response
     responses.add(
         responses.GET,
-        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        "https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
         body=json.dumps({"text": "Hello, world!"}),
         status=200,
     )
@@ -337,7 +437,7 @@ def test_get_transcript_fails_all_attempts():
     # Always throttle the caller
     responses.add(
         responses.GET,
-        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        "https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
         body=json.dumps({"error": "Rate limit exceeded"}),
         status=429,
     )
@@ -360,7 +460,7 @@ def test_get_transcript_fails_all_attempts_linear_retry_strategy():
     # Always throttle the caller
     responses.add(
         responses.GET,
-        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        "https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
         body=json.dumps({"error": "Rate limit exceeded"}),
         status=429,
     )
@@ -383,7 +483,7 @@ def test_get_transcript_fails_all_attempts_invalid_retry_strategy():
     # Always throttle the caller
     responses.add(
         responses.GET,
-        "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
+        "https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2023&quarter=1&level=1",
         body=json.dumps({"error": "Rate limit exceeded"}),
         status=429,
     )
@@ -399,7 +499,7 @@ def test_get_company_fails_not_authorized():
     # Always throttle the caller
     responses.add(
         responses.GET,
-        "https://v2.api.earningscall.biz/symbols-v2.txt",
+        "https://api.earningscall.dev/symbols-v2.txt",
         body=json.dumps({"error": "Not authorized"}),
         status=401,
     )
@@ -417,7 +517,7 @@ def test_get_company_fails_not_authorized():
 #
 # @_recorder.record(file_path="data/nvda-q2-2025-level-4-data-missing.yaml")
 # def test_save_symbols_v1_first():
-#     requests.get("https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=NVDA&year=2025&quarter=2&level=4")
+#     requests.get("https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=NVDA&year=2025&quarter=2&level=4")
 
 # Uncomment and run following code to generate demo-symbols-v2.yaml file
 
@@ -429,5 +529,5 @@ def test_get_company_fails_not_authorized():
 # @_recorder.record(file_path="data/aapl-q1-2030-not-found.yaml")
 # def test_save_symbols_v1_second():
 #     requests.get(
-#         "https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2030&quarter=1&level=1"
+#         "https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2030&quarter=1&level=1"
 #     )

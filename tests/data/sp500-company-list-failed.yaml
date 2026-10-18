@@ -1021,4 +1021,4 @@ responses:
       x-amz-server-side-encryption: AES256
     method: GET
     status: 500
-    url: https://v2.api.earningscall.biz/symbols/sp500.txt?apikey=foobar
+    url: https://api.earningscall.dev/symbols/sp500.txt?apikey=foobar

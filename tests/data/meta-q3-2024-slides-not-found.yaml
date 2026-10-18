@@ -13,4 +13,4 @@ responses:
       X-Cache: Error from cloudfront
     method: GET
     status: 404
-    url: https://v2.api.earningscall.biz/slides?apikey=foobar&exchange=NASDAQ&symbol=META&year=2024&quarter=3 
+    url: https://api.earningscall.dev/slides?apikey=foobar&exchange=NASDAQ&symbol=META&year=2024&quarter=3 

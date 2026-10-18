@@ -1,5 +1,15 @@
 # Changelog
 
+## Release `3.1.0` - 2026-10-18
+
+* Switch to the new API endpoint, `https://api.earningscall.dev`. Override it with the `EARNINGSCALL_API_BASE` environment variable.
+* Pin the API response schema to `v4` with the `X-API-Version-Schema` request header, so server-side schema upgrades can't change the responses this library parses.
+* Schema v4 inlines speaker names and titles in transcripts. They are mapped onto the existing `Speaker.speaker`, `Speaker.speaker_info`, and `Transcript.speaker_name_map_v2` fields, so transcript results are unchanged.
+* Schema v4 wraps calendar results as `{"events": [...]}`. `get_calendar()` handles both shapes.
+* When the API is rate limited (HTTP 429) or unavailable (HTTP 5xx), retries now wait for the duration in the `Retry-After` header, falling back to the configured `retry_strategy` backoff when the header is missing.
+* Bugfix: `download_audio_file()` and `download_slide_deck()` raised `KeyError` instead of `InsufficientApiAccessError` when a 403 response lacked the `X-Plan-Name` header. The plan name now falls back to `X-Plan-Type`.
+* Bugfix: the invalid API key error message now includes the actual link instead of a literal `{DOMAIN}`.
+
 ## Release `3.0.0` - 2026-10-18
 
 * **Breaking**: Drop support for Python 3.10, which reached end-of-life in October 2026. Minimum required version is now Python 3.11.

@@ -59,4 +59,4 @@ startxref
       X-Cache: Hit from cloudfront
     method: GET
     status: 200
-    url: https://v2.api.earningscall.biz/slides?apikey=demo&exchange=NASDAQ&symbol=MSFT&year=2022&quarter=1 
+    url: https://api.earningscall.dev/slides?apikey=demo&exchange=NASDAQ&symbol=MSFT&year=2022&quarter=1 

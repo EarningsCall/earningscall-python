@@ -13,7 +13,7 @@ from earningscall.utils import data_path
 # from responses import _recorder
 # @_recorder.record(file_path="msft-company-events.yaml")
 # def test_save_symbols_v1():
-#     requests.get("https://v2.api.earningscall.biz/events?apikey=demo&exchange=NASDAQ&symbol=MSFT")
+#     requests.get("https://api.earningscall.dev/events?apikey=demo&exchange=NASDAQ&symbol=MSFT")
 #
 
 

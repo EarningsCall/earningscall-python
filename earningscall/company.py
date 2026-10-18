@@ -7,9 +7,16 @@ from earningscall import api
 from earningscall.errors import InsufficientApiAccessError
 from earningscall.event import EarningsEvent
 from earningscall.symbols import CompanyInfo
-from earningscall.transcript import Transcript
+from earningscall.transcript import Transcript, normalize_transcript_payload
 
 log = logging.getLogger(__file__)
+
+
+def _plan_name(response: Optional[requests.Response]) -> str:
+    if response is None:
+        return "unknown"
+    # The v2 API sent X-Plan-Name; api.earningscall.dev only sends X-Plan-Type.
+    return response.headers.get("X-Plan-Name") or response.headers.get("X-Plan-Type") or "unknown"
 
 
 class Company:
@@ -89,7 +96,7 @@ class Company:
             )
             # TODO: Investigate alternatives to @dataclass for level 3 transcripts, as this is
             #       extremely slow.
-            transcript = Transcript.from_dict(response_payload)  # type: ignore
+            transcript = Transcript.from_dict(normalize_transcript_payload(response_payload))  # type: ignore
             if level == 3:
                 for speaker in transcript.speakers:
                     speaker.text = " ".join(speaker.words)
@@ -108,7 +115,7 @@ class Company:
             if error.response.status_code == 404:
                 return None
             if error.response.status_code == 403:
-                plan_name = error.response.headers.get("X-Plan-Name", "unknown")
+                plan_name = _plan_name(error.response)
                 if 2 <= level <= 4:
                     error_message = (
                         f"Your plan ({plan_name}) does not include Advanced Transcript Data. "
@@ -159,7 +166,7 @@ class Company:
             if error.response.status_code == 404:
                 return None
             if error.response.status_code == 403:
-                plan_name = error.response.headers["X-Plan-Name"]
+                plan_name = _plan_name(error.response)
                 error_message = (
                     f"Your plan ({plan_name}) does not include Audio Files. "
                     "Upgrade your plan here: https://earningscall.biz/api-pricing"
@@ -207,7 +214,7 @@ class Company:
             if error.response.status_code == 404:
                 return None
             if error.response.status_code == 403:
-                plan_name = error.response.headers["X-Plan-Name"]
+                plan_name = _plan_name(error.response)
                 error_message = (
                     f"Your plan ({plan_name}) does not include Slide Decks. "
                     "Upgrade your plan here: https://earningscall.biz/api-pricing"

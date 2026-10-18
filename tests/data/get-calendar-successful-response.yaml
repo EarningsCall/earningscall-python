@@ -59,4 +59,4 @@ responses:
       x-amz-server-side-encryption: AES256
     method: GET
     status: 200
-    url: https://v2.api.earningscall.biz/calendar?apikey=XXXXXXXXXXX&year=2025&month=2&day=10
+    url: https://api.earningscall.dev/calendar?apikey=XXXXXXXXXXX&year=2025&month=2&day=10

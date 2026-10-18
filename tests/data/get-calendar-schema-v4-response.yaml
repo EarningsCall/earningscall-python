@@ -1,0 +1,46 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: '{"events":[{"symbol":"TKUGF","company_name":"Takeuchi Mfg Co Ltd","exchange":"OTC","conference_date":"2025-01-10T00:00:00-05:00","year":2024,"quarter":3,"transcript_ready":false},{"symbol":"6506.T","company_name":"YASKAWA
+      Electric Corporation","exchange":"TSE","conference_date":"2025-01-10T00:00:00-05:00","year":2024,"quarter":3,"transcript_ready":false},{"symbol":"0MRM.L","company_name":"Bang
+      \u0026 Olufsen a/s","exchange":"LSE","conference_date":"2025-01-10T10:00:00+01:00","year":2025,"quarter":2,"transcript_ready":true},{"symbol":"SBRY.L","company_name":"J
+      Sainsbury plc","exchange":"LSE","conference_date":"2025-01-10T04:00:00-05:00","year":2025,"quarter":3,"transcript_ready":true},{"symbol":"CJR.B","company_name":"Corus
+      Entertainment Inc.","exchange":"TSX","conference_date":"2025-01-10T08:00:00-05:00","year":2025,"quarter":1,"transcript_ready":true},{"symbol":"NEOG","company_name":"Neogen
+      Corporation","exchange":"NASDAQ","conference_date":"2025-01-10T08:30:00-05:00","year":2025,"quarter":2,"transcript_ready":true},{"symbol":"TLRY","company_name":"Tilray
+      Brands, Inc.","exchange":"NASDAQ","conference_date":"2025-01-10T08:30:00-05:00","year":2025,"quarter":2,"transcript_ready":true},{"symbol":"WBA","company_name":"Walgreens
+      Boots Alliance, Inc.","exchange":"NASDAQ","conference_date":"2025-01-10T08:30:00-05:00","year":2025,"quarter":1,"transcript_ready":true},{"symbol":"ETWO","company_name":"E2open
+      Parent Holdings, Inc.","exchange":"NYSE","conference_date":"2025-01-10T08:30:00-05:00","year":2025,"quarter":3,"transcript_ready":true},{"symbol":"SNX","company_name":"TD
+      SYNNEX Corporation","exchange":"NYSE","conference_date":"2025-01-10T09:00:00-05:00","year":2024,"quarter":4,"transcript_ready":true},{"symbol":"DAL","company_name":"Delta
+      Air Lines, Inc.","exchange":"NYSE","conference_date":"2025-01-10T10:00:00-05:00","year":2024,"quarter":4,"transcript_ready":true},{"symbol":"SVNDF","company_name":"Seven
+      \u0026 I Hldgs Co Ltd","exchange":"OTC","conference_date":"2025-01-10T10:00:00-05:00","year":2024,"quarter":3,"transcript_ready":true},{"symbol":"STZ","company_name":"Constellation
+      Brands, Inc.","exchange":"NYSE","conference_date":"2025-01-10T10:30:00-05:00","year":2025,"quarter":3,"transcript_ready":true},{"symbol":"PSMT","company_name":"PriceSmart,
+      Inc.","exchange":"NASDAQ","conference_date":"2025-01-10T12:00:00-05:00","year":2025,"quarter":1,"transcript_ready":true},{"symbol":"KRMD","company_name":"KORU
+      Medical Systems, Inc.","exchange":"NASDAQ","conference_date":"2025-01-10T16:30:00-05:00","year":2024,"quarter":4,"transcript_ready":true},{"symbol":"WDFC","company_name":"WD-40
+      Company","exchange":"NASDAQ","conference_date":"2025-01-10T17:00:00-05:00","year":2025,"quarter":1,"transcript_ready":true}]}'
+    content_type: application/json
+    headers:
+      Accept-Ranges: bytes
+      Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With,
+        apikey, x-api-key, x-api-version-schema, x-auth-token, x-auth-type, x-client-build-version,
+        x-client-commit-id, x-client-device-type, x-behavior-signal, x-request-id
+      Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin: '*'
+      Access-Control-Expose-Headers: x-trial-calls-remaining, x-trial-expires, x-ratelimit-remaining,
+        x-api-version-schema, x-request-id, retry-after, x-region, x-fleet
+      Access-Control-Max-Age: '3600'
+      Age: '231'
+      Cache-Control: public, max-age=500
+      Etag: '"ee4a7a6b02c66478551064c3b62cdd8c-v4"'
+      Last-Modified: Thu, 15 Oct 2026 20:00:37 GMT
+      Vary: Accept-Encoding, x-api-version-schema
+      X-Api-Version-Schema: v4
+      X-Cache: HIT
+      X-Cache-Tier: DISK
+      X-Fleet: atlas
+      X-Plan-Type: demo
+      X-Ratelimit-Remaining: '89'
+      X-Region: US East
+      X-Request-Id: ecbe2c36-5713-4c48-8376-68dbeb363655
+    method: GET
+    status: 200
+    url: https://api.earningscall.dev/calendar?apikey=demo&year=2025&month=1&day=10
