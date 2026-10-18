@@ -11,7 +11,7 @@ Auth is an `apikey` query param resolved from
 `earningscall.api_key`, then the `ECALL_API_KEY` / `EARNINGSCALL_API_KEY` env
 vars, defaulting to `"demo"` (AAPL and MSFT sample access; other symbols raise
 `InsufficientApiAccessError`). Public surface (see `earningscall/__init__.py`):
-`get_company`, `get_all_companies`, `get_sp500_companies`, `get_calendar`,
+`get_company`, `get_all_companies`, `get_sp500_companies`, `get_calendar`, `get_live_events`,
 `Symbols`, `load_symbols`, `exchanges`, and module-level config
 (`api_key`, `enable_requests_cache`, `retry_strategy`).
 
@@ -31,7 +31,7 @@ vars, defaulting to `"demo"` (AAPL and MSFT sample access; other symbols raise
   tab-separated `symbols-v2.txt` index; cached in a module-level singleton.
 - `earningscall/exchanges.py`, `sectors.py` — index↔name tables; exchanges
   load dynamically from `exchanges.json` with a hardcoded fallback list.
-- `earningscall/transcript.py`, `event.py`, `calendar.py` — `dataclasses_json`
+- `earningscall/transcript.py`, `event.py`, `calendar.py`, `live.py` — `dataclasses_json`
   response models. `errors.py` — exception types.
 - `tests/` — pytest + `responses`; recorded YAML fixtures in `tests/data`, no
   live network. `scripts/` — runnable examples (`python -m scripts.<name>`).

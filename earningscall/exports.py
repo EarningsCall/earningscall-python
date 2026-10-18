@@ -9,6 +9,7 @@ from earningscall.api import get_sp500_companies_txt_file, is_demo_account
 from earningscall.calendar import CalendarEvent
 from earningscall.company import Company
 from earningscall.errors import InsufficientApiAccessError
+from earningscall.live import LiveEvent
 from earningscall.symbols import get_symbols
 
 
@@ -86,3 +87,15 @@ def get_calendar(input_date: date) -> List[CalendarEvent]:
             # Calendar Date not found, simply return an empty list
             return []
         raise error
+
+
+def get_live_events() -> List[LiveEvent]:
+    """
+    Get the earnings conference calls that are live right now.
+
+    Demo accounts receive a fixed example event.
+
+    :return: A list of LiveEvent objects, empty when no calls are live.
+    """
+    json_data = api.get_live_events()
+    return [LiveEvent.from_dict(event) for event in json_data["events"]]  # type: ignore

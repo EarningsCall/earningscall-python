@@ -1,5 +1,9 @@
 # Changelog
 
+## Release `3.2.0` - 2026-10-18
+
+* Add `get_live_events()`, which returns the earnings calls that are live right now as `LiveEvent` objects, each with an HLS `streaming_url`. The `live_transcript` links on each event are experimental and may change.
+
 ## Release `3.1.0` - 2026-10-18
 
 * Switch to the new API endpoint, `https://api.earningscall.dev`. Override it with the `EARNINGSCALL_API_BASE` environment variable.
