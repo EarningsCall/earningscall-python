@@ -40,7 +40,7 @@ vars, defaulting to `"demo"` (AAPL-only sample access; other symbols raise
 - Build/test/lint via Hatch (hatchling backend) — commands in
   [DEVELOPMENT.md](DEVELOPMENT.md). CI (`.github/workflows/test.yml`) runs
   `hatch run lint:all` (ruff, black, mypy), `hatch run cov` (Coveralls), and a
-  containerized matrix `hatch run all:test` on Python 3.10–3.14.
+  containerized matrix `hatch run all:test` on Python 3.11–3.15.
 - Releases: bump the static `version` in `pyproject.toml` `[project]`, add a
   `## Release \`X.Y.Z\` - YYYY-MM-DD` entry to `CHANGELOG.md`, then push a
   `vX.Y.Z` tag. `.github/workflows/release.yml` builds and publishes to PyPI

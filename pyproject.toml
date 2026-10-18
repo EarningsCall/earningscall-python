@@ -1,10 +1,10 @@
 [project]
 name = "earningscall"
-version = "2.0.1"
+version = "3.0.0"
 description = "The EarningsCall Python library provides convenient access to the EarningsCall API.  It includes a pre-defined set of classes for API resources that initialize themselves dynamically from API responses."
 readme = "README.md"
 authors = [{ name = "EarningsCall", email = "dev@earningscall.biz" }]
-requires-python = ">= 3.10"
+requires-python = ">= 3.11"
 dependencies = [
   "dataclasses-json>=0.6.4",
   "requests>=2.30.0",
@@ -42,11 +42,11 @@ classifiers = [
 
   # Specify the Python versions you support here.
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
 ]
 
 [project.urls]
@@ -79,7 +79,7 @@ cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=hatch_
 no-cov = "cov --no-cov"
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
+python = ["3.11", "3.12", "3.13", "3.14", "3.15"]
 
 
 [tool.hatch.build.targets.wheel.hooks.mypyc]
@@ -99,14 +99,17 @@ warn_unused_ignores = true
 
 
 [tool.black]
-target-version = ["py310"]
+target-version = ["py311"]
 line-length = 120
 skip-string-normalization = true
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
+# Pin the rule set explicitly. Ruff 0.16 expanded its default selection, which
+# broke CI without any code change.
+select = ["E4", "E7", "E9", "F"]
 ignore = [
   # Allow non-abstract empty methods in abstract base classes
   "B027",
