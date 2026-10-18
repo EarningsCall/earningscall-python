@@ -1,6 +1,6 @@
 # Changelog
 
-## Release `3.0.0` - Unreleased
+## Release `3.0.0` - 2026-10-18
 
 * **Breaking**: Drop support for Python 3.10, which reached end-of-life in October 2026. Minimum required version is now Python 3.11.
 * Add Python 3.15 to supported versions.
