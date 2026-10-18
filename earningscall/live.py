@@ -45,4 +45,15 @@ class LiveEvent:
             mm_field=fields.DateTime(format="iso"),
         ),
     )
-    live_transcript: Optional[LiveTranscriptLinks] = field(default=None)
+    live_transcript: Optional[LiveTranscriptLinks] = field(
+        default=None,
+        metadata=config(decoder=lambda links: _decode_live_transcript(links)),
+    )
+
+
+def _decode_live_transcript(links) -> Optional[LiveTranscriptLinks]:
+    # The links are experimental: if the API stops sending an object here, drop them rather
+    # than failing to parse every live event.
+    if not isinstance(links, dict):
+        return None
+    return LiveTranscriptLinks.from_dict(links)  # type: ignore

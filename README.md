@@ -258,7 +258,8 @@ from earningscall import get_live_events
 
 for event in get_live_events():
     print(f"{event.company_name} ({event.exchange}: {event.symbol}) Q{event.quarter} {event.year}")
-    print(f"  Started: {event.event_date.astimezone().isoformat()}")
+    if event.event_date is not None:
+        print(f"  Started: {event.event_date.astimezone().isoformat()}")
     print(f"  Listen: {event.streaming_url}")
 ```
 
@@ -272,7 +273,7 @@ Apple Inc. (NASDAQ: AAPL) Q4 2024
 
 `get_live_events()` returns an empty list when no calls are live. Demo accounts always receive the example event above.
 
-Each event also has a `live_transcript` field with links to a provisional transcript of the call in progress. This feature is experimental: its fields may change or be removed, so don't rely on it.
+Each event also has a `live_transcript` field with links to a provisional transcript of the call in progress. This feature is experimental: its fields may change or be removed, so don't rely on it. Any field the API stops sending becomes `None`, and if `live_transcript` stops being an object, it becomes `None` too, so the live events themselves still load.
 
 ## List All Companies
 

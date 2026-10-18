@@ -115,6 +115,30 @@ def test_live_transcript_tolerates_changed_fields():
     assert event.live_transcript == LiveTranscriptLinks(experimental=True)
 
 
+@pytest.mark.parametrize("live_transcript", [None, [{"poll_url": "x"}], "https://example.com/transcript", True])
+@responses.activate
+def test_get_live_events_drops_live_transcript_that_is_not_an_object(live_transcript):
+    # If the experimental links change from an object to something else, the events still parse.
+    earningscall.api_key = "XXXXXXXXXXX"
+    event = {
+        "exchange": "NASDAQ",
+        "symbol": "MSFT",
+        "year": 2026,
+        "quarter": 1,
+        "company_name": "Microsoft Corporation",
+        "event_date": "2026-10-28T17:30:00-04:00",
+        "streaming_url": "https://earningscall.biz/live/def456/playlist.m3u8",
+        "live_transcript": live_transcript,
+    }
+    responses.add(responses.GET, f"{API_BASE}/live", json={"events": [event]})
+    ##
+    events = get_live_events()
+    ##
+    assert len(events) == 1
+    assert events[0].symbol == "MSFT"
+    assert events[0].live_transcript is None
+
+
 @responses.activate
 def test_get_live_events_none_live():
     earningscall.api_key = "XXXXXXXXXXX"
