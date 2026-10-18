@@ -13,4 +13,4 @@ responses:
       X-Cache: Error from cloudfront
     method: GET
     status: 403
-    url: https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2030&quarter=1&level=2
+    url: https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2030&quarter=1&level=2

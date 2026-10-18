@@ -5507,4 +5507,4 @@ responses:
       x-amz-server-side-encryption: AES256
     method: GET
     status: 200
-    url: https://v2.api.earningscall.biz/audio?apikey=demo&exchange=NASDAQ&symbol=MSFT&year=2022&quarter=1
+    url: https://api.earningscall.dev/audio?apikey=demo&exchange=NASDAQ&symbol=MSFT&year=2022&quarter=1

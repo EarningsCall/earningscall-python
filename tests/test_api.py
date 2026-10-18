@@ -1,10 +1,15 @@
+import email.utils
+import importlib
 import importlib.metadata
+import re
+from datetime import datetime, timedelta, timezone
 
 import pytest
 import requests
 import responses
 
 import earningscall
+import earningscall.api
 from earningscall.api import (
     API_BASE,
     DOMAIN,
@@ -12,11 +17,13 @@ from earningscall.api import (
     get_earnings_call_version,
     get_events,
     get_exchanges_json,
+    get_retry_after_seconds,
     get_sp500_companies_txt_file,
     get_symbols_v2,
     get_user_agent,
     purge_cache,
 )
+from earningscall.errors import InvalidApiKeyError
 
 
 def test_get_api_key_returns_earningscall_api_key_when_set(monkeypatch):
@@ -200,3 +207,135 @@ def test_get_exchanges_json_raises_on_404(setup_api):
     responses.add(responses.GET, f"https://{DOMAIN}/exchanges.json", status=404)
     with pytest.raises(requests.HTTPError, match="404 Client Error"):
         get_exchanges_json()
+
+
+def test_api_base_defaults_to_api_earningscall_dev(monkeypatch):
+    monkeypatch.delenv("EARNINGSCALL_API_BASE", raising=False)
+    assert importlib.reload(earningscall.api).API_BASE == "https://api.earningscall.dev"
+
+
+def test_api_base_can_be_overridden_with_env_var(monkeypatch):
+    monkeypatch.setenv("EARNINGSCALL_API_BASE", "https://staging.example.com")
+    try:
+        assert importlib.reload(earningscall.api).API_BASE == "https://staging.example.com"
+    finally:
+        monkeypatch.delenv("EARNINGSCALL_API_BASE")
+        importlib.reload(earningscall.api)
+
+
+@responses.activate
+def test_requests_pin_api_schema_version(setup_api):
+    # Both the uncached path (events) and the cached path (symbols) must send the header.
+    responses.add(responses.GET, f"{API_BASE}/events", json={"company_name": "Apple Inc.", "events": []})
+    responses.add(responses.GET, f"{API_BASE}/symbols-v2.txt", body="")
+    get_events("NASDAQ", "AAPL")
+    get_symbols_v2()
+    assert len(responses.calls) == 2
+    for call in responses.calls:
+        assert call.request.headers["X-API-Version-Schema"] == "v4"
+
+
+@responses.activate
+def test_invalid_api_key_error_links_to_api_key_page(setup_api):
+    responses.add(responses.GET, f"{API_BASE}/events", status=401)
+    with pytest.raises(InvalidApiKeyError, match=re.escape(f"https://{DOMAIN}/api-key")):
+        get_events("NASDAQ", "AAPL")
+
+
+@pytest.fixture()
+def sleeps(monkeypatch):
+    """Record requested sleep durations instead of sleeping."""
+    calls = []
+    monkeypatch.setattr(earningscall.api.time, "sleep", calls.append)
+    return calls
+
+
+@pytest.fixture()
+def retry_three_times(setup_api):
+    earningscall.retry_strategy = {
+        "strategy": "exponential",
+        "base_delay": 0.01,
+        "max_attempts": 3,
+    }
+
+
+@pytest.mark.parametrize("status", [429, 503])
+@responses.activate
+def test_retry_waits_for_retry_after_seconds(retry_three_times, sleeps, status):
+    responses.add(responses.GET, f"{API_BASE}/events", status=status, headers={"Retry-After": "7"})
+    responses.add(responses.GET, f"{API_BASE}/events", json={"company_name": "Apple Inc.", "events": []})
+    assert get_events("NASDAQ", "AAPL") == {"company_name": "Apple Inc.", "events": []}
+    assert sleeps == [7.0]
+
+
+@responses.activate
+def test_retry_waits_until_retry_after_http_date(retry_three_times, sleeps):
+    retry_at = datetime.now(timezone.utc) + timedelta(seconds=30)
+    responses.add(
+        responses.GET,
+        f"{API_BASE}/events",
+        status=429,
+        headers={"Retry-After": email.utils.format_datetime(retry_at, usegmt=True)},
+    )
+    responses.add(responses.GET, f"{API_BASE}/events", json={"company_name": "Apple Inc.", "events": []})
+    get_events("NASDAQ", "AAPL")
+    assert len(sleeps) == 1
+    assert 25 <= sleeps[0] <= 30
+
+
+@responses.activate
+def test_retry_falls_back_to_backoff_without_retry_after(retry_three_times, sleeps):
+    responses.add(responses.GET, f"{API_BASE}/events", status=429)
+    responses.add(responses.GET, f"{API_BASE}/events", status=429)
+    responses.add(responses.GET, f"{API_BASE}/events", json={"company_name": "Apple Inc.", "events": []})
+    get_events("NASDAQ", "AAPL")
+    assert sleeps == [0.01, 0.02]
+
+
+@responses.activate
+def test_retry_gives_up_after_max_attempts(retry_three_times, sleeps):
+    responses.add(responses.GET, f"{API_BASE}/events", status=429, headers={"Retry-After": "1"})
+    with pytest.raises(requests.HTTPError, match="429 Client Error"):
+        get_events("NASDAQ", "AAPL")
+    # No sleep after the final attempt
+    assert sleeps == [1.0, 1.0]
+    assert len(responses.calls) == 3
+
+
+@pytest.mark.parametrize(
+    "header, expected",
+    [
+        (None, None),
+        ("", None),
+        ("not-a-date", None),
+        ("0", 0.0),
+        ("1.5", 1.5),
+        ("-5", 0.0),
+        ("inf", None),
+        ("nan", None),
+        ("1e400", None),  # Overflows to inf
+        ("Wed, 21 Oct 2015 07:28:00 GMT", 0.0),  # In the past
+        ("Wed, 21 Oct 2015 07:28:00 -0000", 0.0),  # Parses without a timezone
+        ("Wed Oct 21 07:28:00 2015", 0.0),  # asctime format, parses without a timezone
+    ],
+)
+def test_get_retry_after_seconds(header, expected):
+    response = requests.Response()
+    if header is not None:
+        response.headers["Retry-After"] = header
+    assert get_retry_after_seconds(response) == expected
+
+
+def test_get_retry_after_seconds_treats_dates_without_timezone_as_gmt():
+    retry_at = datetime.now(timezone.utc) + timedelta(seconds=30)
+    response = requests.Response()
+    response.headers["Retry-After"] = retry_at.strftime("%a %b %d %H:%M:%S %Y")  # asctime format
+    assert 25 <= get_retry_after_seconds(response) <= 30
+
+
+@responses.activate
+def test_retry_falls_back_to_backoff_for_non_finite_retry_after(retry_three_times, sleeps):
+    responses.add(responses.GET, f"{API_BASE}/events", status=429, headers={"Retry-After": "inf"})
+    responses.add(responses.GET, f"{API_BASE}/events", json={"company_name": "Apple Inc.", "events": []})
+    get_events("NASDAQ", "AAPL")
+    assert sleeps == [0.01]

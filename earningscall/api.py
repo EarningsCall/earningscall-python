@@ -1,9 +1,12 @@
+import email.utils
 import importlib.metadata
 import logging
+import math
 import os
 import platform
 import time
 import urllib.parse
+from datetime import datetime, timezone
 from typing import Dict, Optional, Union
 
 import requests
@@ -15,7 +18,10 @@ from earningscall.errors import InvalidApiKeyError
 log = logging.getLogger(__file__)
 
 DOMAIN = os.environ.get("EARNINGSCALL_DOMAIN", "earningscall.biz")
-API_BASE = f"https://v2.api.{DOMAIN}"
+API_BASE = os.environ.get("EARNINGSCALL_API_BASE", "https://api.earningscall.dev")
+# The API serves its newest response schema unless a version is requested, so pin the
+# schema this client parses to keep server-side schema upgrades from changing responses.
+API_SCHEMA_VERSION = "v4"
 DEFAULT_RETRY_STRATEGY: Dict[str, Union[str, int, float]] = {
     "strategy": "exponential",
     "base_delay": 1,
@@ -84,6 +90,7 @@ def get_headers() -> dict:
     return {
         "User-Agent": get_user_agent(),
         "X-EarningsCall-Version": earnings_call_version,
+        "X-API-Version-Schema": API_SCHEMA_VERSION,
     }
 
 
@@ -105,6 +112,32 @@ def can_retry(response: requests.Response) -> bool:
     if response.status_code >= 500 and response.status_code < 600:
         return True
     return False
+
+
+def get_retry_after_seconds(response: requests.Response) -> Optional[float]:
+    """
+    Parse the Retry-After header, which is either a number of seconds or an HTTP date.
+
+    Returns None when the header is missing or malformed.
+    """
+    retry_after = response.headers.get("Retry-After")
+    if not retry_after:
+        return None
+    try:
+        seconds = float(retry_after)
+    except ValueError:
+        pass
+    else:
+        # float() also accepts "inf" and "nan", which time.sleep() rejects.
+        return max(seconds, 0.0) if math.isfinite(seconds) else None
+    try:
+        retry_at = email.utils.parsedate_to_datetime(retry_after)
+    except (TypeError, ValueError):
+        return None
+    if retry_at.tzinfo is None:
+        # HTTP dates are always GMT, but asctime-format and "-0000" dates parse without a timezone.
+        retry_at = retry_at.replace(tzinfo=timezone.utc)
+    return max((retry_at - datetime.now(timezone.utc)).total_seconds(), 0.0)
 
 
 def is_success(response: requests.Response) -> bool:
@@ -144,7 +177,7 @@ def do_get(
     response: requests.Response
     for attempt in range(max_attempts):
         if use_cache and earningscall.enable_requests_cache:
-            response = cache_session().get(url, params=params)
+            response = cache_session().get(url, params=params, headers=get_headers())
         else:
             response = requests.get(
                 url,
@@ -157,7 +190,7 @@ def do_get(
             return response
 
         if response.status_code == 401:
-            raise InvalidApiKeyError("Your API key is invalid. You can get your API key at: https://{DOMAIN}/api-key")
+            raise InvalidApiKeyError(f"Your API key is invalid. You can get your API key at: https://{DOMAIN}/api-key")
 
         if not can_retry(response):
             return response
@@ -169,9 +202,14 @@ def do_get(
                 wait_time = delay * (attempt + 1)  # Linear backoff: 1s -> 2s -> 3s -> 4s -> 5s -> 6s -> 7s
             else:
                 raise ValueError("Invalid retry strategy. Must be one of: 'exponential', 'linear'")
+            # The server knows when the rate limit resets, so its Retry-After wins over our own backoff.
+            retry_after = get_retry_after_seconds(response)
+            if retry_after is not None:
+                wait_time = retry_after
             # TODO: Should we log a warning here?  Does the customer want to see this log?
             log.warning(
-                f"Rate limited (429). Retrying in {wait_time} seconds... (Attempt {attempt + 1}/{max_attempts})"
+                f"Received HTTP {response.status_code}. Retrying in {wait_time} seconds... "
+                f"(Attempt {attempt + 1}/{max_attempts})"
             )
             time.sleep(float(wait_time))
 

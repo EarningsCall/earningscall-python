@@ -624,4 +624,4 @@ responses:
       x-amz-server-side-encryption: AES256
     method: GET
     status: 200
-    url: https://v2.api.earningscall.biz/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2022&quarter=1&level=2
+    url: https://api.earningscall.dev/transcript?apikey=demo&exchange=NASDAQ&symbol=AAPL&year=2022&quarter=1&level=2

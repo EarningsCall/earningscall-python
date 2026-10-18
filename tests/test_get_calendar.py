@@ -16,7 +16,7 @@ from earningscall.utils import data_path
 # import earningscall
 # @_recorder.record(file_path="data/get-calendar-not-found-response.yaml")
 # def test_save_symbols_v1():
-#     requests.get("https://v2.api.earningscall.biz/calendar?apikey=demo&year=1980&month=1&day=1")
+#     requests.get("https://api.earningscall.dev/calendar?apikey=demo&year=1980&month=1&day=1")
 
 
 @pytest.fixture(autouse=True)
@@ -70,6 +70,21 @@ def test_get_calendar_success():
     assert calendar[0].conference_date.day == 10
     assert calendar[0].transcript_ready
     assert calendar[0].company_name == "Motorcar Parts of America, Inc."
+
+
+@responses.activate
+def test_get_calendar_schema_v4_success():
+    # Schema v4 wraps the calendar events as {"events": [...]}
+    responses._add_from_file(file_path=data_path("get-calendar-schema-v4-response.yaml"))
+    calendar = get_calendar(date(2025, 1, 10))
+    assert len(calendar) == 16
+    assert calendar[0].exchange == "OTC"
+    assert calendar[0].symbol == "TKUGF"
+    assert calendar[0].year == 2024
+    assert calendar[0].quarter == 3
+    assert calendar[0].conference_date.isoformat() == "2025-01-10T00:00:00-05:00"
+    assert not calendar[0].transcript_ready
+    assert calendar[0].company_name == "Takeuchi Mfg Co Ltd"
 
 
 @responses.activate

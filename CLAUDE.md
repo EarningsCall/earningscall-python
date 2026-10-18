@@ -4,11 +4,12 @@
 
 The public Python client library for the EarningsCall developer API, published
 to PyPI as [`earningscall`](https://pypi.org/project/earningscall/). It is a
-thin `requests`-based SDK: all calls hit `https://v2.api.earningscall.biz` (domain
-overridable via `EARNINGSCALL_DOMAIN`), plus `https://earningscall.biz/exchanges.json`
-for the exchange list. Auth is an `apikey` query param resolved from
+thin `requests`-based SDK: all calls hit `https://api.earningscall.dev`
+(overridable via `EARNINGSCALL_API_BASE`), plus `https://earningscall.biz/exchanges.json`
+for the exchange list (website domain overridable via `EARNINGSCALL_DOMAIN`).
+Auth is an `apikey` query param resolved from
 `earningscall.api_key`, then the `ECALL_API_KEY` / `EARNINGSCALL_API_KEY` env
-vars, defaulting to `"demo"` (AAPL-only sample access; other symbols raise
+vars, defaulting to `"demo"` (AAPL and MSFT sample access; other symbols raise
 `InsufficientApiAccessError`). Public surface (see `earningscall/__init__.py`):
 `get_company`, `get_all_companies`, `get_sp500_companies`, `get_calendar`,
 `Symbols`, `load_symbols`, `exchanges`, and module-level config
@@ -18,8 +19,8 @@ vars, defaulting to `"demo"` (AAPL-only sample access; other symbols raise
 
 - `earningscall/api.py` — HTTP layer. Endpoint wrappers (`events`,
   `transcript`, `audio`, `slides`, `calendar`, `symbols-v2.txt`,
-  `symbols/sp500.txt`), retry with backoff on 429/5xx, 401 →
-  `InvalidApiKeyError`, optional `requests-cache` sqlite cache
+  `symbols/sp500.txt`), retry on 429/5xx (waits for `Retry-After`, else
+  backoff), 401 → `InvalidApiKeyError`, optional `requests-cache` sqlite cache
   (`.earningscall_cache` in the temp dir, on by default).
 - `earningscall/exports.py` — the top-level functions re-exported by
   `__init__.py`.
@@ -58,3 +59,9 @@ vars, defaulting to `"demo"` (AAPL-only sample access; other symbols raise
   and the on-disk requests cache persist stale data across calls; use
   `clear_symbols()` / `api.purge_cache()` in tests (see the autouse fixture in
   `tests/test_helper.py`).
+- The API serves its newest response schema unless the request names one, so
+  `api.py` pins `X-API-Version-Schema` (`API_SCHEMA_VERSION`). Schema v4 inlines
+  speakers as `{id, name, title}` and wraps calendar results in `{"events": [...]}`;
+  `normalize_transcript_payload()` and `get_calendar()` map these onto the
+  public models. Bumping the pinned version means re-checking every response
+  shape. Unknown versions silently fall back to v2.

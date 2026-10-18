@@ -303,7 +303,7 @@ earningscall.enable_requests_cache = False
 
 ### Retry Strategy
 
-The library implements a flexible retry strategy to handle rate limiting and HTTP 5xx errors effectively. By default, it retries with increasing delays: 3 seconds, 6 seconds, 12 seconds, 24 seconds, and finally 48 seconds. If the request fails after five attempts, the library raises an exception.
+The library retries requests that are rate limited (HTTP 429) or fail with an HTTP 5xx error. When the API says how long to wait, via the `Retry-After` header, the library waits exactly that long before retrying. Otherwise it backs off with increasing delays: by default 1 second, then 2, 4, 8, and so on, for up to 10 total attempts. If the request still fails, the library raises an exception.
 
 #### Customizing the Retry Strategy
 
@@ -312,7 +312,7 @@ Depending on your specific requirements, you can adjust the retry strategy. For 
 To customize the retry behavior, set the `retry_strategy` variable with the desired parameters:
 
 - **strategy**: "exponential" | "linear" — defines the type of retry strategy (default is "exponential").
-- **base_delay**: float (in seconds) — specifies the delay between retries (default is 1 seconds).
+- **base_delay**: float (in seconds) — specifies the delay between retries when the API does not send a `Retry-After` header (default is 1 second).
 - **max_attempts**: int — sets the maximum number of total request attempts (default is 10).
 
 #### Default Retry Strategy

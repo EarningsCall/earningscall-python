@@ -78,7 +78,9 @@ def get_calendar(input_date: date) -> List[CalendarEvent]:
         )
     try:
         json_data = api.get_calendar_api_operation(input_date.year, input_date.month, input_date.day)
-        return [CalendarEvent.from_dict(event) for event in json_data]  # type: ignore
+        # Schema v4 wraps the list as {"events": [...]}; earlier schemas return the bare list.
+        events = json_data["events"] if isinstance(json_data, dict) else json_data
+        return [CalendarEvent.from_dict(event) for event in events]  # type: ignore
     except requests.exceptions.HTTPError as error:
         if error.response.status_code == 404:
             # Calendar Date not found, simply return an empty list

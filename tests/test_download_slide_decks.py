@@ -6,7 +6,7 @@ from requests import HTTPError
 
 import earningscall
 from earningscall import get_company
-from earningscall.api import purge_cache
+from earningscall.api import API_BASE, purge_cache
 from earningscall.company import Company
 from earningscall.errors import InsufficientApiAccessError
 from earningscall.event import EarningsEvent
@@ -145,3 +145,14 @@ def test_download_slide_deck_custom_filename():
     with open(file_name, 'rb') as f:
         assert f.read(4) == b'%PDF'
     os.unlink(file_name)
+
+
+@responses.activate
+def test_download_slide_deck_not_authorized_with_plan_type_header():
+    # api.earningscall.dev sends X-Plan-Type instead of X-Plan-Name
+    responses._add_from_file(file_path=data_path("symbols-v2.yaml"))
+    responses.add(responses.GET, f"{API_BASE}/slides", status=403, headers={"X-Plan-Type": "starter"})
+    ##
+    company = get_company("meta")
+    with pytest.raises(InsufficientApiAccessError, match=r"Your plan \(starter\) does not include Slide Decks"):
+        company.download_slide_deck(year=2024, quarter=3)

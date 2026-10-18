@@ -11,4 +11,4 @@ responses:
       X-Plan-Name: starter
     method: GET
     status: 404
-    url: https://v2.api.earningscall.biz/calendar?apikey=XXXXXXXXXXX&year=2018&month=1&day=1
+    url: https://api.earningscall.dev/calendar?apikey=XXXXXXXXXXX&year=2018&month=1&day=1

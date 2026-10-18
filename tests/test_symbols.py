@@ -33,7 +33,7 @@ def test_load_symbols_txt_v2():
     assert _symbol.sector == "Technology"
     assert _symbol.industry == "Consumer Electronics"
     assert len(responses.calls) == 1
-    assert responses.calls[0].request.url == "https://v2.api.earningscall.biz/symbols-v2.txt?apikey=demo"
+    assert responses.calls[0].request.url == "https://api.earningscall.dev/symbols-v2.txt?apikey=demo"
     ##
     symbols.remove_exchange_symbol("NASDAQ_AAPL")
     with pytest.raises(KeyError):
@@ -60,7 +60,7 @@ def test_load_symbols_txt_v2_missing_edge_cases():
     assert _symbol.sector == "Consumer Defensive"
     assert _symbol.industry == "Education & Training Services"
     assert len(responses.calls) == 1
-    assert responses.calls[0].request.url == "https://v2.api.earningscall.biz/symbols-v2.txt?apikey=demo"
+    assert responses.calls[0].request.url == "https://api.earningscall.dev/symbols-v2.txt?apikey=demo"
 
 
 def test_symbols_serialization_to_text_v2():
