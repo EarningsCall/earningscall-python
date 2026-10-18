@@ -141,6 +141,7 @@ def do_get(
     delay = retry_strategy["base_delay"]
     max_attempts = int(retry_strategy["max_attempts"])
 
+    response: requests.Response
     for attempt in range(max_attempts):
         if use_cache and earningscall.enable_requests_cache:
             response = cache_session().get(url, params=params)

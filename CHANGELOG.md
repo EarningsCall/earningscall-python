@@ -1,5 +1,10 @@
 # Changelog
 
+## Release `3.0.0` - Unreleased
+
+* **Breaking**: Drop support for Python 3.10, which reached end-of-life in October 2026. Minimum required version is now Python 3.11.
+* Add Python 3.15 to supported versions.
+
 ## Release `2.0.1` - 2026-03-11
 
 * Bugfix: `get_symbols_v2()`, `get_sp500_companies_txt_file()`, `get_events()`, and `get_exchanges_json()` now raise `HTTPError` on failed API responses instead of silently returning the raw response. Previously, non-200 responses were passed through to callers, which would then crash with `AttributeError` (e.g., calling `.split()` on a non-text response) or return corrupt data.
