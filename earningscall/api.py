@@ -227,6 +227,12 @@ def get_calendar_api_operation(year: int, month: int, day: int) -> dict:
     return response.json()
 
 
+def get_live_events() -> dict:
+    response = do_get("live")
+    response.raise_for_status()
+    return response.json()
+
+
 def get_events(exchange: str, symbol: str) -> dict:
     params = {
         "exchange": exchange,

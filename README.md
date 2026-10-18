@@ -249,6 +249,32 @@ KORU Medical Systems, Inc. - Q4 2024 on: 2025-01-10T15:30:00-06:00 Transcript Re
 WD-40 Company - Q1 2025 on: 2025-01-10T16:00:00-06:00 Transcript Ready: True
 ```
 
+## Get Live Earnings Calls
+
+Get the earnings conference calls that are live right now. Each one includes a `streaming_url`, an HLS playlist (`.m3u8`) you can play with any HLS-capable player.
+
+```python
+from earningscall import get_live_events
+
+for event in get_live_events():
+    print(f"{event.company_name} ({event.exchange}: {event.symbol}) Q{event.quarter} {event.year}")
+    if event.event_date is not None:
+        print(f"  Started: {event.event_date.astimezone().isoformat()}")
+    print(f"  Listen: {event.streaming_url}")
+```
+
+Output
+
+```text
+Apple Inc. (NASDAQ: AAPL) Q4 2024
+  Started: 2024-11-01T12:00:00-05:00
+  Listen: https://earningscall.biz/live-demo/dynamic-playlist/playlist.m3u8
+```
+
+`get_live_events()` returns an empty list when no calls are live. Demo accounts always receive the example event above.
+
+Each event also has a `live_transcript` field with links to a provisional transcript of the call in progress. This feature is experimental: its fields may change or be removed, so don't rely on it. Any field the API stops sending becomes `None`, and if `live_transcript` stops being an object, it becomes `None` too, so the live events themselves still load.
+
 ## List All Companies
 
 ```python
